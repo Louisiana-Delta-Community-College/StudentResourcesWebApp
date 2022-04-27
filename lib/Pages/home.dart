@@ -7,11 +7,19 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     // final c = Modular.get<Counter>();
     final c = context.watch<Counter>();
+    final themeController = context.watch<AppTheme>();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                themeController.toggle();
+              },
+              icon: themeController.icon),
+        ],
       ),
       body: Center(
         child: Column(

@@ -15,6 +15,7 @@ class ModularConfig extends Module {
   @override
   List<Bind> get binds => [
         Bind.singleton((i) => Counter()),
+        Bind.singleton((i) => AppTheme()),
       ];
 
   @override
@@ -29,12 +30,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = context.watch<AppTheme>();
     return MaterialApp.router(
       title: 'Flutter Modular Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: themeController.themeMode,
+      theme: themeController.light,
+      darkTheme: themeController.dark,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
       builder: (context, widget) => ResponsiveWrapper.builder(
