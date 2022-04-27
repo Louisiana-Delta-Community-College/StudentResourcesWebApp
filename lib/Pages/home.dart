@@ -6,8 +6,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final c = Modular.get<Counter>();
-    final c = context.watch<Counter>();
-    final themeController = context.watch<AppTheme>();
+    final counterProvider = context.watch<Counter>();
+    final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
       appBar: AppBar(
@@ -16,9 +16,9 @@ class Home extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                themeController.toggle();
+                themeProvider.toggle();
               },
-              icon: themeController.icon),
+              icon: themeProvider.icon),
         ],
       ),
       body: Center(
@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
               'Counter Value:',
             ),
             Text(
-              "${c.counter}",
+              "${counterProvider.counter}",
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: FloatingActionButton(
               onPressed: () {
-                c.increment();
+                counterProvider.increment();
               },
               tooltip: 'Increment',
               child: const Icon(Icons.arrow_upward_sharp),
@@ -53,7 +53,7 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             child: FloatingActionButton(
               onPressed: () {
-                c.decrement();
+                counterProvider.decrement();
               },
               tooltip: 'Decrement',
               child: const Icon(Icons.arrow_downward_sharp),

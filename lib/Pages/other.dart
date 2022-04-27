@@ -5,7 +5,7 @@ class Other extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.watch<Counter>();
+    final counterProvider = context.watch<Counter>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Another View"),
@@ -19,7 +19,7 @@ class Other extends StatelessWidget {
               'Counter Value:',
             ),
             Text(
-              '${c.counter}',
+              '${counterProvider.counter}',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],

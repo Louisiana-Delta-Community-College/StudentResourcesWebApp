@@ -30,13 +30,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeController = context.watch<AppTheme>();
+    final themeProvider = context.watch<AppTheme>();
     return MaterialApp.router(
       title: 'Flutter Modular Demo',
       debugShowCheckedModeBanner: false,
-      themeMode: themeController.themeMode,
-      theme: themeController.light,
-      darkTheme: themeController.dark,
+      themeMode: themeProvider.themeMode,
+      theme: themeProvider.light,
+      darkTheme: themeProvider.dark,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
       builder: (context, widget) => ResponsiveWrapper.builder(
