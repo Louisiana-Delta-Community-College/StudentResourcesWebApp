@@ -1,5 +1,7 @@
 import 'package:fmtest/common/common.dart';
 
+import 'package:responsive_framework/responsive_framework.dart';
+
 void main() {
   runApp(
     ModularApp(
@@ -28,6 +30,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        ClampingScrollWrapper.builder(context, widget!),
+        maxWidth: double.infinity,
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+          const ResponsiveBreakpoint.resize(480, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+        ],
+      ),
       title: 'Flutter Modular Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -35,5 +48,14 @@ class MyApp extends StatelessWidget {
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
     );
+    // OR WITHOUT RESPONSIVE WRAPPER
+    // return MaterialApp.router(
+    //   title: 'Flutter Modular Demo',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.blue,
+    //   ),
+    //   routeInformationParser: Modular.routeInformationParser,
+    //   routerDelegate: Modular.routerDelegate,
+    // );
   }
 }
