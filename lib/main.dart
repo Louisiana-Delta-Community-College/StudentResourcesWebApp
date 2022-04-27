@@ -20,8 +20,12 @@ class ModularConfig extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute('/', child: (context, args) => const Home()),
-        ChildRoute('/other', child: (context, args) => const Other()),
+        ChildRoute('/',
+            child: (context, args) => const Home(),
+            transition: TransitionType.fadeIn),
+        ChildRoute('/other',
+            child: (context, args) => const Other(),
+            transition: TransitionType.fadeIn),
       ];
 }
 
