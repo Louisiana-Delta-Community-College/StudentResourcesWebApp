@@ -1,4 +1,4 @@
-import '../common/common.dart';
+import 'package:fmtest/common/common.dart';
 
 class Other extends StatelessWidget {
   const Other({Key? key}) : super(key: key);

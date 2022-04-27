@@ -1,4 +1,4 @@
-import './common/common.dart';
+import 'package:fmtest/common/common.dart';
 
 void main() {
   runApp(
