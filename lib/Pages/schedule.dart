@@ -1,4 +1,6 @@
+import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
+import 'package:schedule/config.dart';
 
 class SchedulePage extends StatefulWidget {
   final String isStaff;
@@ -54,15 +56,38 @@ class _SchedulePageState extends State<SchedulePage> {
             Expanded(
               flex: 15,
               child: Container(
-                padding: EdgeInsets.all(20),
-                child: scheduleMenuProvider.isLoading
-                    ? Center(child: const CircularProgressIndicator())
-                    : scheduleMenuProvider.hasError
-                        ? Text(scheduleMenuProvider.errorMessage)
-                        : Text(
-                            scheduleMenuProvider.data.toString(),
-                          ),
-              ),
+                  padding: EdgeInsets.all(20),
+                  child: scheduleMenuProvider.isLoading
+                      ? Center(child: const CircularProgressIndicator())
+                      : scheduleMenuProvider.hasError
+                          ? Text(scheduleMenuProvider.errorMessage)
+                          // : Text(
+                          //     scheduleMenuProvider.data.toString(),
+                          //   ),
+                          : GroupButton(
+                              buttons: [
+                                for (final item in scheduleMenuProvider.data)
+                                  item["Term"].toString(),
+                              ],
+                              isRadio: true,
+                              options: const GroupButtonOptions(
+                                unselectedColor: AppColor.navy,
+                                unselectedTextStyle: TextStyle(
+                                  color: AppColor.white,
+                                ),
+                                selectedColor: AppColor.bronze,
+                              ),
+                              onSelected: (selected, __, ___) {
+                                if (!scheduleProvider.isLoading) {
+                                  scheduleProvider.term = selected.toString();
+                                  scheduleProvider.getScheduleData();
+                                }
+                              },
+                            )
+                  // isSelected: [
+                  //     for (final item in scheduleMenuProvider.data) true
+                  //   ])
+                  ),
             ),
             Expanded(
               flex: 85,
