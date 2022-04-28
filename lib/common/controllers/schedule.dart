@@ -17,6 +17,8 @@ class Schedule extends ChangeNotifier {
     final response = await http
         .get(Uri.parse('https://web01.ladelta.edu/bizzuka/scheduleJSON.py'));
     if (response.statusCode == 200) {
+      // response.body is already a JSON formatted string
+      // because of how the Python CGI page is coded.
       _data = jsonDecode(response.body);
       _isLoading = false;
       notifyListeners();

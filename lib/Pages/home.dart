@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             scheduleProvider.isLoading
                 ? const CircularProgressIndicator()
-                : Text(scheduleProvider.data[0].toString()),
+                : SelectableText(scheduleProvider.data[0].toString()),
           ],
         ),
       ),
