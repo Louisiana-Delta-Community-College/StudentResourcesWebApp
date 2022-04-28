@@ -1,12 +1,22 @@
 import 'package:schedule/common/common.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  initState() {
+    Modular.get<Schedule>().getScheduleData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // final c = Modular.get<Counter>();
-    final counterProvider = context.watch<Counter>();
+    final scheduleProvider = context.watch<Schedule>();
     final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
@@ -33,20 +43,9 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Counter Value:',
-            ),
-            FadeInUp(
-              preferences: const AnimationPreferences(
-                duration: Duration(
-                  milliseconds: 500,
-                ),
-              ),
-              child: Text(
-                "${counterProvider.counter}",
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ),
+            scheduleProvider.isLoading
+                ? CircularProgressIndicator()
+                : Text(scheduleProvider.data[0].toString()),
           ],
         ),
       ),
@@ -63,30 +62,8 @@ class Home extends StatelessWidget {
               padding: const EdgeInsets.all(5),
               child: FloatingActionButton(
                 onPressed: () {
-                  counterProvider.increment();
-                },
-                tooltip: 'Increment',
-                child: const Icon(Icons.arrow_upward_sharp),
-                heroTag: "btnIncrement",
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: () {
-                  counterProvider.decrement();
-                },
-                tooltip: 'Decrement',
-                child: const Icon(Icons.arrow_downward_sharp),
-                heroTag: "btnDecrement",
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                onPressed: () {
                   // Modular.to.pushNamed('/other');
-                  Modular.to.navigate("/other");
+                  scheduleProvider.getScheduleData();
                 },
                 tooltip: 'Go to Other Page',
                 child: const Icon(Icons.arrow_right),

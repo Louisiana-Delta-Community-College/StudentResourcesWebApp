@@ -14,7 +14,7 @@ void main() {
 class ModularConfig extends Module {
   @override
   List<Bind> get binds => [
-        Bind.singleton((i) => Counter()),
+        Bind.singleton((i) => Schedule()),
         Bind.singleton((i) => AppTheme()),
       ];
 
