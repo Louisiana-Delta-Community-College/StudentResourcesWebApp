@@ -1,13 +1,14 @@
 import 'package:schedule/common/common.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class SchedulePage extends StatefulWidget {
+  final String isStaff;
+  const SchedulePage({Key? key, this.isStaff = ""}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<SchedulePage> createState() => _SchedulePageState();
 }
 
-class _HomeState extends State<Home> {
+class _SchedulePageState extends State<SchedulePage> {
   @override
   initState() {
     // Pull in schedule data on page initialization.
@@ -53,7 +54,9 @@ class _HomeState extends State<Home> {
                     // color:
                     //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
                     )
-                : SelectableText(scheduleProvider.data[0].toString()),
+                : scheduleProvider.hasError
+                    ? Text(scheduleProvider.errorMessage)
+                    : SelectableText(scheduleProvider.data[0].toString()),
           ],
         ),
       ),
