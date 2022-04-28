@@ -54,7 +54,7 @@ class _SchedulePageState extends State<SchedulePage> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Expanded(
-              flex: 15,
+              flex: 5,
               child: Container(
                   padding: EdgeInsets.all(20),
                   child: scheduleTermsMenuProvider.isLoading
@@ -66,7 +66,8 @@ class _SchedulePageState extends State<SchedulePage> {
                           //   ),
                           : GroupButton(
                               buttons: [
-                                for (final item in scheduleTermsMenuProvider.data)
+                                for (final item
+                                    in scheduleTermsMenuProvider.data)
                                   item["Term"].toString(),
                               ],
                               isRadio: true,
@@ -90,7 +91,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
             ),
             Expanded(
-              flex: 85,
+              flex: 95,
               child: Container(
                 // color: Colors.green,
                 padding: EdgeInsets.all(20),
