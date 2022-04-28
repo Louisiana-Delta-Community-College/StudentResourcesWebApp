@@ -29,7 +29,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Schedule of Classes"),
         centerTitle: true,
         actions: [
           FadeInDown(
@@ -49,30 +49,37 @@ class _SchedulePageState extends State<SchedulePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(20),
-              child: scheduleMenuProvider.isLoading
-                  ? const CircularProgressIndicator()
-                  : scheduleMenuProvider.hasError
-                      ? Text(scheduleMenuProvider.errorMessage)
-                      : Text(
-                          scheduleMenuProvider.data.toString(),
-                        ),
+            Expanded(
+              flex: 15,
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: scheduleMenuProvider.isLoading
+                    ? Center(child: const CircularProgressIndicator())
+                    : scheduleMenuProvider.hasError
+                        ? Text(scheduleMenuProvider.errorMessage)
+                        : Text(
+                            scheduleMenuProvider.data.toString(),
+                          ),
+              ),
             ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: scheduleProvider.isLoading
-                  ? const CircularProgressIndicator(
-                      // color:
-                      //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
+            Expanded(
+              flex: 85,
+              child: Container(
+                // color: Colors.green,
+                padding: EdgeInsets.all(20),
+                child: scheduleProvider.isLoading
+                    ? Center(
+                        child: const CircularProgressIndicator(
+                            // color:
+                            //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
+                            ),
                       )
-                  : scheduleProvider.hasError
-                      ? Text(scheduleProvider.errorMessage)
-                      : SelectableText(scheduleProvider.data[0].toString()),
+                    : scheduleProvider.hasError
+                        ? Text(scheduleProvider.errorMessage)
+                        : SelectableText(scheduleProvider.data[0].toString()),
+              ),
             )
           ],
         ),
