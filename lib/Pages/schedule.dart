@@ -19,14 +19,14 @@ class _SchedulePageState extends State<SchedulePage> {
     // This is due to Modular's notifyListeners() method which is used to update
     // isLoading status at the beginning of Schedule.getScheduleData()
     Modular.get<Schedule>().getScheduleData();
-    Modular.get<ScheduleMenu>().getMenuData();
+    Modular.get<ScheduleTermsMenu>().getMenuData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
-    final scheduleMenuProvider = context.watch<ScheduleMenu>();
+    final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
     final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
@@ -57,16 +57,16 @@ class _SchedulePageState extends State<SchedulePage> {
               flex: 15,
               child: Container(
                   padding: EdgeInsets.all(20),
-                  child: scheduleMenuProvider.isLoading
+                  child: scheduleTermsMenuProvider.isLoading
                       ? Center(child: const CircularProgressIndicator())
-                      : scheduleMenuProvider.hasError
-                          ? Text(scheduleMenuProvider.errorMessage)
+                      : scheduleTermsMenuProvider.hasError
+                          ? Text(scheduleTermsMenuProvider.errorMessage)
                           // : Text(
                           //     scheduleMenuProvider.data.toString(),
                           //   ),
                           : GroupButton(
                               buttons: [
-                                for (final item in scheduleMenuProvider.data)
+                                for (final item in scheduleTermsMenuProvider.data)
                                   item["Term"].toString(),
                               ],
                               isRadio: true,

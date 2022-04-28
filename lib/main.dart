@@ -16,7 +16,7 @@ class ModularConfig extends Module {
   List<Bind> get binds => [
         Bind.singleton((i) => AppTheme()),
         Bind.singleton((i) => Schedule()),
-        Bind.singleton((i) => ScheduleMenu()),
+        Bind.singleton((i) => ScheduleTermsMenu()),
       ];
 
   @override

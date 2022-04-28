@@ -81,7 +81,7 @@ class Schedule extends ChangeNotifier {
   }
 }
 
-class ScheduleMenu extends ChangeNotifier {
+class ScheduleTermsMenu extends ChangeNotifier {
   dynamic _data;
   bool _isLoading = true;
 
