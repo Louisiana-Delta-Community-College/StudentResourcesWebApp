@@ -49,7 +49,10 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             scheduleProvider.isLoading
-                ? const CircularProgressIndicator()
+                ? CircularProgressIndicator(
+                    // color:
+                    //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
+                    )
                 : SelectableText(scheduleProvider.data[0].toString()),
           ],
         ),

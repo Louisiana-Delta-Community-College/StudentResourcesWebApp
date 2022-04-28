@@ -62,17 +62,18 @@ class AppTheme extends ChangeNotifier {
   ThemeData dark = ThemeData.dark().copyWith(
     colorScheme: const ColorScheme(
       brightness: Brightness.dark,
-      primary: AppColor.navy,
+      primary: AppColor.bronze,
       onPrimary: AppColor.white,
       secondary: AppColor.bronze,
       onSecondary: AppColor.white,
       error: Colors.red,
       onError: Colors.black,
-      background: AppColor.navy,
+      background: AppColor.bronze,
       onBackground: AppColor.white,
       surface: AppColor.navy,
       onSurface: Colors.white,
     ),
+    primaryColor: AppColor.bronze,
     textSelectionTheme: TextSelectionThemeData(
       selectionColor: AppColor.bronze,
     ),
