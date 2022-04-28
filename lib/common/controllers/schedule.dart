@@ -22,8 +22,8 @@ class Schedule extends ChangeNotifier {
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
 
-  String _baseUri = "web01.ladelta.edu";
-  String _baseUriScheduleDataPath = "/bizzuka/scheduleJSON.py";
+  final String _baseUri = "web01.ladelta.edu";
+  final String _baseUriScheduleDataPath = "/bizzuka/scheduleJSON.py";
 
   Future getScheduleData() async {
     Map<String, dynamic> queryParameters = {};
@@ -111,8 +111,8 @@ class ScheduleTermsMenu extends ChangeNotifier {
   GroupButtonController get groupButtonTermMenuController =>
       _groupButtonTermMenuController;
 
-  String _baseUri = "web01.ladelta.edu";
-  String _baseUriMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
+  final String _baseUri = "web01.ladelta.edu";
+  final String _baseUriMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
 
   Future getMenuData() async {
     Map<String, dynamic> queryParameters = {};
