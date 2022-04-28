@@ -74,7 +74,7 @@ class AppTheme extends ChangeNotifier {
       onSurface: Colors.white,
     ),
     primaryColor: AppColor.bronze,
-    textSelectionTheme: TextSelectionThemeData(
+    textSelectionTheme: const TextSelectionThemeData(
       selectionColor: AppColor.bronze,
     ),
     primaryTextTheme: Typography().white,

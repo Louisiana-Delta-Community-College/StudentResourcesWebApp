@@ -17,12 +17,14 @@ class _SchedulePageState extends State<SchedulePage> {
     // This is due to Modular's notifyListeners() method which is used to update
     // isLoading status at the beginning of Schedule.getScheduleData()
     Modular.get<Schedule>().getScheduleData();
+    Modular.get<ScheduleMenu>().getMenuData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
+    final scheduleMenuProvider = context.watch<ScheduleMenu>();
     final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
@@ -47,16 +49,31 @@ class _SchedulePageState extends State<SchedulePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            scheduleProvider.isLoading
-                ? CircularProgressIndicator(
-                    // color:
-                    //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
-                    )
-                : scheduleProvider.hasError
-                    ? Text(scheduleProvider.errorMessage)
-                    : SelectableText(scheduleProvider.data[0].toString()),
+            Container(
+              padding: EdgeInsets.all(20),
+              child: scheduleMenuProvider.isLoading
+                  ? const CircularProgressIndicator()
+                  : scheduleMenuProvider.hasError
+                      ? Text(scheduleMenuProvider.errorMessage)
+                      : Text(
+                          scheduleMenuProvider.data.toString(),
+                        ),
+            ),
+            Container(
+              padding: EdgeInsets.all(20),
+              child: scheduleProvider.isLoading
+                  ? const CircularProgressIndicator(
+                      // color:
+                      //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
+                      )
+                  : scheduleProvider.hasError
+                      ? Text(scheduleProvider.errorMessage)
+                      : SelectableText(scheduleProvider.data[0].toString()),
+            )
           ],
         ),
       ),
