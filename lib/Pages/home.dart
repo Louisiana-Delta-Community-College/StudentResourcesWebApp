@@ -10,6 +10,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   initState() {
+    // Pull in schedule data on page initialization.
+    // If one were to try to issue this command in the Widget build method,
+    // errors would ensue due to trying to rebuild while build is being executed.
+    // This is due to Modular's notifyListeners() method which is used to update
+    // isLoading status at the beginning of Schedule.getScheduleData()
     Modular.get<Schedule>().getScheduleData();
     super.initState();
   }
@@ -44,7 +49,7 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             scheduleProvider.isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : Text(scheduleProvider.data[0].toString()),
           ],
         ),
@@ -65,9 +70,9 @@ class _HomeState extends State<Home> {
                   // Modular.to.pushNamed('/other');
                   scheduleProvider.getScheduleData();
                 },
-                tooltip: 'Go to Other Page',
-                child: const Icon(Icons.arrow_right),
-                heroTag: "btnGoToOtherPage",
+                tooltip: 'Refresh',
+                child: const Icon(Icons.refresh),
+                heroTag: "btnRefresh",
               ),
             ),
           ],

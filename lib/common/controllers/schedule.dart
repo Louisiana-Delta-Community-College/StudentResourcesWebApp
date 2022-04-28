@@ -18,10 +18,9 @@ class Schedule extends ChangeNotifier {
         .get(Uri.parse('https://web01.ladelta.edu/bizzuka/scheduleJSON.py'));
     if (response.statusCode == 200) {
       _data = jsonDecode(response.body);
-      print(_data);
       _isLoading = false;
       notifyListeners();
-      return (_data);
+      // print(_data);
     } else {
       // on failure, throw an exception
       throw Exception('Failed to load json');
