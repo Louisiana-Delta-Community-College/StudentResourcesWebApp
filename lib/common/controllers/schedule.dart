@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:group_button/group_button.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/foundation.dart';
 
 import "../common.dart";
 
@@ -57,7 +57,18 @@ class Schedule extends ChangeNotifier {
           _error("No data.");
         } else {
           _isLoading = false;
+
           notifyListeners();
+          // MAKE SURE THAT THE VISUALLY SELECTED TERM CODE IN THE BUTTON GROUP
+          // IS THE CORRECT ONE FOR THE DATA JUST RETRIEVED.
+          final _scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
+          final _retrievedTerm = _data[0]["T"];
+          final _termsList = _scheduleTermsMenuController.termsList;
+          if (_termsList.contains(_retrievedTerm)) {
+            final _retrievedTermIndex = _termsList.indexOf(_retrievedTerm);
+            _scheduleTermsMenuController.groupButtonTermMenuController
+                .selectIndex(_retrievedTermIndex);
+          }
         }
       } else {
         throw HttpException("${response.statusCode}");
@@ -84,14 +95,21 @@ class Schedule extends ChangeNotifier {
 class ScheduleTermsMenu extends ChangeNotifier {
   dynamic _data;
   bool _isLoading = true;
+  List _termsList = [];
 
   bool _hasError = false;
   String _errorMessage = "";
 
+  final GroupButtonController _groupButtonTermMenuController =
+      GroupButtonController();
+
   get data => _data;
   bool get isLoading => _isLoading;
+  List get termsList => _termsList;
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
+  GroupButtonController get groupButtonTermMenuController =>
+      _groupButtonTermMenuController;
 
   String _baseUri = "web01.ladelta.edu";
   String _baseUriMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
@@ -116,6 +134,9 @@ class ScheduleTermsMenu extends ChangeNotifier {
           _error("No data.");
         } else {
           _isLoading = false;
+          _termsList = [
+            for (final item in _data) item["Term"].toString(),
+          ];
           notifyListeners();
         }
       } else {

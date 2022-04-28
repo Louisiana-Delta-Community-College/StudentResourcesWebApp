@@ -29,6 +29,9 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
     final themeProvider = context.watch<AppTheme>();
 
+    final _groupButtonTermMenuController =
+        scheduleTermsMenuProvider.groupButtonTermMenuController;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Schedule of Classes"),
@@ -54,22 +57,19 @@ class _SchedulePageState extends State<SchedulePage> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Expanded(
-              flex: 5,
+              flex: 20,
               child: Container(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: scheduleTermsMenuProvider.isLoading
-                      ? Center(child: const CircularProgressIndicator())
+                      ? const Center(child: CircularProgressIndicator())
                       : scheduleTermsMenuProvider.hasError
                           ? Text(scheduleTermsMenuProvider.errorMessage)
                           // : Text(
                           //     scheduleMenuProvider.data.toString(),
                           //   ),
                           : GroupButton(
-                              buttons: [
-                                for (final item
-                                    in scheduleTermsMenuProvider.data)
-                                  item["Term"].toString(),
-                              ],
+                              controller: _groupButtonTermMenuController,
+                              buttons: scheduleTermsMenuProvider.termsList,
                               isRadio: true,
                               options: const GroupButtonOptions(
                                 unselectedColor: AppColor.navy,
@@ -78,7 +78,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 ),
                                 selectedColor: AppColor.bronze,
                               ),
-                              onSelected: (selected, __, ___) {
+                              onSelected: (selected, index, ___) {
                                 if (!scheduleProvider.isLoading) {
                                   scheduleProvider.term = selected.toString();
                                   scheduleProvider.getScheduleData();
@@ -91,13 +91,13 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
             ),
             Expanded(
-              flex: 95,
+              flex: 80,
               child: Container(
                 // color: Colors.green,
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: scheduleProvider.isLoading
-                    ? Center(
-                        child: const CircularProgressIndicator(
+                    ? const Center(
+                        child: CircularProgressIndicator(
                             // color:
                             //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
                             ),
