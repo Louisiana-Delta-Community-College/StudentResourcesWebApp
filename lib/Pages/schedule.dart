@@ -71,19 +71,22 @@ class _SchedulePageState extends State<SchedulePage> {
                               controller: _groupButtonTermMenuController,
                               buttons: scheduleTermsMenuProvider.termsList,
                               isRadio: true,
-                              options: const GroupButtonOptions(
-                                unselectedColor: AppColor.navy,
-                                unselectedTextStyle: TextStyle(
-                                  color: AppColor.white,
-                                ),
-                                selectedColor: AppColor.bronze,
-                              ),
                               onSelected: (selected, index, ___) {
                                 if (!scheduleProvider.isLoading) {
                                   scheduleProvider.term = selected.toString();
                                   scheduleProvider.getScheduleData();
                                 }
                               },
+                              options: const GroupButtonOptions(
+                                  unselectedColor: AppColor.navy,
+                                  unselectedTextStyle: TextStyle(
+                                    color: AppColor.white,
+                                  ),
+                                  selectedColor: AppColor.bronze,
+                                  runSpacing: 3,
+                                  spacing: 3,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
                             )
                   // isSelected: [
                   //     for (final item in scheduleMenuProvider.data) true
