@@ -1,4 +1,4 @@
-import 'package:fmtest/common/common.dart';
+import 'package:schedule/common/common.dart';
 
 import 'package:responsive_framework/responsive_framework.dart';
 

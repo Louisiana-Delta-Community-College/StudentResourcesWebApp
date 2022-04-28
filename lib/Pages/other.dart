@@ -1,4 +1,4 @@
-import 'package:fmtest/common/common.dart';
+import 'package:schedule/common/common.dart';
 
 class Other extends StatelessWidget {
   const Other({Key? key}) : super(key: key);

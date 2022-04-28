@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(fmtest LANGUAGES CXX)
+project(schedule LANGUAGES CXX)
 
-set(BINARY_NAME "fmtest")
+set(BINARY_NAME "schedule")
 
 cmake_policy(SET CMP0063 NEW)
 
