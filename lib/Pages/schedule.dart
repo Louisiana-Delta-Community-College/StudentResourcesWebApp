@@ -83,10 +83,44 @@ class _SchedulePageState extends State<SchedulePage> {
                                     color: AppColor.white,
                                   ),
                                   selectedColor: AppColor.bronze,
-                                  runSpacing: 3,
-                                  spacing: 3,
+                                  runSpacing: 0,
+                                  spacing: 0,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
+                              buttonIndexedBuilder:
+                                  (isSelected, index, context) {
+                                return Container(
+                                  margin: const EdgeInsets.all(0),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? AppColor.bronze
+                                          : AppColor.navy,
+                                      border: Border.all(
+                                          color: AppColor.bronze, width: 3),
+                                      borderRadius: index == 0
+                                          ? const BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              bottomLeft: Radius.circular(10))
+                                          : scheduleTermsMenuProvider
+                                                      .termsList[index] ==
+                                                  scheduleTermsMenuProvider
+                                                      .termsList.last
+                                              ? const BorderRadius.only(
+                                                  topRight: Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10))
+                                              : null),
+                                  child: Text(
+                                    scheduleTermsMenuProvider.data[index]
+                                            ["Desc"]
+                                        .toString(),
+                                    style: const TextStyle(
+                                        color: AppColor.white, fontSize: 12),
+                                  ),
+                                );
+                              },
                             )
                   // isSelected: [
                   //     for (final item in scheduleMenuProvider.data) true
