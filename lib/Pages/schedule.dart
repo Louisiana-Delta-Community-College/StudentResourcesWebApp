@@ -64,9 +64,6 @@ class _SchedulePageState extends State<SchedulePage> {
                       ? const Center(child: CircularProgressIndicator())
                       : scheduleTermsMenuProvider.hasError
                           ? Text(scheduleTermsMenuProvider.errorMessage)
-                          // : Text(
-                          //     scheduleMenuProvider.data.toString(),
-                          //   ),
                           : GroupButton(
                               controller: _groupButtonTermMenuController,
                               buttons: scheduleTermsMenuProvider.termsList,
@@ -82,7 +79,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                   unselectedTextStyle: TextStyle(
                                     color: AppColor.white,
                                   ),
-                                  selectedColor: AppColor.bronze,
+                                  selectedColor: AppColor.bronze2,
                                   runSpacing: 0,
                                   spacing: 0,
                                   borderRadius:
@@ -95,10 +92,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                       left: 10, right: 10, top: 5, bottom: 5),
                                   decoration: BoxDecoration(
                                       color: isSelected
-                                          ? AppColor.bronze
+                                          ? AppColor.bronze2
                                           : AppColor.navy,
                                       border: Border.all(
-                                          color: AppColor.bronze, width: 1),
+                                          color: AppColor.bronze2, width: 2),
                                       borderRadius: index == 0
                                           ? const BorderRadius.only(
                                               topLeft: Radius.circular(10),
@@ -159,6 +156,7 @@ class _SchedulePageState extends State<SchedulePage> {
             Container(
               padding: const EdgeInsets.all(5),
               child: FloatingActionButton(
+                mini: true,
                 onPressed: () {
                   // Modular.to.pushNamed('/other');
                   scheduleProvider.getScheduleData();
