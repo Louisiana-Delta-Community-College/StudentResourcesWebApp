@@ -98,7 +98,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           ? AppColor.bronze
                                           : AppColor.navy,
                                       border: Border.all(
-                                          color: AppColor.bronze, width: 3),
+                                          color: AppColor.bronze, width: 1),
                                       borderRadius: index == 0
                                           ? const BorderRadius.only(
                                               topLeft: Radius.circular(10),
