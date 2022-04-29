@@ -28,9 +28,12 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleProvider = context.watch<Schedule>();
     final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
     final themeProvider = context.watch<AppTheme>();
+    // final myTableController = context.watch<MyTableController>();
 
     final _groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
+
+    double _tableFontSize = 10;
 
     return Scaffold(
       appBar: AppBar(
@@ -127,19 +130,133 @@ class _SchedulePageState extends State<SchedulePage> {
             Expanded(
               flex: 80,
               child: Container(
-                // color: Colors.green,
-                padding: const EdgeInsets.all(20),
-                child: scheduleProvider.isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                            // color:
-                            //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
-                            ),
-                      )
-                    : scheduleProvider.hasError
-                        ? Text(scheduleProvider.errorMessage)
-                        : SelectableText(scheduleProvider.data[0].toString()),
-              ),
+                  // color: Colors.green,
+                  padding: const EdgeInsets.all(20),
+                  child: scheduleProvider.isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                              // color:
+                              //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
+                              ),
+                        )
+                      : scheduleProvider.hasError
+                          ? Text(scheduleProvider.errorMessage)
+                          // : SelectableText(scheduleProvider.data[0].toString()),
+                          : ListView.builder(
+                              itemCount: scheduleProvider.data.length,
+                              itemBuilder: (context, index) {
+                                final course = scheduleProvider.data[index];
+                                return ListTile(
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          course["CRN"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["CN"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["TD"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      // Text(course[""].toString(), style: TextStyle(fontSize: _tableFontSize),),
+                                      Expanded(
+                                        child: Text(
+                                          course["D"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["TB"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["TE"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["B"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["R"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["TN"]
+                                              .toString()
+                                              .replaceAll("<br/>", "\n"),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["E"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["PTRMDS"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["PTRMDE"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["INSMC"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          course["AF"].toString(),
+                                          style: TextStyle(
+                                              fontSize: _tableFontSize),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            )),
             )
           ],
         ),
