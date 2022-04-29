@@ -2,6 +2,8 @@ import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
 import 'package:schedule/config.dart';
 
+import 'package:easy_table/easy_table.dart';
+
 class SchedulePage extends StatefulWidget {
   final String isStaff;
   const SchedulePage({Key? key, this.isStaff = ""}) : super(key: key);
@@ -34,6 +36,8 @@ class _SchedulePageState extends State<SchedulePage> {
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
     double _tableFontSize = 10;
+
+    final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
 
     return Scaffold(
       appBar: AppBar(
@@ -130,133 +134,95 @@ class _SchedulePageState extends State<SchedulePage> {
             Expanded(
               flex: 80,
               child: Container(
-                  // color: Colors.green,
-                  padding: const EdgeInsets.all(20),
-                  child: scheduleProvider.isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                              // color:
-                              //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
-                              ),
-                        )
-                      : scheduleProvider.hasError
-                          ? Text(scheduleProvider.errorMessage)
-                          // : SelectableText(scheduleProvider.data[0].toString()),
-                          : ListView.builder(
-                              itemCount: scheduleProvider.data.length,
-                              itemBuilder: (context, index) {
-                                final course = scheduleProvider.data[index];
-                                return ListTile(
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          course["CRN"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["CN"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["TD"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      // Text(course[""].toString(), style: TextStyle(fontSize: _tableFontSize),),
-                                      Expanded(
-                                        child: Text(
-                                          course["D"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["TB"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["TE"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["B"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["R"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["TN"]
-                                              .toString()
-                                              .replaceAll("<br/>", "\n"),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["E"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["PTRMDS"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["PTRMDE"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["INSMC"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          course["AF"].toString(),
-                                          style: TextStyle(
-                                              fontSize: _tableFontSize),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            )),
+                // color: Colors.green,
+                padding: const EdgeInsets.all(20),
+                child: scheduleProvider.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                            // color:
+                            //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
+                            ),
+                      )
+                    : scheduleProvider.hasError
+                        ? Text(scheduleProvider.errorMessage)
+                        // : SelectableText(scheduleProvider.data[0].toString()),
+                        : EasyTable(
+                            EasyTableModel(
+                              rows: scheduleProvider.data,
+                              columns: [
+                                EasyTableColumn(
+                                    name: "",
+                                    cellBuilder: (context, row) => IconButton(
+                                        icon: Icon(Icons.ac_unit),
+                                        onPressed: () {
+                                          // print("$row pressed");
+                                        })),
+                                EasyTableColumn(
+                                    name: "CRN",
+                                    stringValue: (row) => (row as Map)["CRN"]),
+                                EasyTableColumn(
+                                  name: "Subject",
+                                  stringValue: (row) => (row as Map)["SC"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Course",
+                                  stringValue: (row) => (row as Map)["CN"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Description",
+                                  stringValue: (row) => (row as Map)["CT"],
+                                  width: 250,
+                                ),
+                                EasyTableColumn(
+                                  name: "Days",
+                                  stringValue: (row) => (row as Map)["D"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Start",
+                                  stringValue: (row) => (row as Map)["TB"],
+                                ),
+                                EasyTableColumn(
+                                  name: "End",
+                                  stringValue: (row) => (row as Map)["TE"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Building",
+                                  stringValue: (row) => (row as Map)["B"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Room",
+                                  stringValue: (row) => (row as Map)["R"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Teacher(s)",
+                                  stringValue: (row) => (row as Map)["TN"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Enrolled",
+                                  stringValue: (row) => (row as Map)["E"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Date Start",
+                                  stringValue: (row) => (row as Map)["PTRMDS"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Date End",
+                                  stringValue: (row) => (row as Map)["PTRMDE"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Method",
+                                  stringValue: (row) => (row as Map)["INSMC"],
+                                ),
+                                EasyTableColumn(
+                                  name: "Added Fees",
+                                  stringValue: (row) => (row as Map)["AF"],
+                                ),
+                              ],
+                            ),
+                            columnsFit: _doFitTableColumns,
+                            visibleRowsCount: 20,
+                          ),
+              ),
             )
           ],
         ),
