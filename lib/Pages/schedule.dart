@@ -35,7 +35,7 @@ class _SchedulePageState extends State<SchedulePage> {
     final _groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
-    double _tableFontSize = 10;
+    // double _tableFontSize = 10;
 
     final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
 
@@ -151,12 +151,35 @@ class _SchedulePageState extends State<SchedulePage> {
                               rows: scheduleProvider.data,
                               columns: [
                                 EasyTableColumn(
-                                    name: "",
-                                    cellBuilder: (context, row) => IconButton(
-                                        icon: Icon(Icons.ac_unit),
-                                        onPressed: () {
-                                          // print("$row pressed");
-                                        })),
+                                  name: "",
+                                  cellBuilder: (context, row) => Center(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            size: 20,
+                                          ),
+                                          onPressed: () {
+                                            print(
+                                                "info button pressed for ${(row as Map)["CRN"]}");
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                            Icons.menu_book_sharp,
+                                            size: 20,
+                                          ),
+                                          onPressed: () {
+                                            print(
+                                                "Order book button pressed for ${(row as Map)["CRN"]}");
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 EasyTableColumn(
                                     name: "CRN",
                                     stringValue: (row) => (row as Map)["CRN"]),
@@ -195,7 +218,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                 ),
                                 EasyTableColumn(
                                   name: "Teacher(s)",
-                                  stringValue: (row) => (row as Map)["TN"],
+                                  stringValue: (row) => (row as Map)["TN"]
+                                      .toString()
+                                      .replaceAll("<br/>", "\n"),
                                 ),
                                 EasyTableColumn(
                                   name: "Enrolled",
