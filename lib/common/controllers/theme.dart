@@ -32,6 +32,14 @@ class AppTheme extends ChangeNotifier {
       onSurface: Colors.white,
     ),
     primaryTextTheme: Typography().black,
+    scrollbarTheme: ScrollbarThemeData(
+      isAlwaysShown: true,
+      thickness: MaterialStateProperty.all(7),
+      thumbColor: MaterialStateProperty.all(AppColor.navy.withOpacity(.75)),
+      radius: const Radius.circular(10),
+      crossAxisMargin: 0,
+      minThumbLength: 50,
+    ),
     // textTheme: const TextTheme(
     //         bodyText1: TextStyle(),
     //         bodyText2: TextStyle(),
@@ -78,6 +86,14 @@ class AppTheme extends ChangeNotifier {
       selectionColor: AppColor.bronze2,
     ),
     primaryTextTheme: Typography().white,
+    scrollbarTheme: ScrollbarThemeData(
+      isAlwaysShown: true,
+      thickness: MaterialStateProperty.all(7),
+      thumbColor: MaterialStateProperty.all(AppColor.white.withOpacity(.5)),
+      radius: const Radius.circular(10),
+      crossAxisMargin: 0,
+      minThumbLength: 50,
+    ),
     // textTheme: const TextTheme(
     //         bodyText1: TextStyle(),
     //         bodyText2: TextStyle(),
