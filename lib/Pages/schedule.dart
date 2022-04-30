@@ -410,7 +410,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       buildingAndRoom,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: _color,
                       ),
                     ),
@@ -424,7 +424,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       days,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: _color,
                       ),
                     ),
@@ -437,7 +437,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       meetingTimes,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         color: _color,
                       ),
                     ),
