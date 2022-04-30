@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, must_be_immutable, avoid_print
+
 import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
 import 'package:schedule/config.dart';
@@ -36,8 +38,11 @@ class _SchedulePageState extends State<SchedulePage> {
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
     // double _tableFontSize = 10;
+    final _viewPortWidth = MediaQuery.of(context).size.width;
 
-    final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
+    final _isSmallFormFactor = _viewPortWidth <= 800;
+
+    // print(_viewPortWidth);
 
     return Scaffold(
       appBar: AppBar(
@@ -146,107 +151,20 @@ class _SchedulePageState extends State<SchedulePage> {
                     : scheduleProvider.hasError
                         ? Text(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
-                        : EasyTable(
-                            EasyTableModel(
-                              rows: scheduleProvider.data,
-                              columns: [
-                                EasyTableColumn(
-                                  name: "",
-                                  cellBuilder: (context, row) => Center(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.info_outline,
-                                            size: 20,
-                                          ),
-                                          onPressed: () {
-                                            print(
-                                                "info button pressed for ${(row as Map)["CRN"]}");
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.menu_book_sharp,
-                                            size: 20,
-                                          ),
-                                          onPressed: () {
-                                            print(
-                                                "Order book button pressed for ${(row as Map)["CRN"]}");
-                                          },
-                                        ),
-                                      ],
+                        : !_isSmallFormFactor
+                            ? const MyEasyTable()
+                            : ListView.builder(
+                                itemCount: scheduleProvider.data.length,
+                                itemBuilder: (context, index) {
+                                  final _course = scheduleProvider.data[index]
+                                      as Map<String, dynamic>;
+                                  return ListTile(
+                                    title: CourseCard(
+                                      course: _course,
                                     ),
-                                  ),
-                                ),
-                                EasyTableColumn(
-                                    name: "CRN",
-                                    stringValue: (row) => (row as Map)["CRN"]),
-                                EasyTableColumn(
-                                  name: "Subject",
-                                  stringValue: (row) => (row as Map)["SC"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Course",
-                                  stringValue: (row) => (row as Map)["CN"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Description",
-                                  stringValue: (row) => (row as Map)["CT"],
-                                  width: 250,
-                                ),
-                                EasyTableColumn(
-                                  name: "Days",
-                                  stringValue: (row) => (row as Map)["D"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Start",
-                                  stringValue: (row) => (row as Map)["TB"],
-                                ),
-                                EasyTableColumn(
-                                  name: "End",
-                                  stringValue: (row) => (row as Map)["TE"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Building",
-                                  stringValue: (row) => (row as Map)["B"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Room",
-                                  stringValue: (row) => (row as Map)["R"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Teacher(s)",
-                                  stringValue: (row) => (row as Map)["TN"]
-                                      .toString()
-                                      .replaceAll("<br/>", "\n"),
-                                ),
-                                EasyTableColumn(
-                                  name: "Enrolled",
-                                  stringValue: (row) => (row as Map)["E"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Date Start",
-                                  stringValue: (row) => (row as Map)["PTRMDS"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Date End",
-                                  stringValue: (row) => (row as Map)["PTRMDE"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Method",
-                                  stringValue: (row) => (row as Map)["INSMC"],
-                                ),
-                                EasyTableColumn(
-                                  name: "Added Fees",
-                                  stringValue: (row) => (row as Map)["AF"],
-                                ),
-                              ],
-                            ),
-                            columnsFit: _doFitTableColumns,
-                            visibleRowsCount: 20,
-                          ),
+                                  );
+                                },
+                              ),
               ),
             )
           ],
@@ -277,6 +195,288 @@ class _SchedulePageState extends State<SchedulePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MyEasyTable extends StatelessWidget {
+  const MyEasyTable({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final scheduleProvider = context.watch<Schedule>();
+    // final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
+
+    final _viewPortWidth = MediaQuery.of(context).size.width;
+
+    return EasyTable(
+      EasyTableModel(
+        rows: scheduleProvider.data,
+        columns: [
+          EasyTableColumn(
+            name: "",
+            cellBuilder: (context, row) => Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.info_outline,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      print("info button pressed for ${(row as Map)["CRN"]}");
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.menu_book_sharp,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      print(
+                          "Order book button pressed for ${(row as Map)["CRN"]}");
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          EasyTableColumn(
+              name: "CRN", stringValue: (row) => (row as Map)["CRN"]),
+          EasyTableColumn(
+            name: "Subject",
+            stringValue: (row) => (row as Map)["SC"],
+          ),
+          EasyTableColumn(
+            name: "Course",
+            stringValue: (row) => (row as Map)["CN"],
+          ),
+          EasyTableColumn(
+            name: "Description",
+            stringValue: (row) => (row as Map)["CT"],
+            width: 250,
+          ),
+          EasyTableColumn(
+            name: "Days",
+            stringValue: (row) => (row as Map)["D"],
+          ),
+          EasyTableColumn(
+            name: "Start",
+            stringValue: (row) => (row as Map)["TB"],
+          ),
+          EasyTableColumn(
+            name: "End",
+            stringValue: (row) => (row as Map)["TE"],
+          ),
+          EasyTableColumn(
+            name: "Building",
+            stringValue: (row) => (row as Map)["B"],
+          ),
+          EasyTableColumn(
+            name: "Room",
+            stringValue: (row) => (row as Map)["R"],
+          ),
+          EasyTableColumn(
+            name: "Teacher(s)",
+            stringValue: (row) =>
+                (row as Map)["TN"].toString().replaceAll("<br/>", "\n"),
+          ),
+          EasyTableColumn(
+            name: "Enrolled",
+            stringValue: (row) => (row as Map)["E"],
+          ),
+          EasyTableColumn(
+            name: "Date Start",
+            stringValue: (row) => (row as Map)["PTRMDS"],
+          ),
+          EasyTableColumn(
+            name: "Date End",
+            stringValue: (row) => (row as Map)["PTRMDE"],
+          ),
+          EasyTableColumn(
+            name: "Method",
+            stringValue: (row) => (row as Map)["INSMC"],
+          ),
+          EasyTableColumn(
+            name: "Added Fees",
+            stringValue: (row) => (row as Map)["AF"],
+          ),
+        ],
+      ),
+      columnsFit: _viewPortWidth >= 1800 ? true : false,
+      visibleRowsCount: 20,
+    );
+  }
+}
+
+class CourseCard extends StatelessWidget {
+  CourseCard({
+    Key? key,
+    this.course = const {},
+  }) : super(key: key);
+
+  final Map course;
+
+  @override
+  Widget build(BuildContext context) {
+    // final String _courseName = "${course["SC"]} ${course["CN"]}";
+    final borderColor = AppColor.bronze2.withOpacity(.7);
+    // final Color _color = Theme.of(context).colorScheme.primary;
+    const Color _color = AppColor.navy;
+
+    final friendlyName = "${course["SC"]} ${course["CN"]}";
+    final days = "${course["PTRMDS"].toString().trim()} to ${course["PTRMDE"]}";
+    final buildingAndRoom = "${course["B"]} - Room ${course["R"]}";
+    var meetingTimes = "${course["TB"]} - ${course["TE"]}".trim();
+    if (meetingTimes == "-") {
+      meetingTimes = "";
+    }
+
+    return Column(
+      children: [
+        Align(
+          heightFactor: .9,
+          alignment: Alignment.centerLeft,
+          child: Container(
+            alignment: Alignment.center,
+            child: Text(
+              friendlyName,
+              style: TextStyle(
+                color: _color,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            height: 30,
+            width: 100,
+            decoration: BoxDecoration(
+              color: borderColor,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black45,
+                offset: Offset(
+                  5.0,
+                  5.0,
+                ),
+                blurRadius: 10.0,
+                spreadRadius: 3.0,
+              ), //BoxShadow
+              BoxShadow(
+                color: Colors.black,
+                offset: Offset(0.0, 0.0),
+                blurRadius: 10.0,
+                spreadRadius: 0.0,
+              ), //BoxShadow
+            ],
+            color: borderColor,
+            // borderRadius: const BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            ),
+          ),
+
+          //-----------------------------
+          // Card Body
+          //-----------------------------
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onSecondary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.meeting_room,
+                      size: 40,
+                      color: _color,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      buildingAndRoom,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: _color,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.calendar_month_outlined,
+                        size: 40, color: _color),
+                    SizedBox(width: 10),
+                    Text(
+                      days,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: _color,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.watch_later_outlined, size: 40, color: _color),
+                    SizedBox(width: 10),
+                    Text(
+                      meetingTimes,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: _color,
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Row(
+                //   children: [
+                //     const Icon(
+                //       Icons.email_outlined,
+                //       size: 40,
+                //     ),
+                //     const SizedBox(width: 10),
+                //     Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: const [
+                //         Text(
+                //           "test",
+                //           style: TextStyle(
+                //             fontSize: 16,
+                //             color: Colors.deepPurple,
+                //           ),
+                //         ),
+                //         Text(
+                //           "test",
+                //           style: TextStyle(
+                //             fontSize: 16,
+                //             color: Colors.deepPurple,
+                //           ),
+                //         ),
+                //       ],
+                //     )
+                //   ],
+                // ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
