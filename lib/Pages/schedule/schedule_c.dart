@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:group_button/group_button.dart';
 
-import "../common.dart";
+import '../../common/common.dart';
 
 class Schedule extends ChangeNotifier {
   List<dynamic> _data = [];

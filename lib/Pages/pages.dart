@@ -1,2 +1,2 @@
-export 'schedule.dart';
+export 'schedule/schedule_v.dart';
 export 'other.dart';
