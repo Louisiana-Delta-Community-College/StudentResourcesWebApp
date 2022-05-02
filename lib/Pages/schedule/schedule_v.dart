@@ -222,7 +222,8 @@ class MyEasyTable extends StatelessWidget {
                       size: 20,
                     ),
                     onPressed: () {
-                      print("info button pressed for ${(row as Map)["CRN"]}");
+                      log.info(
+                          "info button pressed for ${(row as Map)["CRN"]}");
                     },
                   ),
                   IconButton(
@@ -231,7 +232,7 @@ class MyEasyTable extends StatelessWidget {
                       size: 20,
                     ),
                     onPressed: () {
-                      print(
+                      log.info(
                           "Order book button pressed for ${(row as Map)["CRN"]}");
                     },
                   ),
@@ -429,7 +430,8 @@ class CourseCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.watch_later_outlined, size: 40, color: _color),
+                    const Icon(Icons.watch_later_outlined,
+                        size: 40, color: _color),
                     const SizedBox(width: 10),
                     Text(
                       meetingTimes,

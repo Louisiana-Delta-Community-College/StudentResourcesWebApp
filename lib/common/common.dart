@@ -1,3 +1,5 @@
+import 'package:talker/talker.dart';
+
 export 'package:flutter/material.dart';
 
 export 'package:flutter_modular/flutter_modular.dart';
@@ -7,3 +9,5 @@ export 'package:schedule/Pages/pages.dart';
 export 'package:schedule/common/controllers/counter.dart';
 export 'package:schedule/common/controllers/theme.dart';
 export 'package:schedule/Pages/schedule/schedule_c.dart';
+
+final log = Talker();
