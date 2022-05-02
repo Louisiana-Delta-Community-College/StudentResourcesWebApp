@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable, avoid_print
-
 import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
 import 'package:schedule/config.dart';
@@ -341,7 +339,7 @@ class CourseCard extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               friendlyName,
-              style: TextStyle(
+              style: const TextStyle(
                 color: _color,
                 fontWeight: FontWeight.bold,
               ),
@@ -400,15 +398,15 @@ class CourseCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.meeting_room,
                       size: 40,
                       color: _color,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       buildingAndRoom,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: _color,
                       ),
@@ -417,12 +415,12 @@ class CourseCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.calendar_month_outlined,
+                    const Icon(Icons.calendar_month_outlined,
                         size: 40, color: _color),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       days,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: _color,
                       ),
@@ -431,11 +429,11 @@ class CourseCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.watch_later_outlined, size: 40, color: _color),
-                    SizedBox(width: 10),
+                    const Icon(Icons.watch_later_outlined, size: 40, color: _color),
+                    const SizedBox(width: 10),
                     Text(
                       meetingTimes,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: _color,
                       ),
