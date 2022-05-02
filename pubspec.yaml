@@ -41,6 +41,7 @@ dependencies:
   group_button: ^5.0.0
   easy_table: ^1.1.0
   talker: ^0.9.1
+  url_launcher: ^6.1.0
 
 dev_dependencies:
   flutter_test:

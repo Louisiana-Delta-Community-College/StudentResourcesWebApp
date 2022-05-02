@@ -206,104 +206,134 @@ class MyEasyTable extends StatelessWidget {
 
     final _viewPortWidth = MediaQuery.of(context).size.width;
 
-    return EasyTable(
-      EasyTableModel(
-        rows: scheduleProvider.data,
-        columns: [
-          EasyTableColumn(
-            name: "",
-            cellBuilder: (context, row) => Center(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.info_outline,
-                      size: 20,
+    return Center(
+      child: EasyTable(
+        EasyTableModel(
+          rows: scheduleProvider.data,
+          columns: [
+            EasyTableColumn(
+              name: "",
+              cellBuilder: (context, row) => Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // MORE INFO ICON
+                    IconButton(
+                      icon: const Icon(
+                        Icons.info_outline,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        log.info(
+                            "info button pressed for ${(row as Map)["CRN"]}");
+                      },
                     ),
-                    onPressed: () {
-                      log.info(
-                          "info button pressed for ${(row as Map)["CRN"]}");
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.menu_book_sharp,
-                      size: 20,
+                    // BUY BOOKS ICON
+                    IconButton(
+                      icon: const Icon(
+                        Icons.menu_book_sharp,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        Uri bookStoreURI;
+                        const bookStoreHost = "ladelta.bncollege.com";
+                        const bookStorePath =
+                            "/webapp/wcs/stores/servlet/TBListView";
+                        var courseXML = "";
+                        if ((row as Map)["C"] == "MONROE CAMPUS") {
+                          courseXML =
+                              '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="MONROE"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
+                        } else {
+                          courseXML =
+                              '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="OTHER"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
+                        }
+                        bookStoreURI = Uri(
+                          scheme: 'https',
+                          host: bookStoreHost,
+                          path: bookStorePath,
+                          query: encodeQueryParameters(
+                            <String, String>{
+                              "cm_mmc": "RI-_-8279-_-1-_-A",
+                              "catalogId": "10001",
+                              "storeId": "89011",
+                              "langId": "-1",
+                              "termMapping": "Y",
+                              "courseXML": courseXML
+                            },
+                          ),
+                        );
+                        launchUrl(bookStoreURI);
+                      },
                     ),
-                    onPressed: () {
-                      log.info(
-                          "Order book button pressed for ${(row as Map)["CRN"]}");
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          EasyTableColumn(
-              name: "CRN", stringValue: (row) => (row as Map)["CRN"]),
-          EasyTableColumn(
-            name: "Subject",
-            stringValue: (row) => (row as Map)["SC"],
-          ),
-          EasyTableColumn(
-            name: "Course",
-            stringValue: (row) => (row as Map)["CN"],
-          ),
-          EasyTableColumn(
-            name: "Description",
-            stringValue: (row) => (row as Map)["CT"],
-            width: 250,
-          ),
-          EasyTableColumn(
-            name: "Days",
-            stringValue: (row) => (row as Map)["D"],
-          ),
-          EasyTableColumn(
-            name: "Start",
-            stringValue: (row) => (row as Map)["TB"],
-          ),
-          EasyTableColumn(
-            name: "End",
-            stringValue: (row) => (row as Map)["TE"],
-          ),
-          EasyTableColumn(
-            name: "Building",
-            stringValue: (row) => (row as Map)["B"],
-          ),
-          EasyTableColumn(
-            name: "Room",
-            stringValue: (row) => (row as Map)["R"],
-          ),
-          EasyTableColumn(
-            name: "Teacher(s)",
-            stringValue: (row) =>
-                (row as Map)["TN"].toString().replaceAll("<br/>", "\n"),
-          ),
-          EasyTableColumn(
-            name: "Enrolled",
-            stringValue: (row) => (row as Map)["E"],
-          ),
-          EasyTableColumn(
-            name: "Date Start",
-            stringValue: (row) => (row as Map)["PTRMDS"],
-          ),
-          EasyTableColumn(
-            name: "Date End",
-            stringValue: (row) => (row as Map)["PTRMDE"],
-          ),
-          EasyTableColumn(
-            name: "Method",
-            stringValue: (row) => (row as Map)["INSMC"],
-          ),
-          EasyTableColumn(
-            name: "Added Fees",
-            stringValue: (row) => (row as Map)["AF"],
-          ),
-        ],
+            EasyTableColumn(
+                name: "CRN", stringValue: (row) => (row as Map)["CRN"]),
+            EasyTableColumn(
+              name: "Subject",
+              stringValue: (row) => (row as Map)["SC"],
+            ),
+            EasyTableColumn(
+              name: "Course",
+              stringValue: (row) => (row as Map)["CN"],
+            ),
+            EasyTableColumn(
+              name: "Description",
+              stringValue: (row) => (row as Map)["CT"],
+              width: 250,
+            ),
+            EasyTableColumn(
+              name: "Days",
+              stringValue: (row) => (row as Map)["D"],
+            ),
+            EasyTableColumn(
+              name: "Start",
+              stringValue: (row) => (row as Map)["TB"],
+            ),
+            EasyTableColumn(
+              name: "End",
+              stringValue: (row) => (row as Map)["TE"],
+            ),
+            EasyTableColumn(
+              name: "Building",
+              stringValue: (row) => (row as Map)["B"],
+            ),
+            EasyTableColumn(
+              name: "Room",
+              stringValue: (row) => (row as Map)["R"],
+            ),
+            EasyTableColumn(
+              name: "Teacher(s)",
+              stringValue: (row) =>
+                  (row as Map)["TN"].toString().replaceAll("<br/>", "\n"),
+            ),
+            EasyTableColumn(
+              name: "Enrolled",
+              stringValue: (row) => (row as Map)["E"],
+            ),
+            EasyTableColumn(
+              name: "Date Start",
+              stringValue: (row) => (row as Map)["PTRMDS"],
+            ),
+            EasyTableColumn(
+              name: "Date End",
+              stringValue: (row) => (row as Map)["PTRMDE"],
+            ),
+            EasyTableColumn(
+              name: "Method",
+              stringValue: (row) => (row as Map)["INSMC"],
+            ),
+            EasyTableColumn(
+              name: "Added Fees",
+              stringValue: (row) => (row as Map)["AF"],
+            ),
+          ],
+        ),
+        // columnsFit: _viewPortWidth >= 1950 ? true : false,
+        visibleRowsCount: 20,
       ),
-      columnsFit: _viewPortWidth >= 1800 ? true : false,
-      visibleRowsCount: 20,
     );
   }
 }
