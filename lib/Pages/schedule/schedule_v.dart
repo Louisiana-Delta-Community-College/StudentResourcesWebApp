@@ -259,8 +259,9 @@ class MyEasyTable extends StatelessWidget {
                                 ),
                               ],
                               content: SizedBox(
-                                height: MediaQuery.of(context).size.height / 2,
-                                width: MediaQuery.of(context).size.width / 2,
+                                height:
+                                    MediaQuery.of(context).size.height * .80,
+                                width: MediaQuery.of(context).size.width * .80,
                                 child: ListView(
                                   shrinkWrap: true,
                                   children: [
@@ -366,6 +367,10 @@ class MyEasyTable extends StatelessWidget {
                                         icon: const Icon(Icons.menu_book_sharp),
                                         label: const Text("Buy Materials"),
                                         style: ButtonStyle(
+                                          overlayColor:
+                                              MaterialStateProperty.all(AppColor
+                                                  .bronze2
+                                                  .withOpacity(.5)),
                                           foregroundColor:
                                               MaterialStateProperty.all(
                                             Theme.of(context)
