@@ -235,7 +235,95 @@ class MyEasyTable extends StatelessWidget {
                                   height:
                                       MediaQuery.of(context).size.height / 2,
                                   width: MediaQuery.of(context).size.width / 2,
-                                  child: Text("test"),
+                                  child: ListView(
+                                    children: [
+                                      ListTile(
+                                        leading: Text(
+                                          "Campus:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["C"].toString()),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Teacher(s):",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["TN"]
+                                            .toString()
+                                            .replaceAll("<br/>", "; ")),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Enrollment:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["E"].toString()),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Building:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["B"].toString()),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Room:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["R"].toString()),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Dates in Session:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(
+                                            "${row["PTRMDS"]} / ${row["PTRMDE"]}"),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Days:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["D"].toString()),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Time:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing:
+                                            Text("${row["TB"]} - ${row["TE"]}"),
+                                      ),
+                                      ListTile(
+                                        leading: Text(
+                                          "Credit Hours:",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        trailing: Text(row["CH"].toString()),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             });
