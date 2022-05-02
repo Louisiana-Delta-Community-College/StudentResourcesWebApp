@@ -156,6 +156,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 itemBuilder: (context, index) {
                                   final _course = scheduleProvider.data[index];
                                   return ListTile(
+                                    dense: true,
                                     title: CourseCard(
                                       course: _course,
                                     ),
@@ -225,110 +226,240 @@ class MyEasyTable extends StatelessWidget {
                       ),
                       onPressed: () {
                         showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(
-                                    "${(row as Map)["CT"]} - ${(row)["SC"]} ${(row)["CN"]}"),
-                                alignment: Alignment.center,
-                                content: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  child: ListView(
-                                    children: [
-                                      ListTile(
-                                        leading: Text(
-                                          "Campus:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["C"].toString()),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Teacher(s):",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["TN"]
-                                            .toString()
-                                            .replaceAll("<br/>", "; ")),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Enrollment:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["E"].toString()),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Building:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["B"].toString()),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Room:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["R"].toString()),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Dates in Session:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(
-                                            "${row["PTRMDS"]} / ${row["PTRMDE"]}"),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Days:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["D"].toString()),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Time:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing:
-                                            Text("${row["TB"]} - ${row["TE"]}"),
-                                      ),
-                                      ListTile(
-                                        leading: Text(
-                                          "Credit Hours:",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        trailing: Text(row["CH"].toString()),
-                                      ),
-                                    ],
+                          context: context,
+                          builder: (context) {
+                            final feesFlat = (row as Map)["FF"];
+                            final feesCredit = row["FC"];
+                            var feesTotal = "0.00";
+                            try {
+                              feesTotal = (double.parse(feesFlat) +
+                                      double.parse(feesCredit))
+                                  .toStringAsFixed(2);
+                            } catch (e) {
+                              log.error(e.toString());
+                            }
+                            return AlertDialog(
+                              title: Text(
+                                  "${row["CT"]} - ${row["SC"]} ${row["CN"]}"),
+                              alignment: Alignment.center,
+                              actions: [
+                                TextButton(
+                                  child: const Text("Close"),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context).colorScheme.primary,
+                                    ),
+                                    foregroundColor: MaterialStateProperty.all(
+                                      Theme.of(context).colorScheme.onPrimary,
+                                    ),
                                   ),
+                                  onPressed: () {
+                                    Modular.to.pop();
+                                  },
                                 ),
-                              );
-                            });
-                        log.info(
-                            "info button pressed for ${(row as Map)["CRN"]}");
+                              ],
+                              content: SizedBox(
+                                height: MediaQuery.of(context).size.height / 2,
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  children: [
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Campus:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["C"].toString()),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Teacher(s):",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["TN"]
+                                          .toString()
+                                          .replaceAll("<br/>", "; ")),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Enrolled:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["E"].toString()),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Building:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["B"].toString()),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Room:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["R"].toString()),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Dates in Session:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(
+                                          "${row["PTRMDS"]} / ${row["PTRMDE"]}"),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Days:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["D"].toString()),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Time:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing:
+                                          Text("${row["TB"]} - ${row["TE"]}"),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Credit Hours:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text(row["CH"].toString()),
+                                    ),
+                                    // BUY MATERIALS BUTTON
+                                    ListTile(
+                                      dense: true,
+                                      title: TextButton.icon(
+                                        onPressed: () => launchBookStore(row),
+                                        icon: const Icon(Icons.menu_book_sharp),
+                                        label: const Text("Buy Materials"),
+                                        style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                          ),
+                                          side: MaterialStateProperty.all(
+                                            BorderSide(
+                                              width: 1,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .tertiary,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // ADDITIONAL FEES
+                                    const ListTile(
+                                      dense: true,
+                                      leading: Text(
+                                        "Additional Fees",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Flat:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text("${(row)["FF"]}"),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      leading: const Text(
+                                        "Credit:",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      trailing: Text("${row["FC"]}"),
+                                    ),
+                                    Divider(
+                                      thickness: 1,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary,
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      // leading: const Text(
+                                      //   "Credit:",
+                                      //   style: TextStyle(
+                                      //     fontWeight: FontWeight.bold,
+                                      //   ),
+                                      // ),
+                                      trailing: Text(feesTotal),
+                                    ),
+                                    // DESCRIPTION
+                                    const ListTile(
+                                      dense: true,
+                                      leading: Text(
+                                        "Description",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      dense: true,
+                                      title: Text(
+                                        row["N"].toString().trim() != ""
+                                            ? row["N"]
+                                                .toString()
+                                                .replaceAll("<br/>", "\n")
+                                                .replaceAll("&lt;", "")
+                                                .replaceAll("&gt;", "")
+                                                .replaceAll("br/", "")
+                                            : "No description.",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                     // BUY BOOKS ICON
@@ -338,34 +469,7 @@ class MyEasyTable extends StatelessWidget {
                         size: 20,
                       ),
                       onPressed: () {
-                        Uri bookStoreURI;
-                        const bookStoreHost = "ladelta.bncollege.com";
-                        const bookStorePath =
-                            "/webapp/wcs/stores/servlet/TBListView";
-                        var courseXML = "";
-                        if ((row as Map)["C"] == "MONROE CAMPUS") {
-                          courseXML =
-                              '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="MONROE"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
-                        } else {
-                          courseXML =
-                              '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="OTHER"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
-                        }
-                        bookStoreURI = Uri(
-                          scheme: 'https',
-                          host: bookStoreHost,
-                          path: bookStorePath,
-                          query: encodeQueryParameters(
-                            <String, String>{
-                              "cm_mmc": "RI-_-8279-_-1-_-A",
-                              "catalogId": "10001",
-                              "storeId": "89011",
-                              "langId": "-1",
-                              "termMapping": "Y",
-                              "courseXML": courseXML
-                            },
-                          ),
-                        );
-                        launchUrl(bookStoreURI);
+                        launchBookStore(row);
                       },
                     ),
                   ],
@@ -438,6 +542,36 @@ class MyEasyTable extends StatelessWidget {
         visibleRowsCount: 20,
       ),
     );
+  }
+
+  void launchBookStore(Object? row) {
+    Uri bookStoreURI;
+    const bookStoreHost = "ladelta.bncollege.com";
+    const bookStorePath = "/webapp/wcs/stores/servlet/TBListView";
+    var courseXML = "";
+    if ((row as Map)["C"] == "MONROE CAMPUS") {
+      courseXML =
+          '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="MONROE"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
+    } else {
+      courseXML =
+          '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="OTHER"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
+    }
+    bookStoreURI = Uri(
+      scheme: 'https',
+      host: bookStoreHost,
+      path: bookStorePath,
+      query: encodeQueryParameters(
+        <String, String>{
+          "cm_mmc": "RI-_-8279-_-1-_-A",
+          "catalogId": "10001",
+          "storeId": "89011",
+          "langId": "-1",
+          "termMapping": "Y",
+          "courseXML": courseXML
+        },
+      ),
+    );
+    launchUrl(bookStoreURI);
   }
 }
 
