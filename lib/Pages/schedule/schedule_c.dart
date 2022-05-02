@@ -79,6 +79,9 @@ class Schedule extends ChangeNotifier {
     } catch (e) {
       if (e.toString() == "XMLHttpRequest error.") {
         _error("Unable to reach the server (bad URL?).");
+      } else if (e.toString() ==
+          "Expected a value of type 'List<dynamic>', but got one of type '_JsonMap'") {
+        _error("Error connecting to database.");
       } else {
         _error(e.toString());
       }
