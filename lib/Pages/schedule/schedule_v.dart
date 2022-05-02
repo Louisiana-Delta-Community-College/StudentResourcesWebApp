@@ -204,7 +204,7 @@ class MyEasyTable extends StatelessWidget {
     final scheduleProvider = context.watch<Schedule>();
     // final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
 
-    final _viewPortWidth = MediaQuery.of(context).size.width;
+    // final _viewPortWidth = MediaQuery.of(context).size.width;
 
     return Center(
       child: EasyTable(
@@ -224,6 +224,21 @@ class MyEasyTable extends StatelessWidget {
                         size: 20,
                       ),
                       onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                    "${(row as Map)["CT"]} - ${(row)["SC"]} ${(row)["CN"]}"),
+                                alignment: Alignment.center,
+                                content: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text("test"),
+                                ),
+                              );
+                            });
                         log.info(
                             "info button pressed for ${(row as Map)["CRN"]}");
                       },
