@@ -7,7 +7,7 @@ import 'package:group_button/group_button.dart';
 import "../common.dart";
 
 class Schedule extends ChangeNotifier {
-  List _data = [];
+  List<dynamic> _data = [];
   bool _isLoading = true;
 
   bool _hasError = false;
@@ -18,7 +18,7 @@ class Schedule extends ChangeNotifier {
   String campus = "";
   String isStaff = "";
 
-  List get data => _data;
+  List<dynamic> get data => _data;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
@@ -53,8 +53,8 @@ class Schedule extends ChangeNotifier {
       if (response.statusCode == 200) {
         // response.body is already a JSON formatted string
         // because of how the Python CGI page is coded.
-        _data = jsonDecode(response.body);
-        if (_data.toString() == "[]") {
+        _data = jsonDecode(response.body) as List<dynamic>;
+        if (_data.isEmpty) {
           _error("No data.");
         } else {
           _isLoading = false;

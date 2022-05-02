@@ -156,8 +156,7 @@ class _SchedulePageState extends State<SchedulePage> {
                             : ListView.builder(
                                 itemCount: scheduleProvider.data.length,
                                 itemBuilder: (context, index) {
-                                  final _course = scheduleProvider.data[index]
-                                      as Map<String, dynamic>;
+                                  final _course = scheduleProvider.data[index];
                                   return ListTile(
                                     title: CourseCard(
                                       course: _course,
@@ -311,7 +310,7 @@ class MyEasyTable extends StatelessWidget {
 }
 
 class CourseCard extends StatelessWidget {
-  CourseCard({
+  const CourseCard({
     Key? key,
     this.course = const {},
   }) : super(key: key);
