@@ -71,7 +71,12 @@ class _SchedulePageState extends State<SchedulePage> {
           children: <Widget>[
             // CAMPUS MENU
             Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 10,
+                  left: 10,
+                  right: 10,
+                ),
                 child: scheduleCampusMenuProvider.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : scheduleCampusMenuProvider.hasError
@@ -141,7 +146,12 @@ class _SchedulePageState extends State<SchedulePage> {
             Expanded(
               flex: 10,
               child: Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(
+                    // top: 10,
+                    bottom: 10,
+                    left: 20,
+                    right: 20,
+                  ),
                   child: scheduleTermsMenuProvider.isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : scheduleTermsMenuProvider.hasError
@@ -211,7 +221,12 @@ class _SchedulePageState extends State<SchedulePage> {
               flex: 80,
               child: Container(
                 // color: Colors.green,
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(
+                  // top: 10,
+                  bottom: 10,
+                  left: 20,
+                  right: 20,
+                ),
                 child: scheduleProvider.isLoading
                     ? const Center(
                         child: CircularProgressIndicator(
