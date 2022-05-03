@@ -68,7 +68,7 @@ class _SchedulePageState extends State<SchedulePage> {
         ],
         onSearch: (value) {
           scheduleProvider.searchString = value;
-          log.info("Searching for: $value");
+          // log.verbose("Searching for: $value");
         },
       ),
       body: Center(
