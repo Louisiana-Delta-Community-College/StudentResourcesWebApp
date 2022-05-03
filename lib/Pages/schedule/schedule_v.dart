@@ -92,8 +92,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                 color: AppColor.white,
                               ),
                               selectedColor: AppColor.bronze2,
-                              runSpacing: 0,
-                              spacing: 0,
+                              runSpacing: 2,
+                              spacing: 2,
                               // borderRadius:
                               //     BorderRadius.all(Radius.circular(10)),
                             ),
