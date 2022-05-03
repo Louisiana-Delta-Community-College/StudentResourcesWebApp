@@ -47,7 +47,27 @@ class _SchedulePageState extends State<SchedulePage> {
 
     return Scaffold(
       appBar: EasySearchBar(
-        title: const Text("Schedule of Classes"),
+        title: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.dark_mode_sharp,
+                color: AppColor.navy,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.search,
+                color: AppColor.navy,
+              ),
+            ),
+            const Text("Schedule of Classes"),
+          ],
+        ),
         backgroundColor: AppColor.navy,
         foregroundColor: AppColor.white,
         // centerTitle: true,
