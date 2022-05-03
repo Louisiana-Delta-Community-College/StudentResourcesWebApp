@@ -172,7 +172,14 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["C"].toString()),
+                  trailing: Text(
+                    row["C"]
+                        .toString()
+                        .replaceAll("LDCC", "")
+                        .replaceAll("CAMPUS", "")
+                        .toTitleCase()
+                        .trim(),
+                  ),
                 ),
                 ListTile(
                   dense: true,
