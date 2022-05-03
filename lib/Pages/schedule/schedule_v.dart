@@ -81,10 +81,9 @@ class _SchedulePageState extends State<SchedulePage> {
                             buttons: scheduleCampusMenuProvider.campusList,
                             isRadio: true,
                             onSelected: (selected, index, ___) {
-                              // if (!scheduleProvider.isLoading) {
-                              //   scheduleProvider.term = selected.toString();
-                              //   scheduleProvider.getScheduleData();
-                              // }
+                              if (!scheduleProvider.isLoading) {
+                                scheduleProvider.campus = selected.toString();
+                              }
                             },
                             options: const GroupButtonOptions(
                               unselectedColor: AppColor.navy,
@@ -206,12 +205,13 @@ class _SchedulePageState extends State<SchedulePage> {
                   //     for (final item in scheduleMenuProvider.data) true
                   //   ])
                   ),
+              // COURSES
             ),
             Expanded(
               flex: 80,
               child: Container(
                 // color: Colors.green,
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 child: scheduleProvider.isLoading
                     ? const Center(
                         child: CircularProgressIndicator(
@@ -227,7 +227,8 @@ class _SchedulePageState extends State<SchedulePage> {
                             : ListView.builder(
                                 itemCount: scheduleProvider.data.length,
                                 itemBuilder: (context, index) {
-                                  final _course = scheduleProvider.data[index];
+                                  final _course =
+                                      scheduleProvider.filteredForCampus[index];
                                   return ListTile(
                                     dense: true,
                                     title: CourseCard(
@@ -282,10 +283,12 @@ class MyEasyTable extends StatelessWidget {
 
     // final _viewPortWidth = MediaQuery.of(context).size.width;
 
+    final _rows = scheduleProvider.filteredForCampus;
+
     return Center(
       child: EasyTable(
         EasyTableModel(
-          rows: scheduleProvider.data,
+          rows: _rows,
           columns: [
             EasyTableColumn(
               name: "",

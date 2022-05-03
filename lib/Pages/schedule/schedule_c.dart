@@ -15,13 +15,23 @@ class Schedule extends ChangeNotifier {
 
   String term = "";
   String termType = "";
-  String campus = "";
+  String _campus = "MONROE CAMPUS";
   String isStaff = "";
 
   List<dynamic> get data => _data;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
+  String get campus => _campus;
+
+  List<dynamic> get filteredForCampus =>
+      _data.where((course) => course["C"] == _campus).toList();
+
+  set campus(String c) {
+    _campus = c;
+    updateCampusMenuSelection();
+    notifyListeners();
+  }
 
   final String _baseUri = "web01.ladelta.edu";
   final String _baseUriScheduleDataPath = "/bizzuka/scheduleJSON.py";
@@ -37,9 +47,9 @@ class Schedule extends ChangeNotifier {
       queryParameters["termType"] = termType;
     }
 
-    if (campus.isNotEmpty) {
-      queryParameters["camp"] = campus;
-    }
+    // if (campus.isNotEmpty) {
+    //   queryParameters["camp"] = campus;
+    // }
 
     final _uri = Uri.https(_baseUri, _baseUriScheduleDataPath, queryParameters);
 
@@ -65,14 +75,9 @@ class Schedule extends ChangeNotifier {
           notifyListeners();
           // MAKE SURE THAT THE VISUALLY SELECTED TERM CODE IN THE BUTTON GROUP
           // IS THE CORRECT ONE FOR THE DATA JUST RETRIEVED.
-          final _scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
-          final _retrievedTerm = _data[0]["T"];
-          final _termsList = _scheduleTermsMenuController.termsList;
-          if (_termsList.contains(_retrievedTerm)) {
-            final _retrievedTermIndex = _termsList.indexOf(_retrievedTerm);
-            _scheduleTermsMenuController.groupButtonTermMenuController
-                .selectIndex(_retrievedTermIndex);
-          }
+          updateTermsMenuSelection();
+          // SAME FOR THE CAMPUS MENU
+          updateCampusMenuSelection();
         }
       } else {
         throw HttpException("${response.statusCode}");
@@ -88,6 +93,28 @@ class Schedule extends ChangeNotifier {
       } else {
         _error(e.toString());
       }
+    }
+  }
+
+  void updateTermsMenuSelection() {
+    final _scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
+    final _retrievedTerm = _data[0]["T"];
+    final _termsList = _scheduleTermsMenuController.termsList;
+    if (_termsList.contains(_retrievedTerm)) {
+      final _retrievedTermIndex = _termsList.indexOf(_retrievedTerm);
+      _scheduleTermsMenuController.groupButtonTermMenuController
+          .selectIndex(_retrievedTermIndex);
+    }
+  }
+
+  void updateCampusMenuSelection() {
+    final _scheduleCampusMenuController = Modular.get<ScheduleCampusMenu>();
+    final _selectedCampus = _campus;
+    final _campusList = _scheduleCampusMenuController.campusList;
+    if (_campusList.contains(_selectedCampus)) {
+      final _retrievedTermIndex = _campusList.indexOf(_selectedCampus);
+      _scheduleCampusMenuController.groupButtonCampusMenuController
+          .selectIndex(_retrievedTermIndex);
     }
   }
 
