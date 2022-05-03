@@ -46,9 +46,11 @@ class _SchedulePageState extends State<SchedulePage> {
     // print(_viewPortWidth);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: EasySearchBar(
         title: const Text("Schedule of Classes"),
-        centerTitle: true,
+        backgroundColor: AppColor.navy,
+        foregroundColor: AppColor.white,
+        // centerTitle: true,
         actions: [
           FadeInDown(
             preferences: const AnimationPreferences(
@@ -64,6 +66,10 @@ class _SchedulePageState extends State<SchedulePage> {
                 icon: themeProvider.icon),
           ),
         ],
+        onSearch: (value) {
+          scheduleProvider.searchString = value;
+          log.info("Searching for: $value");
+        },
       ),
       body: Center(
         child: Column(
@@ -237,15 +243,15 @@ class _SchedulePageState extends State<SchedulePage> {
                     : scheduleProvider.hasError
                         ? Text(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
-                        : scheduleProvider.filteredForCampus.isNotEmpty
+                        : scheduleProvider.filteredData.isNotEmpty
                             ? !_isSmallFormFactor
                                 ? const MyEasyTable()
                                 : ListView.builder(
-                                    itemCount: scheduleProvider
-                                        .filteredForCampus.length,
+                                    itemCount:
+                                        scheduleProvider.filteredData.length,
                                     itemBuilder: (context, index) {
-                                      final _course = scheduleProvider
-                                          .filteredForCampus[index];
+                                      final _course =
+                                          scheduleProvider.filteredData[index];
                                       return ListTile(
                                         dense: true,
                                         title: CourseCard(
@@ -304,7 +310,7 @@ class MyEasyTable extends StatelessWidget {
 
     // final _viewPortWidth = MediaQuery.of(context).size.width;
 
-    final _rows = scheduleProvider.filteredForCampus;
+    final _rows = scheduleProvider.filteredData;
 
     return Center(
       child: EasyTable(

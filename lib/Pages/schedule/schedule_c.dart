@@ -18,14 +18,25 @@ class Schedule extends ChangeNotifier {
   String _campus = "MONROE CAMPUS";
   String isStaff = "";
 
+  String _searchString = "";
+
   List<dynamic> get data => _data;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
   String get campus => _campus;
 
-  List<dynamic> get filteredForCampus =>
-      _data.where((course) => course["C"] == _campus).toList();
+  String get searchString => _searchString;
+  set searchString(String s) {
+    _searchString = s;
+    notifyListeners();
+  }
+
+  List<dynamic> get filteredData => _data
+      .where((course) => course["C"] == _campus)
+      .where((course) =>
+          course.toString().toLowerCase().contains(_searchString.toLowerCase()))
+      .toList();
 
   set campus(String c) {
     _campus = c;
