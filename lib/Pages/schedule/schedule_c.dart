@@ -364,6 +364,9 @@ class Schedule extends ChangeNotifier {
                         // .replaceAll("&gt;", "")
                         // .replaceAll("br/", "")
                         : "No description.",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
                 ),
               ],
