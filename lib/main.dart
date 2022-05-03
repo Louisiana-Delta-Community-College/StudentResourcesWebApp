@@ -2,7 +2,8 @@ import 'package:schedule/common/common.dart';
 
 import 'package:responsive_framework/responsive_framework.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(
     ModularApp(
       module: ModularConfig(),
@@ -15,6 +16,7 @@ class ModularConfig extends Module {
   @override
   List<Bind> get binds => [
         Bind.singleton((i) => AppTheme()),
+        Bind.singleton((i) => Persistence()),
         Bind.singleton((i) => Schedule()),
         Bind.singleton((i) => ScheduleTermsMenu()),
         Bind.singleton((i) => ScheduleCampusMenu()),
@@ -36,8 +38,20 @@ class ModularConfig extends Module {
       ];
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    Modular.get<Persistence>().init();
+    Modular.get<AppTheme>().init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

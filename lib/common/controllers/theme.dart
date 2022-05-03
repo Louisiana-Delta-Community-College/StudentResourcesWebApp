@@ -9,10 +9,19 @@ class AppTheme extends ChangeNotifier {
       ? const Icon(Icons.light_mode_sharp)
       : const Icon(Icons.dark_mode_sharp);
 
+  init() {
+    Modular.get<Persistence>().isDark
+        ? _themeMode = ThemeMode.dark
+        : ThemeMode.light;
+    notifyListeners();
+  }
+
   toggle() {
     _themeMode == ThemeMode.dark
         ? _themeMode = ThemeMode.light
         : _themeMode = ThemeMode.dark;
+    Modular.get<Persistence>().isDark =
+        _themeMode == ThemeMode.dark ? true : false;
     notifyListeners();
   }
 

@@ -30,6 +30,7 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
     final scheduleCampusMenuProvider = context.watch<ScheduleCampusMenu>();
     final themeProvider = context.watch<AppTheme>();
+
     // final myTableController = context.watch<MyTableController>();
 
     final _groupButtonCampusMenuController =
