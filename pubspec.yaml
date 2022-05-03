@@ -43,6 +43,7 @@ dependencies:
   talker: ^0.9.1
   url_launcher: ^6.1.0
   easy_search_bar: ^2.3.1
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:

@@ -355,12 +355,14 @@ class Schedule extends ChangeNotifier {
                   dense: true,
                   title: Text(
                     row["N"].toString().trim() != ""
-                        ? row["N"]
-                            .toString()
+                        ? parse(row["N"].toString())
+                            .body!
+                            .text
+                            // .toString()
                             .replaceAll("<br/>", "\n")
-                            .replaceAll("&lt;", "")
-                            .replaceAll("&gt;", "")
-                            .replaceAll("br/", "")
+                        // .replaceAll("&lt;", "")
+                        // .replaceAll("&gt;", "")
+                        // .replaceAll("br/", "")
                         : "No description.",
                   ),
                 ),
