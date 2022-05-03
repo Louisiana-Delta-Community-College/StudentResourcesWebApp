@@ -237,23 +237,29 @@ class _SchedulePageState extends State<SchedulePage> {
                     : scheduleProvider.hasError
                         ? Text(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
-                        : !_isSmallFormFactor
-                            ? const MyEasyTable()
-                            : ListView.builder(
-                                itemCount: scheduleProvider.data.length,
-                                itemBuilder: (context, index) {
-                                  final _course =
-                                      scheduleProvider.filteredForCampus[index];
-                                  return ListTile(
-                                    dense: true,
-                                    title: CourseCard(
-                                      course: _course,
-                                    ),
-                                    onTap: () => scheduleProvider
-                                        .showMoreInfoDialog(context, _course),
-                                  );
-                                },
-                              ),
+                        : scheduleProvider.filteredForCampus.isNotEmpty
+                            ? !_isSmallFormFactor
+                                ? const MyEasyTable()
+                                : ListView.builder(
+                                    itemCount: scheduleProvider
+                                        .filteredForCampus.length,
+                                    itemBuilder: (context, index) {
+                                      final _course = scheduleProvider
+                                          .filteredForCampus[index];
+                                      return ListTile(
+                                        dense: true,
+                                        title: CourseCard(
+                                          course: _course,
+                                        ),
+                                        onTap: () =>
+                                            scheduleProvider.showMoreInfoDialog(
+                                                context, _course),
+                                      );
+                                    },
+                                  )
+                            : Center(
+                                child: Text(
+                                    "No courses for this campus and term.")),
               ),
             )
           ],
