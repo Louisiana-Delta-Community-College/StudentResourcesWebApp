@@ -364,7 +364,7 @@ class Schedule extends ChangeNotifier {
                         // .replaceAll("&gt;", "")
                         // .replaceAll("br/", "")
                         : "No description.",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
@@ -482,8 +482,8 @@ class ScheduleCampusMenu extends ChangeNotifier {
   bool _isLoading = true;
   List _campusList = [];
 
-  bool _hasError = false;
-  String _errorMessage = "";
+  final bool _hasError = false;
+  final String _errorMessage = "";
 
   final GroupButtonController _groupButtonCampusMenuController =
       GroupButtonController();
@@ -514,7 +514,7 @@ class ScheduleCampusMenu extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
 
-    log.info(_campusList.toString());
+    // log.info(_campusList.toString());
   }
 
   // _error(String message) {
