@@ -48,6 +48,8 @@ class Schedule extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
+    final _scheduleCampusMenu = Modular.get<ScheduleCampusMenu>();
+
     try {
       final response = await http.get(_uri);
       if (response.statusCode == 200) {
@@ -57,6 +59,7 @@ class Schedule extends ChangeNotifier {
         if (_data.isEmpty) {
           _error("No data.");
         } else {
+          _scheduleCampusMenu.getMenuData();
           _isLoading = false;
 
           notifyListeners();
@@ -427,68 +430,47 @@ class ScheduleTermsMenu extends ChangeNotifier {
 class ScheduleCampusMenu extends ChangeNotifier {
   dynamic _data;
   bool _isLoading = true;
-  List _termsList = [];
+  List _campusList = [];
 
   bool _hasError = false;
   String _errorMessage = "";
 
-  final GroupButtonController _groupButtonTermMenuController =
+  final GroupButtonController _groupButtonCampusMenuController =
       GroupButtonController();
 
   get data => _data;
   bool get isLoading => _isLoading;
-  List get termsList => _termsList;
+  List get campusList => _campusList;
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
-  GroupButtonController get groupButtonTermMenuController =>
-      _groupButtonTermMenuController;
+  GroupButtonController get groupButtonCampusMenuController =>
+      _groupButtonCampusMenuController;
 
-  final String _baseUri = "web01.ladelta.edu";
-  final String _baseUriMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
-
-  Future generateMenuFromCampusesInScheduleData() async {
-    Map<String, dynamic> queryParameters = {};
-
-    final _uri = Uri.https(_baseUri, _baseUriMenuPath, queryParameters);
-
-    _errorMessage = "";
-    _hasError = false;
+  Future getMenuData() async {
     _isLoading = true;
     notifyListeners();
 
-    try {
-      final response = await http.get(_uri);
-      if (response.statusCode == 200) {
-        // response.body is already a JSON formatted string
-        // because of how the Python CGI page is coded.
-        _data = jsonDecode(response.body);
-        if (_data.toString() == "[]") {
-          _error("No data.");
-        } else {
-          _isLoading = false;
-          _termsList = [
-            for (final item in _data) item["Term"].toString(),
-          ];
-          notifyListeners();
-        }
-      } else {
-        throw HttpException("${response.statusCode}");
+    if (_campusList.isEmpty) {
+      final _scheduleData = Modular.get<Schedule>().data;
+
+      for (var element in _scheduleData) {
+        _campusList.add(element["C"]);
       }
-    } on HttpException {
-      _error("Unable to reach the server (bad URL?).");
-    } catch (e) {
-      if (e.toString() == "XMLHttpRequest error.") {
-        _error("Unable to reach the server (bad URL?).");
-      } else {
-        _error(e.toString());
-      }
+
+      // FILTER OUT ALL BUT UNIQUE BY USING SET
+      _campusList = _campusList.toSet().toList();
     }
+
+    _isLoading = false;
+    notifyListeners();
+
+    log.info(_campusList.toString());
   }
 
-  _error(String message) {
-    _isLoading = false;
-    _hasError = true;
-    _errorMessage = message;
-    notifyListeners();
-  }
+  // _error(String message) {
+  //   _isLoading = false;
+  //   _hasError = true;
+  //   _errorMessage = message;
+  //   notifyListeners();
+  // }
 }

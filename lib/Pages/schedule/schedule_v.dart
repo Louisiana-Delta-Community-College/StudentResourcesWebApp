@@ -28,8 +28,12 @@ class _SchedulePageState extends State<SchedulePage> {
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
     final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
+    final scheduleCampusMenuProvider = context.watch<ScheduleCampusMenu>();
     final themeProvider = context.watch<AppTheme>();
     // final myTableController = context.watch<MyTableController>();
+
+    final _groupButtonCampusMenuController =
+        scheduleCampusMenuProvider.groupButtonCampusMenuController;
 
     final _groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
@@ -65,10 +69,80 @@ class _SchedulePageState extends State<SchedulePage> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
+            // CAMPUS MENU
+            Container(
+                padding: const EdgeInsets.all(10),
+                child: scheduleCampusMenuProvider.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : scheduleCampusMenuProvider.hasError
+                        ? Text(scheduleCampusMenuProvider.errorMessage)
+                        : GroupButton(
+                            controller: _groupButtonCampusMenuController,
+                            buttons: scheduleCampusMenuProvider.campusList,
+                            isRadio: true,
+                            onSelected: (selected, index, ___) {
+                              // if (!scheduleProvider.isLoading) {
+                              //   scheduleProvider.term = selected.toString();
+                              //   scheduleProvider.getScheduleData();
+                              // }
+                            },
+                            options: const GroupButtonOptions(
+                              unselectedColor: AppColor.navy,
+                              unselectedTextStyle: TextStyle(
+                                color: AppColor.white,
+                              ),
+                              selectedColor: AppColor.bronze2,
+                              runSpacing: 0,
+                              spacing: 0,
+                              // borderRadius:
+                              //     BorderRadius.all(Radius.circular(10)),
+                            ),
+                            buttonIndexedBuilder: (isSelected, index, context) {
+                              return Container(
+                                margin: const EdgeInsets.all(0),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColor.bronze2
+                                      : AppColor.navy,
+                                  border: Border.all(
+                                      color: AppColor.bronze2, width: 2),
+                                  // borderRadius: index == 0
+                                  //     ? const BorderRadius.only(
+                                  //         topLeft: Radius.circular(10),
+                                  //         bottomLeft: Radius.circular(10))
+                                  //     : scheduleCampusMenuProvider
+                                  //                 .campusList[index] ==
+                                  //             scheduleCampusMenuProvider
+                                  //                 .campusList.last
+                                  //         ? const BorderRadius.only(
+                                  //             topRight: Radius.circular(10),
+                                  //             bottomRight: Radius.circular(10))
+                                  //         : null,
+                                ),
+                                child: Text(
+                                  scheduleCampusMenuProvider.campusList[index]
+                                      .toString()
+                                      .replaceAll("LDCC", "")
+                                      .replaceAll("CAMPUS", "")
+                                      .toTitleCase()
+                                      .trim(),
+                                  style: const TextStyle(
+                                      color: AppColor.white, fontSize: 12),
+                                ),
+                              );
+                            },
+                          )
+                // isSelected: [
+                //     for (final item in scheduleMenuProvider.data) true
+                //   ])
+                ),
+            // TERMS MENU
             Expanded(
-              flex: 20,
+              flex: 10,
               child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(10),
                   child: scheduleTermsMenuProvider.isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : scheduleTermsMenuProvider.hasError
