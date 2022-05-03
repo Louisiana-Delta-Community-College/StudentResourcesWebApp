@@ -1,5 +1,4 @@
 import 'package:schedule/common/common.dart';
-import 'package:schedule/config.dart';
 
 class AppTheme extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
