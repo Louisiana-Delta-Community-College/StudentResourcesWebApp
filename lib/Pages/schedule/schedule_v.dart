@@ -50,22 +50,22 @@ class _SchedulePageState extends State<SchedulePage> {
         title: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.dark_mode_sharp,
                 color: AppColor.navy,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.search,
                 color: AppColor.navy,
               ),
             ),
-            const Text("Schedule of Classes"),
+            Text("Schedule of Classes"),
           ],
         ),
         backgroundColor: AppColor.navy,
@@ -283,9 +283,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                       );
                                     },
                                   )
-                            : Center(
+                            : const Center(
                                 child: Text(
-                                    "No courses for this campus and term.")),
+                                    "No courses for this campus and term."),
+                              ),
               ),
             )
           ],
