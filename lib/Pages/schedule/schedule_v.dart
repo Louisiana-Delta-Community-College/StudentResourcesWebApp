@@ -425,12 +425,26 @@ class CourseCard extends StatelessWidget {
     // final Color _color = Theme.of(context).colorScheme.primary;
     const Color _color = AppColor.navy;
 
-    final friendlyName = "${course["SC"]} ${course["CN"]}";
-    final days = "${course["PTRMDS"].toString().trim()} to ${course["PTRMDE"]}";
-    final buildingAndRoom = "${course["B"]} - Room ${course["R"]}";
+    final subjectCode = course["SC"].toString().trim();
+    final courseNumber = course["CN"].toString().trim();
+    final friendlyName = subjectCode.isNotEmpty && courseNumber.isNotEmpty
+        ? "$subjectCode $courseNumber"
+        : "N/A";
+
+    final building = course["B"].toString().trim();
+    final room = course["R"].toString().trim();
+    var buildingAndRoom =
+        "${building.isNotEmpty ? building : "N/A"} - ${room.isNotEmpty ? room : "N/A"}";
+
+    final dateStart = course["PTRMDS"].toString().trim();
+    final dateEnd = course["PTRMDE"].toString().trim();
+    final days = dateStart.isNotEmpty && dateEnd.isNotEmpty
+        ? "$dateStart to $dateEnd"
+        : "N/A";
+
     var meetingTimes = "${course["TB"]} - ${course["TE"]}".trim();
     if (meetingTimes == "-") {
-      meetingTimes = "";
+      meetingTimes = "N/A";
     }
 
     return Column(
