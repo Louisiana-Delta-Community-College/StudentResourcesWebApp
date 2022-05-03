@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<AppTheme>();
     return MaterialApp.router(
-      title: 'Flutter Modular Demo',
+      title: 'LDCC',
       debugShowCheckedModeBanner: false,
       themeMode: themeProvider.themeMode,
       theme: themeProvider.light,
