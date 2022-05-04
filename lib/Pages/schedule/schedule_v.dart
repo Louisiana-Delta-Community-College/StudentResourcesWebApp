@@ -230,6 +230,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                       scheduleTermsMenuProvider.data[index]
                                               ["TermTy"]
                                           .toString();
+                                  scheduleTermsMenuProvider.selectedTermDesc =
+                                      selectedTermDesc.toString();
                                   // log.info(
                                   //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
                                   scheduleProvider.getScheduleData();

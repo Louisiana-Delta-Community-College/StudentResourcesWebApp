@@ -112,9 +112,16 @@ class Schedule extends ChangeNotifier {
   void updateTermsMenuSelection() {
     final _scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
     final _retrievedTerm = _data[0]["TD"];
+    var _selectedTermDesc = _scheduleTermsMenuController.selectedTermDesc;
+    if (_selectedTermDesc.isEmpty) {
+      _selectedTermDesc = _scheduleTermsMenuController.data
+          .where((e) => e["Desc"] == _retrievedTerm)
+          .toList()[0]["Desc"];
+    }
+    // log.info(_selectedTermDesc);
     final _termsList = _scheduleTermsMenuController.termsList;
-    if (_termsList.contains(_retrievedTerm)) {
-      final _retrievedTermIndex = _termsList.indexOf(_retrievedTerm);
+    if (_termsList.contains(_selectedTermDesc)) {
+      final _retrievedTermIndex = _termsList.indexOf(_selectedTermDesc);
       _scheduleTermsMenuController.groupButtonTermMenuController
           .selectIndex(_retrievedTermIndex);
     }
@@ -419,6 +426,8 @@ class ScheduleTermsMenu extends ChangeNotifier {
   bool _isLoading = true;
   List _termsList = [];
 
+  String _selectedTermDesc = "";
+
   bool _hasError = false;
   String _errorMessage = "";
 
@@ -429,9 +438,15 @@ class ScheduleTermsMenu extends ChangeNotifier {
   bool get isLoading => _isLoading;
   List get termsList => _termsList;
   bool get hasError => _hasError;
+  String get selectedTermDesc => _selectedTermDesc;
   String get errorMessage => _errorMessage;
   GroupButtonController get groupButtonTermMenuController =>
       _groupButtonTermMenuController;
+
+  set selectedTermDesc(String s) {
+    _selectedTermDesc = s;
+    notifyListeners();
+  }
 
   final String _baseUri = "web01.ladelta.edu";
   final String _baseUriMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
