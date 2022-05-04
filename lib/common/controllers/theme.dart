@@ -12,6 +12,10 @@ class AppTheme extends ChangeNotifier {
   Color get text =>
       _themeMode == ThemeMode.dark ? AppColor.white : AppColor.navy;
   Color get background =>
+      _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.bronze2;
+  Color get surface =>
+      _themeMode == ThemeMode.dark ? AppColor.bronze2 : AppColor.navy;
+  Color get onSurface =>
       _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.white;
 
   init() {
