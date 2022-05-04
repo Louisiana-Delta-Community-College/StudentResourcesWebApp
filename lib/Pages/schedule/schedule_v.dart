@@ -81,7 +81,13 @@ class _SchedulePageState extends State<SchedulePage> {
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [WebsafeSvg.asset("assets/images/logo.svg")],
+              children: [
+                Image.asset(
+                    _isSmallFormFactor
+                        ? "assets/images/mark.png"
+                        : "assets/images/logo.png",
+                    fit: BoxFit.fitHeight)
+              ],
             )
           ],
         ),
