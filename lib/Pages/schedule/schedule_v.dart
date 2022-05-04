@@ -528,20 +528,14 @@ class CourseCard extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: const [
               BoxShadow(
-                color: Colors.black45,
-                offset: Offset(
-                  5.0,
-                  5.0,
-                ),
-                blurRadius: 10.0,
-                spreadRadius: 3.0,
-              ), //BoxShadow
-              BoxShadow(
                 color: Colors.black,
-                offset: Offset(0.0, 0.0),
-                blurRadius: 10.0,
-                spreadRadius: 0.0,
-              ), //BoxShadow
+                blurRadius: 5.0, // soften the shadow
+                spreadRadius: 0.0, // extend the shadow
+                offset: Offset(
+                  3.0, // right horizontally
+                  3.0, // down Vertically
+                ),
+              )
             ],
             color: _borderColor,
             // borderRadius: const BorderRadius.all(Radius.circular(20)),
