@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
           const ResponsiveBreakpoint.resize(480, name: MOBILE),
           const ResponsiveBreakpoint.resize(800, name: TABLET),
           const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-          const ResponsiveBreakpoint.resize(2460, name: '4K'),
+          const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
         ],
       ),
     );

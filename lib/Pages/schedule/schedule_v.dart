@@ -265,9 +265,9 @@ class _SchedulePageState extends State<SchedulePage> {
                         ? Text(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
                         : scheduleProvider.filteredData.isNotEmpty
-                            ? !_isSmallFormFactor
-                                ? const MyEasyTable()
-                                : ListView.builder(
+                            ? _isSmallFormFactor && isMobile
+                                // MOBILE STYLE CARDS
+                                ? ListView.builder(
                                     itemCount:
                                         scheduleProvider.filteredData.length,
                                     itemBuilder: (context, index) {
@@ -284,9 +284,15 @@ class _SchedulePageState extends State<SchedulePage> {
                                       );
                                     },
                                   )
-                            : const Center(
+                                // SHOW REGULAR TABLE
+                                : const MyEasyTable()
+                            : Center(
                                 child: Text(
-                                    "No courses for this campus and term."),
+                                  scheduleProvider.searchString.isNotEmpty
+                                      ? "No results for that search."
+                                      : "No courses for this campus / term.",
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
               ),
             )

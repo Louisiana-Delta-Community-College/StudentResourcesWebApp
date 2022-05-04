@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:talker/talker.dart';
 
 export 'package:flutter/material.dart';
@@ -108,4 +110,14 @@ extension TitleCase on String {
       return "${match[0]?[0].toUpperCase()}${match[0]?.substring(1).toLowerCase()}";
     }).replaceAll(RegExp(r'(_|-)+'), ' ');
   }
+}
+
+bool get isMobile {
+  bool _isMobile = false;
+
+  if (Platform.isAndroid || Platform.isIOS) {
+    _isMobile = true;
+  }
+
+  return _isMobile;
 }
