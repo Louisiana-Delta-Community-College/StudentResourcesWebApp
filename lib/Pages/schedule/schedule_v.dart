@@ -478,8 +478,9 @@ class CourseCard extends StatelessWidget {
 
     final subjectCode = course["SC"].toString().trim();
     final courseNumber = course["CN"].toString().trim();
+    final courseTitle = course["CT"].toString().trim();
     final friendlyName = subjectCode.isNotEmpty && courseNumber.isNotEmpty
-        ? "$subjectCode $courseNumber"
+        ? "$subjectCode $courseNumber - $courseTitle"
         : "N/A";
 
     final building = course["B"].toString().trim();
@@ -504,7 +505,8 @@ class CourseCard extends StatelessWidget {
           heightFactor: .9,
           alignment: Alignment.centerLeft,
           child: Container(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(left: 15),
             child: Text(
               friendlyName,
               style: TextStyle(
@@ -513,12 +515,23 @@ class CourseCard extends StatelessWidget {
               ),
             ),
             height: 30,
-            width: 100,
+            // width: 300,
             decoration: BoxDecoration(
               color: _borderColor,
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(10),
               ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black,
+                  blurRadius: 5.0, // soften the shadow
+                  spreadRadius: 0.0, // extend the shadow
+                  offset: Offset(
+                    3.0, // right horizontally
+                    3.0, // down Vertically
+                  ),
+                )
+              ],
             ),
           ),
         ),
@@ -540,7 +553,6 @@ class CourseCard extends StatelessWidget {
             color: _borderColor,
             // borderRadius: const BorderRadius.all(Radius.circular(20)),
             borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(20),
               bottomRight: Radius.circular(20),
               bottomLeft: Radius.circular(20),
             ),
@@ -562,7 +574,7 @@ class CourseCard extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.meeting_room,
-                      size: 40,
+                      size: 35,
                       color: _textColor,
                     ),
                     const SizedBox(width: 10),
@@ -578,7 +590,7 @@ class CourseCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.calendar_month_outlined,
-                        size: 40, color: _textColor),
+                        size: 35, color: _textColor),
                     const SizedBox(width: 10),
                     Text(
                       days,
@@ -592,7 +604,7 @@ class CourseCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.watch_later_outlined,
-                        size: 40, color: _textColor),
+                        size: 35, color: _textColor),
                     const SizedBox(width: 10),
                     Text(
                       meetingTimes,
