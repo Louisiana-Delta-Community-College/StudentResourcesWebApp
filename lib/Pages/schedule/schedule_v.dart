@@ -379,6 +379,7 @@ class MyEasyTable extends StatelessWidget {
           columns: [
             EasyTableColumn(
               name: "",
+              width: 80,
               cellBuilder: (context, row) => Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -408,14 +409,19 @@ class MyEasyTable extends StatelessWidget {
               ),
             ),
             EasyTableColumn(
-                name: "CRN", stringValue: (row) => (row as Map)["CRN"]),
+              name: "CRN",
+              stringValue: (row) => (row as Map)["CRN"],
+              width: 60,
+            ),
             EasyTableColumn(
               name: "Subject",
               stringValue: (row) => (row as Map)["SC"],
+              width: 70,
             ),
             EasyTableColumn(
               name: "Course",
               stringValue: (row) => (row as Map)["CN"],
+              width: 70,
             ),
             EasyTableColumn(
               name: "Description",
@@ -425,47 +431,58 @@ class MyEasyTable extends StatelessWidget {
             EasyTableColumn(
               name: "Days",
               stringValue: (row) => (row as Map)["D"],
+              width: 50,
             ),
             EasyTableColumn(
               name: "Start",
               stringValue: (row) => (row as Map)["TB"],
+              width: 80,
             ),
             EasyTableColumn(
               name: "End",
               stringValue: (row) => (row as Map)["TE"],
+              width: 80,
             ),
             EasyTableColumn(
               name: "Building",
               stringValue: (row) => (row as Map)["B"],
+              width: 220,
             ),
             EasyTableColumn(
               name: "Room",
               stringValue: (row) => (row as Map)["R"],
+              width: 80,
             ),
             EasyTableColumn(
               name: "Teacher(s)",
               stringValue: (row) =>
                   (row as Map)["TN"].toString().replaceAll("<br/>", "\n"),
+              width: 150,
             ),
             EasyTableColumn(
               name: "Enrolled",
               stringValue: (row) => (row as Map)["E"],
+              width: 80,
             ),
             EasyTableColumn(
               name: "Date Start",
               stringValue: (row) => (row as Map)["PTRMDS"],
+              width: 100,
             ),
             EasyTableColumn(
               name: "Date End",
               stringValue: (row) => (row as Map)["PTRMDE"],
+              width: 100,
             ),
             EasyTableColumn(
               name: "Method",
               stringValue: (row) => (row as Map)["INSMC"],
+              width: 80,
             ),
             EasyTableColumn(
               name: "Added Fees",
               stringValue: (row) => (row as Map)["AF"],
+              width: 100,
             ),
           ],
         ),
