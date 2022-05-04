@@ -111,7 +111,7 @@ class Schedule extends ChangeNotifier {
 
   void updateTermsMenuSelection() {
     final _scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
-    final _retrievedTerm = _data[0]["T"];
+    final _retrievedTerm = _data[0]["TD"];
     final _termsList = _scheduleTermsMenuController.termsList;
     if (_termsList.contains(_retrievedTerm)) {
       final _retrievedTermIndex = _termsList.indexOf(_retrievedTerm);
@@ -121,14 +121,18 @@ class Schedule extends ChangeNotifier {
   }
 
   void updateCampusMenuSelection() {
+    int _termIndex = 0;
     final _scheduleCampusMenuController = Modular.get<ScheduleCampusMenu>();
     final _selectedCampus = _campus;
     final _campusList = _scheduleCampusMenuController.campusList;
     if (_campusList.contains(_selectedCampus)) {
-      final _retrievedTermIndex = _campusList.indexOf(_selectedCampus);
-      _scheduleCampusMenuController.groupButtonCampusMenuController
-          .selectIndex(_retrievedTermIndex);
+      _termIndex = _campusList.indexOf(_selectedCampus);
+    } else {
+      _campus = _campusList[0];
+      _termIndex = 0;
     }
+    _scheduleCampusMenuController.groupButtonCampusMenuController
+        .selectIndex(_termIndex);
   }
 
   _error(String message) {
@@ -502,16 +506,17 @@ class ScheduleCampusMenu extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    if (_campusList.isEmpty) {
-      final _scheduleData = Modular.get<Schedule>().data;
+    // if (_campusList.isEmpty) {
+    _campusList = [];
+    final _scheduleData = Modular.get<Schedule>().data;
 
-      for (var element in _scheduleData) {
-        _campusList.add(element["C"]);
-      }
-
-      // FILTER OUT ALL BUT UNIQUE BY USING SET
-      _campusList = _campusList.toSet().toList();
+    for (var element in _scheduleData) {
+      _campusList.add(element["C"]);
     }
+
+    // FILTER OUT ALL BUT UNIQUE BY USING SET
+    _campusList = _campusList.toSet().toList();
+    // }
 
     _isLoading = false;
     notifyListeners();
