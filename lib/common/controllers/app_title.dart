@@ -1,7 +1,7 @@
 import 'package:schedule/common/common.dart';
 
 class AppTitle extends ChangeNotifier {
-  String _titleBase = "LDCC";
+  final String _titleBase = "LDCC";
   String _title = "LDCC";
 
   String get title => _title;

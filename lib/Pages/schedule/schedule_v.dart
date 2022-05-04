@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
 
@@ -24,7 +23,7 @@ class _SchedulePageState extends State<SchedulePage> {
     Modular.get<ScheduleTermsMenu>().getMenuData();
     // Schedule app title to run in the future to allow `MyApp.build()`
     // to finish before updating.
-    Future.delayed(Duration(seconds: 1)).then((r) {
+    Future.delayed(const Duration(seconds: 1)).then((r) {
       // log.info("setting title");
       Modular.get<AppTitle>().title = "Schedule of Classes";
     });
@@ -60,7 +59,7 @@ class _SchedulePageState extends State<SchedulePage> {
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(
@@ -522,7 +521,7 @@ class CourseCard extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(left: 15),
+            padding: const EdgeInsets.only(left: 15),
             child: Text(
               friendlyName,
               style: TextStyle(
