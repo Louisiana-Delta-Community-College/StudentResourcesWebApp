@@ -21,6 +21,11 @@ class _SchedulePageState extends State<SchedulePage> {
     // isLoading status at the beginning of Schedule.getScheduleData()
     Modular.get<Schedule>().getScheduleData();
     Modular.get<ScheduleTermsMenu>().getMenuData();
+    // PAUSE TO ALLOW MyApp BUILD METHOD TO FINISH BEFORE UPDATING TITLE
+    Future.delayed(Duration(seconds: 1)).then((r) {
+      log.info("setting title");
+      Modular.get<AppTitle>().title = "Schedule of Classes";
+    });
     super.initState();
   }
 

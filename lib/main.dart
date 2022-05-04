@@ -15,6 +15,7 @@ void main() async {
 class ModularConfig extends Module {
   @override
   List<Bind> get binds => [
+        Bind.singleton((i) => AppTitle()),
         Bind.singleton((i) => AppTheme()),
         Bind.singleton((i) => Persistence()),
         Bind.singleton((i) => Schedule()),
@@ -56,8 +57,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<AppTheme>();
+    final titleProvider = context.watch<AppTitle>();
     return MaterialApp.router(
-      title: 'LDCC',
+      title: titleProvider.title,
       debugShowCheckedModeBanner: false,
       themeMode: themeProvider.themeMode,
       theme: themeProvider.light,
