@@ -71,6 +71,10 @@ class _SchedulePageState extends State<SchedulePage> {
         ),
         backgroundColor: AppColor.navy,
         foregroundColor: AppColor.white,
+        searchCursorColor: themeProvider.text,
+        searchBackIconTheme: IconThemeData(
+          color: themeProvider.text,
+        ),
         // centerTitle: true,
         actions: [
           FadeInDown(

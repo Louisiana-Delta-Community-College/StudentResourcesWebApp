@@ -9,6 +9,11 @@ class AppTheme extends ChangeNotifier {
       ? const Icon(Icons.light_mode_sharp)
       : const Icon(Icons.dark_mode_sharp);
 
+  Color get text =>
+      _themeMode == ThemeMode.dark ? AppColor.white : AppColor.navy;
+  Color get background =>
+      _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.white;
+
   init() {
     Modular.get<Persistence>().isDark
         ? _themeMode = ThemeMode.dark
