@@ -283,14 +283,19 @@ class _SchedulePageState extends State<SchedulePage> {
                                     itemBuilder: (context, index) {
                                       final _course =
                                           scheduleProvider.filteredData[index];
-                                      return ListTile(
-                                        dense: true,
-                                        title: CourseCard(
-                                          course: _course,
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 4, bottom: 4),
+                                        child: ListTile(
+                                          dense: true,
+                                          visualDensity: VisualDensity.compact,
+                                          title: CourseCard(
+                                            course: _course,
+                                          ),
+                                          onTap: () => scheduleProvider
+                                              .showMoreInfoDialog(
+                                                  context, _course),
                                         ),
-                                        onTap: () =>
-                                            scheduleProvider.showMoreInfoDialog(
-                                                context, _course),
                                       );
                                     },
                                   )
