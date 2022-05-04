@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
 
@@ -275,7 +276,7 @@ class _SchedulePageState extends State<SchedulePage> {
                         ? Text(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
                         : scheduleProvider.filteredData.isNotEmpty
-                            ? _isSmallFormFactor && isMobile
+                            ? _isSmallFormFactor
                                 // MOBILE STYLE CARDS
                                 ? ListView.builder(
                                     itemCount:
