@@ -55,25 +55,34 @@ class _SchedulePageState extends State<SchedulePage> {
 
     return Scaffold(
       appBar: EasySearchBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.dark_mode_sharp,
-                color: AppColor.navy,
-              ),
+        title: Stack(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.dark_mode_sharp,
+                    color: AppColor.navy,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.search,
+                    color: AppColor.navy,
+                  ),
+                ),
+                Text("Schedule of Classes"),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.search,
-                color: AppColor.navy,
-              ),
-            ),
-            Text("Schedule of Classes"),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [WebsafeSvg.asset("assets/images/logo.svg")],
+            )
           ],
         ),
         backgroundColor: AppColor.navy,

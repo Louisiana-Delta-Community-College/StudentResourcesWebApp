@@ -9,7 +9,7 @@ export 'package:flutter_animator/flutter_animator.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:easy_search_bar/easy_search_bar.dart';
 export 'package:get_storage/get_storage.dart' show GetStorage;
-
+export 'package:websafe_svg/websafe_svg.dart';
 export 'package:html/parser.dart' show parse;
 
 export 'package:schedule/config.dart';
