@@ -21,9 +21,10 @@ class _SchedulePageState extends State<SchedulePage> {
     // isLoading status at the beginning of Schedule.getScheduleData()
     Modular.get<Schedule>().getScheduleData();
     Modular.get<ScheduleTermsMenu>().getMenuData();
-    // PAUSE TO ALLOW MyApp BUILD METHOD TO FINISH BEFORE UPDATING TITLE
+    // Schedule app title to run in the future to allow `MyApp.build()`
+    // to finish before updating.
     Future.delayed(Duration(seconds: 1)).then((r) {
-      log.info("setting title");
+      // log.info("setting title");
       Modular.get<AppTitle>().title = "Schedule of Classes";
     });
     super.initState();
@@ -464,9 +465,11 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final String _courseName = "${course["SC"]} ${course["CN"]}";
-    final borderColor = AppColor.bronze2.withOpacity(.7);
+    // final borderColor = AppColor.bronze2.withOpacity(.7);
+    final Color _borderColor = Theme.of(context).colorScheme.primary;
     // final Color _color = Theme.of(context).colorScheme.primary;
-    const Color _color = AppColor.navy;
+    final Color _borderTextColor = Theme.of(context).colorScheme.onPrimary;
+    final Color _textColor = Theme.of(context).colorScheme.onBackground;
 
     final subjectCode = course["SC"].toString().trim();
     final courseNumber = course["CN"].toString().trim();
@@ -499,15 +502,15 @@ class CourseCard extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               friendlyName,
-              style: const TextStyle(
-                color: _color,
+              style: TextStyle(
+                color: _borderTextColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
             height: 30,
             width: 100,
             decoration: BoxDecoration(
-              color: borderColor,
+              color: _borderColor,
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(10),
               ),
@@ -535,7 +538,7 @@ class CourseCard extends StatelessWidget {
                 spreadRadius: 0.0,
               ), //BoxShadow
             ],
-            color: borderColor,
+            color: _borderColor,
             // borderRadius: const BorderRadius.all(Radius.circular(20)),
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(20),
@@ -549,7 +552,7 @@ class CourseCard extends StatelessWidget {
           //-----------------------------
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onSecondary,
+              color: Theme.of(context).colorScheme.background,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.all(10),
@@ -558,45 +561,45 @@ class CourseCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.meeting_room,
                       size: 40,
-                      color: _color,
+                      color: _textColor,
                     ),
                     const SizedBox(width: 10),
                     Text(
                       buildingAndRoom,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: _color,
+                        color: _textColor,
                       ),
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.calendar_month_outlined,
-                        size: 40, color: _color),
+                    Icon(Icons.calendar_month_outlined,
+                        size: 40, color: _textColor),
                     const SizedBox(width: 10),
                     Text(
                       days,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: _color,
+                        color: _textColor,
                       ),
                     ),
                   ],
                 ),
                 Row(
                   children: [
-                    const Icon(Icons.watch_later_outlined,
-                        size: 40, color: _color),
+                    Icon(Icons.watch_later_outlined,
+                        size: 40, color: _textColor),
                     const SizedBox(width: 10),
                     Text(
                       meetingTimes,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
-                        color: _color,
+                        color: _textColor,
                       ),
                     ),
                   ],
