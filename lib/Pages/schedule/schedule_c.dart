@@ -34,8 +34,10 @@ class Schedule extends ChangeNotifier {
 
   List<dynamic> get filteredData => _data
       .where((course) => course["C"] == _campus)
-      .where((course) =>
-          course.toString().toLowerCase().contains(_searchString.toLowerCase()))
+      .where((course) => course
+          .toString()
+          .toLowerCase()
+          .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
       .toList();
 
   set campus(String c) {
