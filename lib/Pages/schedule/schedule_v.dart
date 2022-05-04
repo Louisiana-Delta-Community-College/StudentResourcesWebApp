@@ -212,9 +212,26 @@ class _SchedulePageState extends State<SchedulePage> {
                               controller: _groupButtonTermMenuController,
                               buttons: scheduleTermsMenuProvider.termsList,
                               isRadio: true,
-                              onSelected: (selected, index, ___) {
+                              onSelected: (selectedTermDesc, index, ___) {
                                 if (!scheduleProvider.isLoading) {
-                                  scheduleProvider.term = selected.toString();
+                                  log.info(selectedTermDesc.toString());
+                                  // final selectedTermData =
+                                  //     scheduleTermsMenuProvider
+                                  //         .data
+                                  //         .where((e) =>
+                                  //             e["Term"] ==
+                                  //             selectedTermDesc.toString())
+                                  //         .toList();
+                                  scheduleProvider.term =
+                                      scheduleTermsMenuProvider.data[index]
+                                              ["Term"]
+                                          .toString();
+                                  scheduleProvider.termType =
+                                      scheduleTermsMenuProvider.data[index]
+                                              ["TermTy"]
+                                          .toString();
+                                  log.info(
+                                      "${scheduleProvider.term} / ${scheduleProvider.termType}");
                                   scheduleProvider.getScheduleData();
                                 }
                               },

@@ -57,7 +57,7 @@ class Schedule extends ChangeNotifier {
     }
 
     if (termType.isNotEmpty) {
-      queryParameters["termType"] = termType;
+      queryParameters["termty"] = termType;
     }
 
     // if (campus.isNotEmpty) {
@@ -411,7 +411,7 @@ class Schedule extends ChangeNotifier {
 }
 
 class ScheduleTermsMenu extends ChangeNotifier {
-  dynamic _data;
+  List<dynamic> _data = [];
   bool _isLoading = true;
   List _termsList = [];
 
@@ -421,7 +421,7 @@ class ScheduleTermsMenu extends ChangeNotifier {
   final GroupButtonController _groupButtonTermMenuController =
       GroupButtonController();
 
-  get data => _data;
+  List<dynamic> get data => _data;
   bool get isLoading => _isLoading;
   List get termsList => _termsList;
   bool get hasError => _hasError;
@@ -453,7 +453,7 @@ class ScheduleTermsMenu extends ChangeNotifier {
         } else {
           _isLoading = false;
           _termsList = [
-            for (final item in _data) item["Term"].toString(),
+            for (final item in _data) item["Desc"].toString(),
           ];
           notifyListeners();
         }
