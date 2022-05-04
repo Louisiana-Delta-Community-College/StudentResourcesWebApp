@@ -214,7 +214,7 @@ class _SchedulePageState extends State<SchedulePage> {
                               isRadio: true,
                               onSelected: (selectedTermDesc, index, ___) {
                                 if (!scheduleProvider.isLoading) {
-                                  log.info(selectedTermDesc.toString());
+                                  // log.info(selectedTermDesc.toString());
                                   // final selectedTermData =
                                   //     scheduleTermsMenuProvider
                                   //         .data
@@ -230,8 +230,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                       scheduleTermsMenuProvider.data[index]
                                               ["TermTy"]
                                           .toString();
-                                  log.info(
-                                      "${scheduleProvider.term} / ${scheduleProvider.termType}");
+                                  // log.info(
+                                  //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
                                   scheduleProvider.getScheduleData();
                                 }
                               },
