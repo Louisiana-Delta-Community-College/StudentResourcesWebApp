@@ -18,7 +18,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="LDCC">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,56 +32,38 @@
   <title>schedule</title>
   <link rel="manifest" href="manifest.json">
 
-  <style>
-    .loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
-    
-    .loader {
-      border: 16px solid #f3f3f3;
-      border-radius: 50%;
-      border: 15px solid ;
-      border-top: 16px solid rgba(140, 97, 55);
-      border-right: 16px solid rgb(007, 000, 052);
-      border-bottom: 16px solid rgba(140, 97, 55);
-      border-left: 16px solid rgb(007, 000, 052);
-      width: 120px;
-      height: 120px;
-      -webkit-animation: spin 2s linear infinite;
-      animation: spin 2s linear infinite;
-    }
-    
-    @-webkit-keyframes spin {
-      0% {
-        -webkit-transform: rotate(0deg);
-      }
-      100% {
-        -webkit-transform: rotate(360deg);
-      }
-    }
-    
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
 </head>
 <body>
-  <div class="loading">
-    <div class="loader"></div>
-  </div>
+  <canvas id="canvas"></canvas>
+    
+  <script src="https://unpkg.com/rive-js@0.7.4/dist/rive.min.js"></script>
+  <script>
+      const canvas = document.getElementById('canvas');
+      // When the window resizes, resize the canvas
+      window.addEventListener('resize', resizeCanvas, true);
+      function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      rive.Rive.new({
+          // src: 'https://cdn.rive.app/animations/off_road_car_v7.riv',
+          // src: 'off_road_car_v7.riv',
+          // src: 'assets/assets/rive/loading.riv',
+          src: "https://cdn.rive.app/animations/vehicles.riv",
+
+          canvas: canvas,
+          autoplay: true,
+          // specifies which artboard to use
+          // `artboard` causes the animation to not load
+          // artboard: 'New Artboard',
+          // which animations should be played and mixed together
+          // animations: ['Animation 1',],
+          layout: rive.Layout.new({fit: rive.Fit.Cover, alignment: rive.Alignment.Center}),
+      });
+
+      
+  </script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
