@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -531,6 +532,15 @@ class ScheduleCampusMenu extends ChangeNotifier {
 
     // FILTER OUT ALL BUT UNIQUE BY USING SET
     _campusList = _campusList.toSet().toList();
+
+    // SORT THE LIST
+    _campusList.sort((a, b) => a.compareTo(b));
+
+    // BUT MAKE SURE THAT "MONROE CAMPUS" IS ALWAYS FIRST IF IT IS IN THE LIST
+    if (_campusList.contains("MONROE CAMPUS")) {
+      _campusList.remove("MONROE CAMPUS");
+      _campusList.insert(0, "MONROE CAMPUS");
+    }
     // }
 
     _isLoading = false;
