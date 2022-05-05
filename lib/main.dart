@@ -23,6 +23,8 @@ class ModularConfig extends Module {
         Bind.singleton((i) => Schedule()),
         Bind.singleton((i) => ScheduleTermsMenu()),
         Bind.singleton((i) => ScheduleCampusMenu()),
+        // DIRECTORY BINDS
+        Bind.singleton((i) => Directory()),
       ];
 
   @override
@@ -48,8 +50,8 @@ class ModularConfig extends Module {
           transition: TransitionType.fadeIn,
         ),
         ChildRoute(
-          '/contacts',
-          child: (context, args) => const ContactsPage(),
+          '/directory',
+          child: (context, args) => const DirectoryPage(),
           transition: TransitionType.fadeIn,
         ),
         // ChildRoute('/other',
