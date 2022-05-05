@@ -3,15 +3,15 @@ import 'package:schedule/common/common.dart';
 
 import 'package:easy_table/easy_table.dart';
 
-class SchedulePage extends StatefulWidget {
+class ContactsPage extends StatefulWidget {
   final String isStaff;
-  const SchedulePage({Key? key, this.isStaff = ""}) : super(key: key);
+  const ContactsPage({Key? key, this.isStaff = ""}) : super(key: key);
 
   @override
-  State<SchedulePage> createState() => _SchedulePageState();
+  State<ContactsPage> createState() => _ContactsPageState();
 }
 
-class _SchedulePageState extends State<SchedulePage> {
+class _ContactsPageState extends State<ContactsPage> {
   @override
   initState() {
     // Pull in schedule data on page initialization.
@@ -25,7 +25,7 @@ class _SchedulePageState extends State<SchedulePage> {
     // to finish before updating.
     Future.delayed(const Duration(seconds: 1)).then((r) {
       // log.info("setting title");
-      Modular.get<AppTitle>().title = "Schedule of Classes";
+      Modular.get<AppTitle>().title = "Contacts";
     });
     super.initState();
   }
@@ -71,7 +71,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     color: AppColor.navy,
                   ),
                 ),
-                Text("Schedule of Classes"),
+                Text("Contacts"),
               ],
             ),
             Row(
@@ -320,7 +320,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                         child: ListTile(
                                           dense: true,
                                           visualDensity: VisualDensity.compact,
-                                          title: CourseCard(
+                                          title: ContactsCard(
                                             course: _course,
                                           ),
                                           onTap: () => scheduleProvider
@@ -331,7 +331,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     },
                                   )
                                 // SHOW REGULAR TABLE
-                                : const ScheduleEasyTable()
+                                : const ContactsEasyTable()
                             : Center(
                                 child: Text(
                                   scheduleProvider.searchString.isNotEmpty
@@ -376,8 +376,8 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 }
 
-class ScheduleEasyTable extends StatelessWidget {
-  const ScheduleEasyTable({Key? key}) : super(key: key);
+class ContactsEasyTable extends StatelessWidget {
+  const ContactsEasyTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -509,8 +509,8 @@ class ScheduleEasyTable extends StatelessWidget {
   }
 }
 
-class CourseCard extends StatelessWidget {
-  const CourseCard({
+class ContactsCard extends StatelessWidget {
+  const ContactsCard({
     Key? key,
     this.course = const {},
   }) : super(key: key);

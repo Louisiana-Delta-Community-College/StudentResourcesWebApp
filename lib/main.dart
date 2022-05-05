@@ -27,19 +27,31 @@ class ModularConfig extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        WildcardRoute(child: (context, args) => const NotFoundPage()),
+        WildcardRoute(
+          child: (context, args) => const NotFoundPage(),
+          transition: TransitionType.fadeIn,
+        ),
         ChildRoute(
           '/',
           child: (context, args) => const HomePage(),
         ),
-        ChildRoute('/schedule',
-            child: (context, args) => const SchedulePage(),
-            transition: TransitionType.fadeIn),
-        ChildRoute('/schedule/:isStaff',
-            child: (context, args) => SchedulePage(
-                  isStaff: args.params["isStaff"],
-                ),
-            transition: TransitionType.fadeIn),
+        ChildRoute(
+          '/schedule',
+          child: (context, args) => const SchedulePage(),
+          transition: TransitionType.fadeIn,
+        ),
+        ChildRoute(
+          '/schedule/:isStaff',
+          child: (context, args) => SchedulePage(
+            isStaff: args.params["isStaff"],
+          ),
+          transition: TransitionType.fadeIn,
+        ),
+        ChildRoute(
+          '/contacts',
+          child: (context, args) => const ContactsPage(),
+          transition: TransitionType.fadeIn,
+        ),
         // ChildRoute('/other',
         //     child: (context, args) => const Other(),
         //     transition: TransitionType.fadeIn),
