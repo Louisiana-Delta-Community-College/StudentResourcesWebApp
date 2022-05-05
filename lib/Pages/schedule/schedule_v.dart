@@ -46,9 +46,6 @@ class _SchedulePageState extends State<SchedulePage> {
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
     // double _tableFontSize = 10;
-    final _viewPortWidth = MediaQuery.of(context).size.width;
-
-    final _isSmallFormFactor = _viewPortWidth <= 800;
 
     // print(_viewPortWidth);
 
@@ -82,7 +79,7 @@ class _SchedulePageState extends State<SchedulePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(
-                    _isSmallFormFactor
+                    isSmallFormFactor(context)
                         ? "assets/images/mark.png"
                         : "assets/images/logo.png",
                     fit: BoxFit.fitHeight)
@@ -309,7 +306,7 @@ class _SchedulePageState extends State<SchedulePage> {
                         ? Text(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
                         : scheduleProvider.filteredData.isNotEmpty
-                            ? _isSmallFormFactor
+                            ? isSmallFormFactor(context)
                                 // MOBILE STYLE CARDS
                                 ? ListView.builder(
                                     itemCount:

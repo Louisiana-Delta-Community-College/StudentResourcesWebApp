@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:flutter/material.dart';
 
 import 'package:talker/talker.dart';
 
@@ -120,4 +121,12 @@ bool get isMobile {
   }
 
   return _isMobile;
+}
+
+bool isSmallFormFactor(context) {
+  var _isSmallFormFactor = false;
+  final _viewPortWidth = MediaQuery.of(context).size.width;
+
+  _isSmallFormFactor = _viewPortWidth <= 800;
+  return _isSmallFormFactor;
 }
