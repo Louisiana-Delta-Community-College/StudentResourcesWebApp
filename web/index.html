@@ -47,18 +47,20 @@
       }
       resizeCanvas();
       rive.Rive.new({
-          // src: 'https://cdn.rive.app/animations/off_road_car_v7.riv',
-          // src: 'off_road_car_v7.riv',
-          // src: 'assets/assets/rive/loading.riv',
-          src: "https://cdn.rive.app/animations/vehicles.riv",
-
+          // src: "https://cdn.rive.app/animations/vehicles.riv",
+          // dot_wave
+          // src: 'assets/assets/rive/dot_wave.riv',
+          // which animations should be played and mixed together
+          // animations: ["Animation 1"],
+          // elastic_circle
+          src: "assets/assets/rive/elastic_circle.riv",
+          // which animations should be played and mixed together
+          animations: ['infinite 2',],
           canvas: canvas,
           autoplay: true,
           // specifies which artboard to use
           // `artboard` causes the animation to not load
           // artboard: 'New Artboard',
-          // which animations should be played and mixed together
-          // animations: ['Animation 1',],
           layout: rive.Layout.new({fit: rive.Fit.Cover, alignment: rive.Alignment.Center}),
       });
 

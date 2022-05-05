@@ -72,7 +72,8 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/mark.png
-    - assets/rive/loading.riv
+    - assets/rive/dot_wave.riv
+    - assets/rive/elastic_circle.riv
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
