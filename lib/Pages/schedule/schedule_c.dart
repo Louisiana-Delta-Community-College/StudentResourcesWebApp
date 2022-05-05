@@ -77,21 +77,36 @@ class Schedule extends ChangeNotifier {
     try {
       final response = await http.get(_uri);
       if (response.statusCode == 200) {
-        // response.body is already a JSON formatted string
-        // because of how the Python CGI page is coded.
-        _data = jsonDecode(response.body) as List<dynamic>;
-        if (_data.isEmpty) {
-          _error("No data.");
+        // final _responseTest =
+        //     '{"success": false, "message": "Error connecting to the database."}';
+        if (response.body.length < 200) {
+          final _checkError = jsonDecode(response.body) as Map<String, dynamic>;
+          if (_checkError.containsKey("success") &&
+              _checkError["success"] == false) {
+            _isLoading = false;
+            _scheduleCampusMenu.isLoading = false;
+            _scheduleCampusMenu._campusList = ["None"];
+            notifyListeners();
+            _error(_checkError["message"].toString());
+          }
         } else {
-          _scheduleCampusMenu.getMenuData();
-          _isLoading = false;
+          // response.body is already a JSON formatted string
+          // because of how the Python CGI page is coded.
+          _data = jsonDecode(response.body) as List<dynamic>;
+          // log.info(_data.runtimeType.toString());
+          if (_data.isEmpty) {
+            _error("No data.");
+          } else {
+            _scheduleCampusMenu.getMenuData();
+            _isLoading = false;
 
-          notifyListeners();
-          // MAKE SURE THAT THE VISUALLY SELECTED TERM CODE IN THE BUTTON GROUP
-          // IS THE CORRECT ONE FOR THE DATA JUST RETRIEVED.
-          updateTermsMenuSelection();
-          // SAME FOR THE CAMPUS MENU
-          updateCampusMenuSelection();
+            notifyListeners();
+            // MAKE SURE THAT THE VISUALLY SELECTED TERM CODE IN THE BUTTON GROUP
+            // IS THE CORRECT ONE FOR THE DATA JUST RETRIEVED.
+            updateTermsMenuSelection();
+            // SAME FOR THE CAMPUS MENU
+            updateCampusMenuSelection();
+          }
         }
       } else {
         throw HttpException("${response.statusCode}");
@@ -105,7 +120,16 @@ class Schedule extends ChangeNotifier {
           "Expected a value of type 'List<dynamic>', but got one of type '_JsonMap'") {
         _error("Error connecting to database.");
       } else {
-        _error(e.toString());
+        try {
+          // _data = jsonDecode(response.body) as List<dynamic>;
+          // _data = [
+          //   jsonDecode(
+          //       '{"success": false, "message": "Error connecting to the database."}')
+          // ] as List<Map<String, dynamic>>;
+          log.info(_data.runtimeType.toString());
+        } catch (e) {
+          _error(e.toString());
+        }
       }
     }
   }
@@ -517,6 +541,11 @@ class ScheduleCampusMenu extends ChangeNotifier {
   String get errorMessage => _errorMessage;
   GroupButtonController get groupButtonCampusMenuController =>
       _groupButtonCampusMenuController;
+
+  set isLoading(bool s) {
+    _isLoading = s;
+    notifyListeners();
+  }
 
   Future getMenuData() async {
     _isLoading = true;
