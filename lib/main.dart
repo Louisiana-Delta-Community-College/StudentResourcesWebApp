@@ -15,9 +15,11 @@ void main() async {
 class ModularConfig extends Module {
   @override
   List<Bind> get binds => [
+        // APP-WIDE BINDS
         Bind.singleton((i) => AppTitle()),
         Bind.singleton((i) => AppTheme()),
         Bind.singleton((i) => Persistence()),
+        // SCHEDULE BINDS
         Bind.singleton((i) => Schedule()),
         Bind.singleton((i) => ScheduleTermsMenu()),
         Bind.singleton((i) => ScheduleCampusMenu()),
@@ -37,6 +39,7 @@ class ModularConfig extends Module {
                   isStaff: args.params["isStaff"],
                 ),
             transition: TransitionType.fadeIn),
+        WildcardRoute(child: (context, args) => const NotFoundPage())
         // ChildRoute('/other',
         //     child: (context, args) => const Other(),
         //     transition: TransitionType.fadeIn),
