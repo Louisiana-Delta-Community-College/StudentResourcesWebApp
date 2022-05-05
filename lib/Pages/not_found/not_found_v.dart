@@ -5,6 +5,7 @@ class NotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<AppTheme>();
     return Scaffold(
       appBar: AppBar(
         title: Stack(
@@ -31,22 +32,22 @@ class NotFoundPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text(
+            Text(
               "404 Error",
               style: TextStyle(
                 fontSize: 80,
                 fontWeight: FontWeight.w500,
                 fontFamily: "DMSerifDisplay",
-                color: AppColor.navy,
+                color: themeProvider.text,
               ),
             ),
-            const Text(
+            Text(
               "The page you're looking for doesn't exist.",
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.w500,
                 fontFamily: "DMSerifDisplay",
-                color: AppColor.navy,
+                color: themeProvider.text,
               ),
             ),
             const Padding(
