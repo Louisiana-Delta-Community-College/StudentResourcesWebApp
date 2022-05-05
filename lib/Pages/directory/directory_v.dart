@@ -155,7 +155,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                 child: Text(
                                   directoryProvider.searchString.isNotEmpty
                                       ? "No results for that search."
-                                      : "No courses for this campus / term.",
+                                      : "No contacts found",
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -216,41 +216,41 @@ class ContactsEasyTable extends StatelessWidget {
               name: "Name",
               stringValue: (row) =>
                   "${(row as Map)["LastName"]}, ${row["FirstName"]}",
-              width: 60,
+              width: 200,
             ),
             EasyTableColumn(
               name: "Phone Number",
               stringValue: (row) => (row as Map)["PhoneNumber"],
-              width: 70,
+              width: 130,
             ),
             EasyTableColumn(
               name: "Title",
               stringValue: (row) => (row as Map)["JobTitle"],
-              width: 70,
+              width: 200,
             ),
             EasyTableColumn(
               name: "Department",
               stringValue: (row) => (row as Map)["Department"],
-              width: 250,
+              width: 260,
             ),
             EasyTableColumn(
               name: "Email",
               stringValue: (row) => (row as Map)["EmailAddress"],
-              width: 50,
+              width: 230,
             ),
             EasyTableColumn(
               name: "Campus",
               stringValue: (row) => (row as Map)["Campus"],
-              width: 80,
+              width: 130,
             ),
             EasyTableColumn(
               name: "Office",
               stringValue: (row) => (row as Map)["Office"],
-              width: 80,
+              width: 100,
             ),
           ],
         ),
-        columnsFit: true,
+        columnsFit: viewPortWidth(context) >= 1300 ? true : false,
         visibleRowsCount: 20,
       ),
     );

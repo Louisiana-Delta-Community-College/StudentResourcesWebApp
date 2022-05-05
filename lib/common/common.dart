@@ -125,10 +125,15 @@ bool get isMobile {
   return _isMobile;
 }
 
+double viewPortWidth(context) {
+  double _viewPortWidth = double.infinity;
+  _viewPortWidth = MediaQuery.of(context).size.width;
+  return _viewPortWidth;
+}
+
 bool isSmallFormFactor(context) {
   var _isSmallFormFactor = false;
-  final _viewPortWidth = MediaQuery.of(context).size.width;
-
+  final _viewPortWidth = viewPortWidth(context);
   _isSmallFormFactor = _viewPortWidth <= 800;
   return _isSmallFormFactor;
 }
