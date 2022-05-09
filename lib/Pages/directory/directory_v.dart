@@ -3,14 +3,16 @@ import 'package:schedule/common/common.dart';
 import 'package:easy_table/easy_table.dart';
 
 class DirectoryPage extends StatefulWidget {
-  final String isStaff;
-  const DirectoryPage({Key? key, this.isStaff = ""}) : super(key: key);
+  final String selectedCampus;
+  const DirectoryPage({Key? key, this.selectedCampus = ""}) : super(key: key);
 
   @override
   State<DirectoryPage> createState() => _DirectoryPageState();
 }
 
 class _DirectoryPageState extends State<DirectoryPage> {
+  String titleAppendedCampus = "";
+
   @override
   initState() {
     // Pull in schedule data on page initialization.
@@ -23,7 +25,11 @@ class _DirectoryPageState extends State<DirectoryPage> {
     // to finish before updating.
     Future.delayed(const Duration(seconds: 1)).then((r) {
       // log.info("setting title");
-      Modular.get<AppTitle>().title = "Directory";
+      if (widget.selectedCampus.isNotEmpty) {
+        titleAppendedCampus =
+            " - ${Uri.decodeComponent(widget.selectedCampus).toString().toTitleCase()}";
+      }
+      Modular.get<AppTitle>().title = "Directory$titleAppendedCampus";
     });
     super.initState();
   }
@@ -33,6 +39,9 @@ class _DirectoryPageState extends State<DirectoryPage> {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
 
+    directoryProvider.selectedCampus =
+        Uri.decodeComponent(widget.selectedCampus);
+
     return Scaffold(
       drawer: const NavBar(),
       appBar: EasySearchBar(
@@ -41,8 +50,8 @@ class _DirectoryPageState extends State<DirectoryPage> {
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Padding(
+              children: [
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.dark_mode_sharp,
@@ -57,7 +66,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                 //     color: AppColor.navy,
                 //   ),
                 // ),
-                Text("Directory"),
+                Text("Directory$titleAppendedCampus"),
               ],
             ),
             Row(

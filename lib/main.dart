@@ -54,6 +54,13 @@ class ModularConfig extends Module {
           child: (context, args) => const DirectoryPage(),
           transition: TransitionType.fadeIn,
         ),
+        ChildRoute(
+          '/directory/:campus',
+          child: (context, args) => DirectoryPage(
+            selectedCampus: args.params["campus"],
+          ),
+          transition: TransitionType.fadeIn,
+        ),
         // ChildRoute('/other',
         //     child: (context, args) => const Other(),
         //     transition: TransitionType.fadeIn),

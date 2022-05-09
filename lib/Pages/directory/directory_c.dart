@@ -13,6 +13,8 @@ class Directory extends ChangeNotifier {
 
   String _searchString = "";
 
+  String _selectedCampus = "";
+
   List<dynamic> get data => _data;
   bool get isLoading => _isLoading;
   bool get hasError => _hasError;
@@ -24,7 +26,16 @@ class Directory extends ChangeNotifier {
     notifyListeners();
   }
 
+  set selectedCampus(String s) {
+    _selectedCampus = s;
+    notifyListeners();
+  }
+
   List<dynamic> get filteredData => _data
+      .where((contact) => _selectedCampus.isNotEmpty
+          ? contact["Campus"].toString().toLowerCase() ==
+              _selectedCampus.toLowerCase()
+          : true)
       .where((contact) => contact
           .toString()
           .toLowerCase()
