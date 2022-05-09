@@ -7,3 +7,5 @@ class AppColor {
   static const bronze = Color.fromARGB(255, 104, 73, 42);
   static const bronze2 = Color.fromARGB(255, 140, 97, 55);
 }
+
+const String mainWebSite = "https://www.ladelta.edu";

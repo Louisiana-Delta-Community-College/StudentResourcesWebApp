@@ -28,7 +28,7 @@ class NavBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              launchUrl(Uri.parse("https://www.ladelta.edu"));
+              launchUrl(Uri.parse(mainWebSite));
             },
           ),
           ListTile(
