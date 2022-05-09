@@ -34,6 +34,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
     final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
+      drawer: NavBar(),
       appBar: EasySearchBar(
         title: Stack(
           children: [
@@ -48,13 +49,14 @@ class _DirectoryPageState extends State<DirectoryPage> {
                     color: AppColor.navy,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.search,
-                    color: AppColor.navy,
-                  ),
-                ),
+                // REMOVE ONE PADDING-ICON DUE TO NAV BAR HAMBURGER MENU
+                // Padding(
+                //   padding: EdgeInsets.all(8.0),
+                //   child: Icon(
+                //     Icons.search,
+                //     color: AppColor.navy,
+                //   ),
+                // ),
                 Text("Directory"),
               ],
             ),

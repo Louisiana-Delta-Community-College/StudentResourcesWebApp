@@ -23,6 +23,7 @@ export 'package:schedule/Pages/schedule/schedule_c.dart';
 export 'package:schedule/Pages/directory/directory_c.dart';
 
 final log = Talker();
+// final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
 String? encodeQueryParameters(Map<String, String> params) {
   return params.entries

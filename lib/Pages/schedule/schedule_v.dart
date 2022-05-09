@@ -50,6 +50,8 @@ class _SchedulePageState extends State<SchedulePage> {
     // print(_viewPortWidth);
 
     return Scaffold(
+      // key: globalKey,
+      drawer: NavBar(),
       appBar: EasySearchBar(
         title: Stack(
           children: [
@@ -64,13 +66,14 @@ class _SchedulePageState extends State<SchedulePage> {
                     color: AppColor.navy,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.search,
-                    color: AppColor.navy,
-                  ),
-                ),
+                // REMOVE ONE PADDING-ICON DUE TO NAV BAR HAMBURGER MENU
+                // Padding(
+                //   padding: EdgeInsets.all(8.0),
+                //   child: Icon(
+                //     Icons.search,
+                //     color: AppColor.navy,
+                //   ),
+                // ),
                 Text("Schedule of Classes"),
               ],
             ),
@@ -78,11 +81,16 @@ class _SchedulePageState extends State<SchedulePage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(
-                    isSmallFormFactor(context)
-                        ? "assets/images/mark.png"
-                        : "assets/images/logo.png",
-                    fit: BoxFit.fitHeight)
+                InkWell(
+                  // onTap: () {
+                  //   globalKey.currentState!.openDrawer();
+                  // },
+                  child: Image.asset(
+                      isSmallFormFactor(context)
+                          ? "assets/images/mark.png"
+                          : "assets/images/logo.png",
+                      fit: BoxFit.fitHeight),
+                )
               ],
             )
           ],
