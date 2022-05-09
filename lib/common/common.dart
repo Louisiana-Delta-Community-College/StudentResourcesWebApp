@@ -32,7 +32,7 @@ String? encodeQueryParameters(Map<String, String> params) {
       .join('&');
 }
 
-List<String> titleCaseExceptions = [
+const List<String> titleCaseExceptions = [
   'a',
   'abaft',
   'about',
@@ -95,7 +95,8 @@ List<String> titleCaseExceptions = [
   'vice',
   'with',
   'worth',
-  'the","and',
+  'the',
+  'and',
   'nor',
   'or',
   'yet',
