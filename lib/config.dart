@@ -9,3 +9,8 @@ class AppColor {
 }
 
 const String mainWebSite = "https://www.ladelta.edu";
+
+const String jsonProviderBaseUri = "web01.ladelta.edu";
+const String jsonProviderTermMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
+const String jsonProviderSchedulePath = "/bizzuka/scheduleJSON.py";
+const String jsonProviderDirectoryPath = "/bizzuka/directoryJSON.py";

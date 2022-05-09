@@ -31,13 +31,11 @@ class Directory extends ChangeNotifier {
           .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
       .toList();
 
-  final String _baseUri = "web01.ladelta.edu";
-  final String _baseUriScheduleDataPath = "/bizzuka/directoryJSON.py";
-
   Future getDirectoryData() async {
     Map<String, dynamic> queryParameters = {};
 
-    final _uri = Uri.https(_baseUri, _baseUriScheduleDataPath, queryParameters);
+    final _uri = Uri.https(
+        jsonProviderBaseUri, jsonProviderDirectoryPath, queryParameters);
 
     _errorMessage = "";
     _hasError = false;

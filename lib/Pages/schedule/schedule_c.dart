@@ -46,9 +46,6 @@ class Schedule extends ChangeNotifier {
     notifyListeners();
   }
 
-  final String _baseUri = "web01.ladelta.edu";
-  final String _baseUriScheduleDataPath = "/bizzuka/scheduleJSON.py";
-
   Future getScheduleData() async {
     Map<String, dynamic> queryParameters = {};
 
@@ -64,7 +61,8 @@ class Schedule extends ChangeNotifier {
     //   queryParameters["camp"] = campus;
     // }
 
-    final _uri = Uri.https(_baseUri, _baseUriScheduleDataPath, queryParameters);
+    final _uri = Uri.https(
+        jsonProviderBaseUri, jsonProviderSchedulePath, queryParameters);
 
     _errorMessage = "";
     _hasError = false;
@@ -472,13 +470,11 @@ class ScheduleTermsMenu extends ChangeNotifier {
     notifyListeners();
   }
 
-  final String _baseUri = "web01.ladelta.edu";
-  final String _baseUriMenuPath = "/bizzuka/scheduleSideMenuJSON.py";
-
   Future getMenuData() async {
     Map<String, dynamic> queryParameters = {};
 
-    final _uri = Uri.https(_baseUri, _baseUriMenuPath, queryParameters);
+    final _uri = Uri.https(
+        jsonProviderBaseUri, jsonProviderTermMenuPath, queryParameters);
 
     _errorMessage = "";
     _hasError = false;
