@@ -37,7 +37,8 @@ class Schedule extends ChangeNotifier {
       .where((course) => course
           .toString()
           .toLowerCase()
-          .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
+          // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
+          .contains(RegExp(_searchString, caseSensitive: false)))
       .toList();
 
   set campus(String c) {

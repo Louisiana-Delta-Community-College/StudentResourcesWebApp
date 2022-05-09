@@ -39,7 +39,8 @@ class Directory extends ChangeNotifier {
       .where((contact) => contact
           .toString()
           .toLowerCase()
-          .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
+          // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
+          .contains(RegExp(_searchString, caseSensitive: false)))
       .toList();
 
   Future getDirectoryData() async {
