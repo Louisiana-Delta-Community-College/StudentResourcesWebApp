@@ -23,12 +23,14 @@ class _DirectoryPageState extends State<DirectoryPage> {
     Modular.get<Directory>().getDirectoryData();
     // Schedule app title to run in the future to allow `MyApp.build()`
     // to finish before updating.
+    if (widget.selectedCampus.isNotEmpty) {
+      titleAppendedCampus =
+          " - ${widget.selectedCampus.toString().replaceAll("%20", " ").toTitleCase()}";
+    }
     Future.delayed(const Duration(seconds: 1)).then((r) {
       // log.info("setting title");
-      if (widget.selectedCampus.isNotEmpty) {
-        titleAppendedCampus =
-            " - ${Uri.decodeComponent(widget.selectedCampus).toString().toTitleCase()}";
-      }
+      Modular.get<Directory>().selectedCampus =
+          Uri.decodeComponent(widget.selectedCampus);
       Modular.get<AppTitle>().title = "Directory$titleAppendedCampus";
     });
     super.initState();
@@ -38,9 +40,6 @@ class _DirectoryPageState extends State<DirectoryPage> {
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
-
-    directoryProvider.selectedCampus =
-        Uri.decodeComponent(widget.selectedCampus);
 
     return Scaffold(
       drawer: const NavBar(),
