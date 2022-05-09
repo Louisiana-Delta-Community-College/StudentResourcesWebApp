@@ -34,7 +34,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
     final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
-      drawer: NavBar(),
+      drawer: const NavBar(),
       appBar: EasySearchBar(
         title: Stack(
           children: [

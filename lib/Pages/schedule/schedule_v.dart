@@ -51,7 +51,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
     return Scaffold(
       // key: globalKey,
-      drawer: NavBar(),
+      drawer: const NavBar(),
       appBar: EasySearchBar(
         title: Stack(
           children: [
