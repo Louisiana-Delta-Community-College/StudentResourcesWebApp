@@ -57,6 +57,7 @@ const List<String> titleCaseExceptions = [
   'from',
   'given',
   'in',
+  'it',
   'into',
   'lest',
   'like',
