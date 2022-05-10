@@ -223,21 +223,21 @@ class ContactsEasyTable extends StatelessWidget {
           rows: _rows,
           columns: [
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Name",
               stringValue: (row) =>
                   "${(row as Map)["LastName"]}, ${row["FirstName"]}",
               width: 200,
             ),
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Phone Number",
               cellBuilder: (context, row) => InkWell(
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Text(
                     (row as Map)["PhoneNumber"],
-                    style: TextStyle(
+                    style: const TextStyle(
                       decoration: TextDecoration.underline,
                     ),
                   ),
@@ -247,26 +247,26 @@ class ContactsEasyTable extends StatelessWidget {
               width: 130,
             ),
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Title",
               stringValue: (row) => (row as Map)["JobTitle"],
               width: 200,
             ),
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Department",
               stringValue: (row) => (row as Map)["Department"],
               width: 260,
             ),
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Email",
               cellBuilder: (context, row) => InkWell(
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Text(
                     (row as Map)["EmailAddress"],
-                    style: TextStyle(
+                    style: const TextStyle(
                       decoration: TextDecoration.underline,
                     ),
                   ),
@@ -277,13 +277,13 @@ class ContactsEasyTable extends StatelessWidget {
               width: 230,
             ),
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Campus",
               stringValue: (row) => (row as Map)["Campus"],
               width: 130,
             ),
             EasyTableColumn(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               name: "Office",
               stringValue: (row) => (row as Map)["Office"],
               width: 100,
