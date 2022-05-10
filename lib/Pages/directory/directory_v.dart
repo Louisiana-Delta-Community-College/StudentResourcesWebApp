@@ -144,7 +144,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                     itemCount:
                                         directoryProvider.filteredData.length,
                                     itemBuilder: (context, index) {
-                                      final _course =
+                                      final _contact =
                                           directoryProvider.filteredData[index];
                                       return Padding(
                                         padding: const EdgeInsets.only(
@@ -153,7 +153,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                           dense: true,
                                           visualDensity: VisualDensity.compact,
                                           title: ContactsCard(
-                                            contact: _course,
+                                            contact: _contact,
                                           ),
                                         ),
                                       );
@@ -235,12 +235,16 @@ class ContactsEasyTable extends StatelessWidget {
             ),
             EasyTableColumn(
               name: "Title",
-              stringValue: (row) => (row as Map)["JobTitle"],
+              stringValue: (row) =>
+                  (row as Map)["JobTitle"].toString().toTitleCase(),
               width: 200,
             ),
             EasyTableColumn(
               name: "Department",
-              stringValue: (row) => (row as Map)["Department"],
+              stringValue: (row) => (row as Map)["Department"]
+                  .toString()
+                  .toTitleCase()
+                  .replaceAll("it", "IT"),
               width: 260,
             ),
             EasyTableColumn(
@@ -288,9 +292,14 @@ class ContactsCard extends StatelessWidget {
         ", " +
         contact["FirstName"].toString().trim();
     final phoneNumber = contact["PhoneNumber"].toString().trim();
-    final title = contact["JobTitle"].toString().trim();
+    final title = contact["JobTitle"].toString().trim().toTitleCase();
 
-    final department = contact["Department"].toString().trim();
+    final department = contact["Department"]
+        .toString()
+        .trim()
+        .toTitleCase()
+        .replaceAll("it", "IT");
+
     final email = contact["EmailAddress"].toString().trim();
 
     final campus = contact["Campus"].toString().trim();
