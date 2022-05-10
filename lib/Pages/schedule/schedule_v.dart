@@ -187,7 +187,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .toString()
                                       .replaceAll("LDCC", "")
                                       .replaceAll("CAMPUS", "")
-                                      .toTitleCase()
+                                      .titleCase
                                       .trim(),
                                   style: const TextStyle(
                                       color: AppColor.white, fontSize: 12),

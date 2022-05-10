@@ -22,7 +22,8 @@ class Directory extends ChangeNotifier {
 
   String get searchString => _searchString;
   set searchString(String s) {
-    _searchString = s;
+    // LIGHTLY SANITIZE AND SET SEARCH STRING
+    _searchString = s.replaceAll("(", "\\(").replaceAll(")", "\\)");
     notifyListeners();
   }
 
@@ -74,6 +75,11 @@ class Directory extends ChangeNotifier {
           if (_data.isEmpty) {
             _error("No data.");
           } else {
+            // CLEAN UP THE STRINGS
+            for (var element in _data) {
+              cleanTitleString(element, "JobTitle");
+              cleanTitleString(element, "Department");
+            }
             _isLoading = false;
             notifyListeners();
           }
@@ -101,6 +107,17 @@ class Directory extends ChangeNotifier {
           _error(e.toString());
         }
       }
+    }
+  }
+
+  void cleanTitleString(element, String key) {
+    if ((element as Map).containsKey(key)) {
+      element[key] = element[key]
+          .toString()
+          .titleCase
+          .replaceAll("I T", "IT")
+          .replaceAll("( ", "(")
+          .replaceAll(" )", ")");
     }
   }
 
@@ -163,7 +180,7 @@ class Directory extends ChangeNotifier {
                         .toString()
                         .replaceAll("LDCC", "")
                         .replaceAll("CAMPUS", "")
-                        .toTitleCase()
+                        .titleCase
                         .trim(),
                   ),
                 ),

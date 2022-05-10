@@ -28,7 +28,8 @@ class Schedule extends ChangeNotifier {
 
   String get searchString => _searchString;
   set searchString(String s) {
-    _searchString = s;
+    // LIGHTLY SANITIZE AND SET SEARCH STRING
+    _searchString = s.replaceAll("(", "\\(").replaceAll(")", "\\)");
     notifyListeners();
   }
 
@@ -224,7 +225,7 @@ class Schedule extends ChangeNotifier {
                         .toString()
                         .replaceAll("LDCC", "")
                         .replaceAll("CAMPUS", "")
-                        .toTitleCase()
+                        .titleCase
                         .trim(),
                   ),
                 ),

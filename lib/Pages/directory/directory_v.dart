@@ -25,7 +25,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
     // to finish before updating.
     if (widget.selectedCampus.isNotEmpty) {
       titleAppendedCampus =
-          " - ${widget.selectedCampus.toString().replaceAll("%20", " ").toTitleCase()}";
+          " - ${widget.selectedCampus.toString().replaceAll("%20", " ").titleCase}";
     }
     Future.delayed(const Duration(seconds: 1)).then((r) {
       // log.info("setting title");
@@ -235,16 +235,12 @@ class ContactsEasyTable extends StatelessWidget {
             ),
             EasyTableColumn(
               name: "Title",
-              stringValue: (row) =>
-                  (row as Map)["JobTitle"].toString().toTitleCase(),
+              stringValue: (row) => (row as Map)["JobTitle"],
               width: 200,
             ),
             EasyTableColumn(
               name: "Department",
-              stringValue: (row) => (row as Map)["Department"]
-                  .toString()
-                  .toTitleCase()
-                  .replaceAll("it", "IT"),
+              stringValue: (row) => (row as Map)["Department"],
               width: 260,
             ),
             EasyTableColumn(
@@ -292,13 +288,9 @@ class ContactsCard extends StatelessWidget {
         ", " +
         contact["FirstName"].toString().trim();
     final phoneNumber = contact["PhoneNumber"].toString().trim();
-    final title = contact["JobTitle"].toString().trim().toTitleCase();
+    final title = contact["JobTitle"].toString().trim();
 
-    final department = contact["Department"]
-        .toString()
-        .trim()
-        .toTitleCase()
-        .replaceAll("it", "IT");
+    final department = contact["Department"].toString().trim();
 
     final email = contact["EmailAddress"].toString().trim();
 
