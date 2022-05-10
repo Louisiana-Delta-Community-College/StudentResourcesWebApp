@@ -11,7 +11,7 @@ class NavBar extends StatelessWidget {
         children: [
           DrawerHeader(
             child: Image.asset(
-              "assets/images/logo.png",
+              "assets/images/logo_stacked.png",
               fit: BoxFit.fitWidth,
               color: themeProvider.text,
             ),
