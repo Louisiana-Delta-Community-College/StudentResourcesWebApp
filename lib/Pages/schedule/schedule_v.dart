@@ -455,7 +455,7 @@ class ScheduleEasyTable extends StatelessWidget {
             EasyTableColumn(
               name: "Days",
               stringValue: (row) => (row as Map)["D"],
-              width: 50,
+              width: 80,
             ),
             EasyTableColumn(
               name: "Start",
@@ -480,8 +480,8 @@ class ScheduleEasyTable extends StatelessWidget {
             EasyTableColumn(
               name: "Teacher(s)",
               stringValue: (row) =>
-                  (row as Map)["TN"].toString().replaceAll("<br/>", "\n"),
-              width: 150,
+                  (row as Map)["TN"].toString().replaceAll("<br/>", " | "),
+              width: 240,
             ),
             EasyTableColumn(
               name: "Enrolled",

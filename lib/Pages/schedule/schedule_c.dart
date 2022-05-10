@@ -238,7 +238,7 @@ class Schedule extends ChangeNotifier {
                     ),
                   ),
                   trailing:
-                      Text(row["TN"].toString().replaceAll("<br/>", "; ")),
+                      Text(row["TN"].toString().replaceAll("<br/>", " | ")),
                 ),
                 ListTile(
                   dense: true,
