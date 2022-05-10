@@ -402,22 +402,26 @@ class ContactsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.phone,
-                      size: 35,
-                      color: _textColor,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      phoneNumber,
-                      style: TextStyle(
-                        fontSize: 14,
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        size: 35,
                         color: _textColor,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Text(
+                        phoneNumber,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: _textColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                  onTap: () => launchUrl(Uri.parse("tel:$phoneNumber")),
                 ),
                 Row(
                   children: [
@@ -446,18 +450,22 @@ class ContactsCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Icon(Icons.email_sharp, size: 35, color: _textColor),
-                    const SizedBox(width: 10),
-                    Text(
-                      email,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: _textColor,
+                InkWell(
+                  child: Row(
+                    children: [
+                      Icon(Icons.email_sharp, size: 35, color: _textColor),
+                      const SizedBox(width: 10),
+                      Text(
+                        email,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: _textColor,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  onTap: () => launchUrl(Uri.parse("mailto:$email")),
                 ),
                 Row(
                   children: [
