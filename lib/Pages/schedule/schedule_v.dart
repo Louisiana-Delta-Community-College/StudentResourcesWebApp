@@ -480,7 +480,7 @@ class ScheduleEasyTable extends StatelessWidget {
             EasyTableColumn(
               name: "Teacher(s)",
               stringValue: (row) =>
-                  (row as Map)["TN"].toString().replaceAll("<br/>", " | "),
+                  (row as Map)["TN"].toString(),
               width: 240,
             ),
             EasyTableColumn(

@@ -278,7 +278,7 @@ strSQL = '''SELECT * FROM (SELECT STVTERM.STVTERM_DESC,
       AND SCBCRSE.SCBCRSE_CRSE_NUMB = SSBSECT.SSBSECT_CRSE_NUMB
       AND SSBSECT.SSBSECT_VPDI_CODE = SCBCRSE.SCBCRSE_VPDI_CODE
       LEFT JOIN
-        (SELECT listagg(inst, '<br/>') within GROUP (
+        (SELECT listagg(inst, ' | ') within GROUP (
         ORDER BY rank) INST,
           SIRASGN_CRN,
           SIRASGN_TERM_CODE,
@@ -478,10 +478,7 @@ def main():
       else:
         FeesCred = "{:.2f}".format(float(FeesCred))
       Narrative = i[24]
-      if Narrative == None:
-        Narrative = ""
-      else:
-        Narrative = escape(Narrative.replace('\n', '<br/>'))
+      if Narrative == None: Narrative = ""
       PTRM = i[25]
       if PTRM == None: PTRM = ""
       Building = i[26]
@@ -526,13 +523,13 @@ def main():
     # indent=4
     )
 
+  # import gzip
   # print('Content-type: application/octet-stream\n')
   # print('Content-encoding: gzip\n\n\')
   print("content-type: application/json")
   print('')
 
   try:
-    import gzip
     callback = form.getvalue('callback')
     print((callback+'('+JSONString+')'))
   except:

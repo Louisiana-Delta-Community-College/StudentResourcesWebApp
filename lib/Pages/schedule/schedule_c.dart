@@ -237,8 +237,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing:
-                      Text(row["TN"].toString().replaceAll("<br/>", " | ")),
+                  trailing: Text(row["TN"].toString()),
                 ),
                 ListTile(
                   dense: true,
