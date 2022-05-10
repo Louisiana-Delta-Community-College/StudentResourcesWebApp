@@ -237,8 +237,8 @@ if RS:
             PhoneNumber = ''
         else:
             PhoneNumber = str('(' + PhoneNumber[0:3] +') ' + PhoneNumber[3:6] + '-' + PhoneNumber[6:])
-        JobTitle = i[3].title()
-        Department = i[4].title()
+        JobTitle = i[3].title().replace("It", "IT")
+        Department = i[4].title().replace("It", "IT")
         if Department == None:
             Department = ''
         EmailAddress = i[5]
