@@ -135,7 +135,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                             ),
                       )
                     : directoryProvider.hasError
-                        ? Text(directoryProvider.errorMessage)
+                        ? Center(child: Text(directoryProvider.errorMessage))
                         // : SelectableText(directoryProvider.data[0].toString()),
                         : directoryProvider.filteredData.isNotEmpty
                             ? isSmallFormFactor(context)

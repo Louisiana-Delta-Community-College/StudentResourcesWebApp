@@ -137,8 +137,10 @@ class _SchedulePageState extends State<SchedulePage> {
                 child: scheduleCampusMenuProvider.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : scheduleCampusMenuProvider.hasError
-                        ? SelectableText(
-                            scheduleCampusMenuProvider.errorMessage)
+                        ? Center(
+                            child: SelectableText(
+                                scheduleCampusMenuProvider.errorMessage),
+                          )
                         : GroupButton(
                             controller: _groupButtonCampusMenuController,
                             buttons: scheduleCampusMenuProvider.campusList,
@@ -213,8 +215,10 @@ class _SchedulePageState extends State<SchedulePage> {
                   child: scheduleTermsMenuProvider.isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : scheduleTermsMenuProvider.hasError
-                          ? SelectableText(
-                              scheduleTermsMenuProvider.errorMessage)
+                          ? Center(
+                              child: SelectableText(
+                                  scheduleTermsMenuProvider.errorMessage),
+                            )
                           : GroupButton(
                               controller: _groupButtonTermMenuController,
                               buttons: scheduleTermsMenuProvider.termsList,
@@ -313,7 +317,9 @@ class _SchedulePageState extends State<SchedulePage> {
                             ),
                       )
                     : scheduleProvider.hasError
-                        ? SelectableText(scheduleProvider.errorMessage)
+                        ? Center(
+                            child:
+                                SelectableText(scheduleProvider.errorMessage))
                         // : SelectableText(scheduleProvider.data[0].toString()),
                         : scheduleProvider.filteredData.isNotEmpty
                             ? isSmallFormFactor(context)

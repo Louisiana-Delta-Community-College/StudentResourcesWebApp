@@ -88,10 +88,10 @@ class Directory extends ChangeNotifier {
         throw HttpException("${response.statusCode}");
       }
     } on HttpException {
-      _error("Unable to reach the server (bad URL?).");
+      _error("Unable to contact LCTCS server");
     } catch (e) {
       if (e.toString() == "XMLHttpRequest error.") {
-        _error("Unable to reach the server (bad URL?).");
+        _error("Unable to contact LCTCS server");
       } else if (e.toString() ==
           "Expected a value of type 'List<dynamic>', but got one of type '_JsonMap'") {
         _error("Error connecting to database.");
