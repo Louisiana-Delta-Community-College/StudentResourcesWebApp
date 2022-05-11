@@ -431,14 +431,19 @@ class ScheduleEasyTable extends StatelessWidget {
           rows: _rows,
           columns: [
             EasyTableColumn(
-              name: "",
-              width: 80,
-              cellBuilder: (context, row) => Center(
+              name: "Controls",
+              width: 140,
+              cellBuilder: (context, row) => EasyTableCell(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // MORE INFO ICON
                     IconButton(
+                      tooltip: "More Info",
+                      padding: const EdgeInsets.only(
+                        left: 1,
+                        right: 1,
+                      ),
                       icon: const Icon(
                         Icons.info_outline,
                         size: 20,
@@ -449,12 +454,53 @@ class ScheduleEasyTable extends StatelessWidget {
                     ),
                     // BUY BOOKS ICON
                     IconButton(
+                      tooltip: "Buy Materials",
+                      padding: const EdgeInsets.only(
+                        left: 1,
+                        right: 1,
+                      ),
                       icon: const Icon(
                         Icons.menu_book_sharp,
                         size: 20,
                       ),
                       onPressed: () {
                         scheduleProvider.launchBookStore(row);
+                      },
+                    ),
+                    IconButton(
+                      tooltip: "Copy to Clipboard",
+                      padding: const EdgeInsets.only(
+                        left: 1,
+                        right: 1,
+                      ),
+                      icon: const Icon(
+                        Icons.copy_all_sharp,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        scheduleProvider.copyRowToClipboard(row);
+
+                        final snackBar = SnackBar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.tertiary,
+                          content: Text(
+                            'Course information copied to clipboard!',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onTertiary),
+                          ),
+                          action: SnackBarAction(
+                            label: 'OK',
+                            onPressed: () {
+                              // Some code to undo the change.
+                            },
+                            textColor: Theme.of(context).colorScheme.onTertiary,
+                          ),
+                        );
+
+                        // Find the ScaffoldMessenger in the widget tree
+                        // and use it to show a SnackBar.
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
                     ),
                   ],

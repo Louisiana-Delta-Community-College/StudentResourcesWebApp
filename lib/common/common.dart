@@ -13,6 +13,7 @@ export 'package:get_storage/get_storage.dart' show GetStorage;
 export 'package:html/parser.dart' show parse;
 export 'package:recase/recase.dart';
 export 'package:skeletons/skeletons.dart';
+export 'package:clipboard/clipboard.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';

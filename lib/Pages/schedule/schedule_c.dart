@@ -212,6 +212,62 @@ class Schedule extends ChangeNotifier {
             child: ListView(
               shrinkWrap: true,
               children: [
+                // BUY MATERIALS BUTTON
+                ListTile(
+                  dense: true,
+                  title: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton.icon(
+                        onPressed: () => launchBookStore(row),
+                        icon: const Icon(Icons.menu_book_sharp),
+                        label: const Text("Buy Materials"),
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                              AppColor.bronze2.withOpacity(.5)),
+                          foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.tertiary,
+                          ),
+                          side: MaterialStateProperty.all(
+                            BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                          ),
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => copyRowToClipboard(row),
+                        icon: const Icon(Icons.copy_all_sharp),
+                        label: const Text("Copy to Clipboard"),
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(
+                              AppColor.bronze2.withOpacity(.5)),
+                          foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.tertiary,
+                          ),
+                          side: MaterialStateProperty.all(
+                            BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const ListTile(
+                  dense: true,
+                  leading: Text(
+                    "Course Details",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
                 ListTile(
                   dense: true,
                   leading: const Text(
@@ -322,28 +378,7 @@ class Schedule extends ChangeNotifier {
                   ),
                   trailing: SelectableText(row["CH"].toString()),
                 ),
-                // BUY MATERIALS BUTTON
-                ListTile(
-                  dense: true,
-                  title: TextButton.icon(
-                    onPressed: () => launchBookStore(row),
-                    icon: const Icon(Icons.menu_book_sharp),
-                    label: const SelectableText("Buy Materials"),
-                    style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.all(
-                          AppColor.bronze2.withOpacity(.5)),
-                      foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.tertiary,
-                      ),
-                      side: MaterialStateProperty.all(
-                        BorderSide(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+
                 // ADDITIONAL FEES
                 const ListTile(
                   dense: true,
@@ -454,6 +489,41 @@ class Schedule extends ChangeNotifier {
       ),
     );
     launchUrl(bookStoreURI);
+  }
+
+  void copyRowToClipboard(row) {
+    final _feesFlat = (row as Map)["FF"];
+    final _feesCredit = row["FC"];
+    var _feesTotal = "0.00";
+    try {
+      _feesTotal = ((double.tryParse(_feesFlat) ?? 0.00) +
+              (double.tryParse(_feesCredit) ?? 0.00))
+          .toStringAsFixed(2);
+    } catch (e) {
+      log.error(e.toString());
+    }
+    FlutterClipboard.copy("""
+${row["SC"]} ${row["CN"]}
+CRN: ${row["CRN"]}
+Campus: ${row["C"]}
+Teacher(s): ${row["TN"]}
+Enrolled: ${row["E"]}
+Building: ${row["B"]}
+Room: ${row["R"]}
+Dates in Session: ${row["PTRMDS"]} / ${row["PTRMDE"]}
+Days: ${row["D"]}
+Time: ${row["TB"]} - ${row["TE"]}
+Credit Hours: ${row["CH"]}
+
+Additional Fees:
+Flat: $_feesFlat
+Credit: $_feesCredit
+Total: $_feesTotal
+
+Description:
+${row["N"]}
+"""
+        .trim());
   }
 }
 
