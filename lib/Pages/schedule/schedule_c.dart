@@ -259,7 +259,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: SelectableText(row["E"].toString()),
+                  trailing: SelectableText("${row["E"]} / ${row["MS"]}"),
                 ),
                 ListTile(
                   dense: true,

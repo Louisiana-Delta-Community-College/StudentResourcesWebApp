@@ -492,7 +492,7 @@ class ScheduleEasyTable extends StatelessWidget {
             ),
             EasyTableColumn(
               name: "Enrolled",
-              stringValue: (row) => (row as Map)["E"],
+              stringValue: (row) => "${(row as Map)["E"]} / ${row["MS"]}",
               width: 80,
             ),
             EasyTableColumn(

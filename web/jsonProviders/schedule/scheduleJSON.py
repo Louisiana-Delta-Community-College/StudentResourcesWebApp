@@ -271,7 +271,8 @@ strSQL = '''SELECT * FROM (SELECT STVTERM.STVTERM_DESC,
         THEN STVCAMP.STVCAMP_DESC
         ELSE SSBSECT.SSBSECT_PTRM_CODE
         END SSBSECT_PTRM_CODE,
-        stvbldg.stvbldg_desc building
+        stvbldg.stvbldg_desc building,
+        SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats
       FROM SCBCRSE
       INNER JOIN SSBSECT
       ON SCBCRSE.SCBCRSE_SUBJ_CODE  = SSBSECT.SSBSECT_SUBJ_CODE
@@ -484,6 +485,8 @@ def main():
       Building = i[26]
       if Building == None: Building = ""
       Building = Building.replace("Louisiana Purchase Bldg-Monroe", "Main Building - Monroe").replace("VOID", "").strip()
+      MaxSeats = i[27]
+      if MaxSeats == None: MaxSeats = ""
 
       scheduleList.append(
         {
@@ -513,7 +516,8 @@ def main():
         "FC": str(FeesCred),
         "N": Narrative,
         "PTRM": PTRM,
-        "B": str(Building)
+        "B": str(Building),
+        "MS": str(MaxSeats)
         }
       )
 
