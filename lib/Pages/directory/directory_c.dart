@@ -88,13 +88,13 @@ class Directory extends ChangeNotifier {
         throw HttpException("${response.statusCode}");
       }
     } on HttpException {
-      _error("Unable to contact LCTCS server");
+      _error("Unable to connect to LCTCS server.");
     } catch (e) {
       if (e.toString() == "XMLHttpRequest error.") {
-        _error("Unable to contact LCTCS server");
+        _error("Unable to connect to LCTCS server.");
       } else if (e.toString() ==
           "Expected a value of type 'List<dynamic>', but got one of type '_JsonMap'") {
-        _error("Error connecting to database.");
+        _error("Resource temporarily offline.\nPlease try again later.");
       } else {
         try {
           // _data = jsonDecode(response.body) as List<dynamic>;
@@ -104,7 +104,8 @@ class Directory extends ChangeNotifier {
           // ] as List<Map<String, dynamic>>;
           log.info(_data.runtimeType.toString());
         } catch (e) {
-          _error(e.toString());
+          _error("Resource temporarily offline.\nPlease try again later.");
+          // _error(e.toString());
         }
       }
     }

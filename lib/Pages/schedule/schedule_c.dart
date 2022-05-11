@@ -514,12 +514,13 @@ class ScheduleTermsMenu extends ChangeNotifier {
         throw HttpException("${response.statusCode}");
       }
     } on HttpException {
-      _error("Unable to contact LCTCS server");
+      _error("Unable to connect to LCTCS server.");
     } catch (e) {
       if (e.toString() == "XMLHttpRequest error.") {
-        _error("Unable to contact LCTCS server");
+        _error("Unable to connect to LCTCS server.");
       } else {
-        _error(e.toString());
+        _error("Resource temporarily offline.\nPlease try again later.");
+        // _error(e.toString());
       }
     }
   }
