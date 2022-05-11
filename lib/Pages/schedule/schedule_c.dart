@@ -215,12 +215,24 @@ class Schedule extends ChangeNotifier {
                 ListTile(
                   dense: true,
                   leading: const Text(
+                    "CRN:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  trailing: SelectableText(
+                    row["CRN"].toString().trim(),
+                  ),
+                ),
+                ListTile(
+                  dense: true,
+                  leading: const Text(
                     "Campus:",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(
+                  trailing: SelectableText(
                     row["C"]
                         .toString()
                         .replaceAll("LDCC", "")
@@ -237,7 +249,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["TN"].toString()),
+                  trailing: SelectableText(row["TN"].toString()),
                 ),
                 ListTile(
                   dense: true,
@@ -247,7 +259,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["E"].toString()),
+                  trailing: SelectableText(row["E"].toString()),
                 ),
                 ListTile(
                   dense: true,
@@ -257,7 +269,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["B"].toString()),
+                  trailing: SelectableText(row["B"].toString()),
                 ),
                 ListTile(
                   dense: true,
@@ -267,7 +279,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["R"].toString()),
+                  trailing: SelectableText(row["R"].toString()),
                 ),
                 ListTile(
                   dense: true,
@@ -277,7 +289,8 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text("${row["PTRMDS"]} / ${row["PTRMDE"]}"),
+                  trailing:
+                      SelectableText("${row["PTRMDS"]} / ${row["PTRMDE"]}"),
                 ),
                 ListTile(
                   dense: true,
@@ -287,7 +300,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["D"].toString()),
+                  trailing: SelectableText(row["D"].toString()),
                 ),
                 ListTile(
                   dense: true,
@@ -297,7 +310,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text("${row["TB"]} - ${row["TE"]}"),
+                  trailing: SelectableText("${row["TB"]} - ${row["TE"]}"),
                 ),
                 ListTile(
                   dense: true,
@@ -307,7 +320,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text(row["CH"].toString()),
+                  trailing: SelectableText(row["CH"].toString()),
                 ),
                 // BUY MATERIALS BUTTON
                 ListTile(
@@ -315,7 +328,7 @@ class Schedule extends ChangeNotifier {
                   title: TextButton.icon(
                     onPressed: () => launchBookStore(row),
                     icon: const Icon(Icons.menu_book_sharp),
-                    label: const Text("Buy Materials"),
+                    label: const SelectableText("Buy Materials"),
                     style: ButtonStyle(
                       overlayColor: MaterialStateProperty.all(
                           AppColor.bronze2.withOpacity(.5)),
@@ -350,7 +363,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text("${(row)["FF"]}"),
+                  trailing: SelectableText("${(row)["FF"]}"),
                 ),
                 ListTile(
                   dense: true,
@@ -360,7 +373,7 @@ class Schedule extends ChangeNotifier {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  trailing: Text("${row["FC"]}"),
+                  trailing: SelectableText("${row["FC"]}"),
                 ),
                 Divider(
                   thickness: 1,
@@ -368,13 +381,13 @@ class Schedule extends ChangeNotifier {
                 ),
                 ListTile(
                   dense: true,
-                  // leading: const Text(
+                  // leading: const SelectableText(
                   //   "Credit:",
                   //   style: TextStyle(
                   //     fontWeight: FontWeight.bold,
                   //   ),
                   // ),
-                  trailing: Text(feesTotal),
+                  trailing: SelectableText(feesTotal),
                 ),
                 // DESCRIPTION
                 const ListTile(
@@ -389,7 +402,7 @@ class Schedule extends ChangeNotifier {
                 ),
                 ListTile(
                   dense: true,
-                  title: Text(
+                  title: SelectableText(
                     row["N"].toString().trim() != ""
                         ? parse(row["N"].toString())
                             .body!

@@ -137,7 +137,8 @@ class _SchedulePageState extends State<SchedulePage> {
                 child: scheduleCampusMenuProvider.isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : scheduleCampusMenuProvider.hasError
-                        ? Text(scheduleCampusMenuProvider.errorMessage)
+                        ? SelectableText(
+                            scheduleCampusMenuProvider.errorMessage)
                         : GroupButton(
                             controller: _groupButtonCampusMenuController,
                             buttons: scheduleCampusMenuProvider.campusList,
@@ -212,7 +213,8 @@ class _SchedulePageState extends State<SchedulePage> {
                   child: scheduleTermsMenuProvider.isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : scheduleTermsMenuProvider.hasError
-                          ? Text(scheduleTermsMenuProvider.errorMessage)
+                          ? SelectableText(
+                              scheduleTermsMenuProvider.errorMessage)
                           : GroupButton(
                               controller: _groupButtonTermMenuController,
                               buttons: scheduleTermsMenuProvider.termsList,
@@ -311,7 +313,7 @@ class _SchedulePageState extends State<SchedulePage> {
                             ),
                       )
                     : scheduleProvider.hasError
-                        ? Text(scheduleProvider.errorMessage)
+                        ? SelectableText(scheduleProvider.errorMessage)
                         // : SelectableText(scheduleProvider.data[0].toString()),
                         : scheduleProvider.filteredData.isNotEmpty
                             ? isSmallFormFactor(context)
@@ -341,7 +343,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 // SHOW REGULAR TABLE
                                 : const ScheduleEasyTable()
                             : Center(
-                                child: Text(
+                                child: SelectableText(
                                   scheduleProvider.searchString.isNotEmpty
                                       ? "No results for that search."
                                       : "No courses for this campus / term.",
@@ -479,8 +481,7 @@ class ScheduleEasyTable extends StatelessWidget {
             ),
             EasyTableColumn(
               name: "Teacher(s)",
-              stringValue: (row) =>
-                  (row as Map)["TN"].toString(),
+              stringValue: (row) => (row as Map)["TN"].toString(),
               width: 240,
             ),
             EasyTableColumn(
@@ -565,7 +566,7 @@ class CourseCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 15),
-            child: Text(
+            child: SelectableText(
               friendlyName,
               style: TextStyle(
                 color: _borderTextColor,
@@ -636,7 +637,7 @@ class CourseCard extends StatelessWidget {
                       color: _textColor,
                     ),
                     const SizedBox(width: 10),
-                    Text(
+                    SelectableText(
                       buildingAndRoom,
                       style: TextStyle(
                         fontSize: 14,
@@ -650,7 +651,7 @@ class CourseCard extends StatelessWidget {
                     Icon(Icons.calendar_month_outlined,
                         size: 35, color: _textColor),
                     const SizedBox(width: 10),
-                    Text(
+                    SelectableText(
                       days,
                       style: TextStyle(
                         fontSize: 14,
@@ -664,7 +665,7 @@ class CourseCard extends StatelessWidget {
                     Icon(Icons.watch_later_outlined,
                         size: 35, color: _textColor),
                     const SizedBox(width: 10),
-                    Text(
+                    SelectableText(
                       meetingTimes,
                       style: TextStyle(
                         fontSize: 14,
@@ -673,35 +674,6 @@ class CourseCard extends StatelessWidget {
                     ),
                   ],
                 ),
-
-                // Row(
-                //   children: [
-                //     const Icon(
-                //       Icons.email_outlined,
-                //       size: 40,
-                //     ),
-                //     const SizedBox(width: 10),
-                //     Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: const [
-                //         Text(
-                //           "test",
-                //           style: TextStyle(
-                //             fontSize: 16,
-                //             color: Colors.deepPurple,
-                //           ),
-                //         ),
-                //         Text(
-                //           "test",
-                //           style: TextStyle(
-                //             fontSize: 16,
-                //             color: Colors.deepPurple,
-                //           ),
-                //         ),
-                //       ],
-                //     )
-                //   ],
-                // ),
               ],
             ),
           ),
