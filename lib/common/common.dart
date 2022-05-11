@@ -12,6 +12,7 @@ export 'package:easy_search_bar/easy_search_bar.dart';
 export 'package:get_storage/get_storage.dart' show GetStorage;
 export 'package:html/parser.dart' show parse;
 export 'package:recase/recase.dart';
+export 'package:skeletons/skeletons.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';

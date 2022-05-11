@@ -46,6 +46,7 @@ dependencies:
   html: ^0.15.0
   get_storage: ^2.0.3
   recase: ^4.0.0
+  skeletons: ^0.0.3
 
 dev_dependencies:
   flutter_test:

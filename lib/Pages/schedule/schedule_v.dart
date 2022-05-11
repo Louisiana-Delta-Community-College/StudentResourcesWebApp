@@ -135,7 +135,17 @@ class _SchedulePageState extends State<SchedulePage> {
                   right: 10,
                 ),
                 child: scheduleCampusMenuProvider.isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const SkeletonLine(
+                        style: SkeletonLineStyle(
+                            alignment: Alignment.center,
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            padding: EdgeInsets.only(
+                              left: 200,
+                              right: 200,
+                            )
+                            // randomLength: true,
+                            ),
+                      )
                     : scheduleCampusMenuProvider.hasError
                         ? Center(
                             child: SelectableText(
@@ -213,7 +223,18 @@ class _SchedulePageState extends State<SchedulePage> {
                     right: 20,
                   ),
                   child: scheduleTermsMenuProvider.isLoading
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const SkeletonLine(
+                          style: SkeletonLineStyle(
+                              alignment: Alignment.center,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              padding: EdgeInsets.only(
+                                left: 200,
+                                right: 200,
+                              )
+                              // randomLength: true,
+                              ),
+                        )
                       : scheduleTermsMenuProvider.hasError
                           ? Center(
                               child: SelectableText(
