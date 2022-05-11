@@ -480,27 +480,8 @@ class ScheduleEasyTable extends StatelessWidget {
                       onPressed: () {
                         scheduleProvider.copyRowToClipboard(row);
 
-                        final snackBar = SnackBar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.tertiary,
-                          content: Text(
-                            'Course information copied to clipboard!',
-                            style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onTertiary),
-                          ),
-                          action: SnackBarAction(
-                            label: 'OK',
-                            onPressed: () {
-                              // Some code to undo the change.
-                            },
-                            textColor: Theme.of(context).colorScheme.onTertiary,
-                          ),
-                        );
-
-                        // Find the ScaffoldMessenger in the widget tree
-                        // and use it to show a SnackBar.
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        showSnackBarMessage(
+                            context, 'Course information copied to clipboard!');
                       },
                     ),
                   ],

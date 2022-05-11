@@ -57,3 +57,25 @@ bool isSmallFormFactor(context) {
   _isSmallFormFactor = _viewPortWidth <= 800;
   return _isSmallFormFactor;
 }
+
+// TODO: CHANGE THIS TO USE SOMETHING BETTER WHICH DOES NOT REQUIRE A SCAFFOLD CONTEXT....
+void showSnackBarMessage(BuildContext context, String message) {
+  final snackBar = SnackBar(
+    backgroundColor: Theme.of(context).colorScheme.tertiary,
+    content: Text(
+      message,
+      style: TextStyle(color: Theme.of(context).colorScheme.onTertiary),
+    ),
+    action: SnackBarAction(
+      label: 'OK',
+      onPressed: () {
+        // Some code to undo the change.
+      },
+      textColor: Theme.of(context).colorScheme.onTertiary,
+    ),
+  );
+
+  // Find the ScaffoldMessenger in the widget tree
+  // and use it to show a SnackBar.
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
