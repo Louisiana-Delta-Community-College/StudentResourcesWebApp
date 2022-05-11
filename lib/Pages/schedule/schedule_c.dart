@@ -503,11 +503,12 @@ class Schedule extends ChangeNotifier {
       log.error(e.toString());
     }
     FlutterClipboard.copy("""
-${row["SC"]} ${row["CN"]}
+Course: ${row["SC"]} ${row["CN"]}
+Title: ${row["CT"]}
 CRN: ${row["CRN"]}
 Campus: ${row["C"]}
 Teacher(s): ${row["TN"]}
-Enrolled: ${row["E"]}
+Enrolled: ${row["E"]} / ${row["MS"]} 
 Building: ${row["B"]}
 Room: ${row["R"]}
 Dates in Session: ${row["PTRMDS"]} / ${row["PTRMDE"]}
