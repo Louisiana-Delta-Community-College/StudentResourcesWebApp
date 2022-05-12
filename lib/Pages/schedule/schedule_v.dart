@@ -163,6 +163,8 @@ class _SchedulePageState extends State<SchedulePage> {
                             },
                             options: const GroupButtonOptions(
                               unselectedColor: AppColor.navy,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                               unselectedTextStyle: TextStyle(
                                 color: AppColor.white,
                               ),
@@ -181,6 +183,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                   color: isSelected
                                       ? AppColor.bronze2
                                       : AppColor.navy,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
                                   border: Border.all(
                                       color: AppColor.bronze2, width: 2),
                                   // borderRadius: index == 0
