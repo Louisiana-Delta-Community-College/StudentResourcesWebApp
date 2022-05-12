@@ -138,7 +138,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     ? SkeletonLine(
                         style: SkeletonLineStyle(
                           alignment: Alignment.center,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
                           padding: EdgeInsets.only(
                             left: viewPortWidth(context) * .2,
                             right: viewPortWidth(context) * .2,

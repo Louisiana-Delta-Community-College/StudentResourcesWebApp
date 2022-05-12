@@ -103,7 +103,7 @@ void showSnackBar(
       color: AppColor.navy,
       child: Align(
         child: Padding(
-          padding: EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -112,7 +112,7 @@ void showSnackBar(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Text(
                   message,
-                  style: TextStyle(color: AppColor.white),
+                  style: const TextStyle(color: AppColor.white),
                 ),
               ),
             ],
