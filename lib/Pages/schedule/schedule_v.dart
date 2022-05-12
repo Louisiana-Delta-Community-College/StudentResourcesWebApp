@@ -430,7 +430,7 @@ class ScheduleEasyTable extends StatelessWidget {
     return Center(
       child: EasyTableTheme(
         data: EasyTableThemeData(
-          headerCell: HeaderCellThemeData(padding: EdgeInsets.all(5)),
+          headerCell: const HeaderCellThemeData(padding: EdgeInsets.all(5)),
           row: RowThemeData(
             hoveredColor: (index) => themeProvider.rowColorHover,
             columnDividerColor: themeProvider.text,

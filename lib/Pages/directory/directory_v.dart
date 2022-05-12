@@ -211,6 +211,7 @@ class ContactsEasyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
+    final themeProvider = context.watch<AppTheme>();
     // final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
 
     // final _viewPortWidth = MediaQuery.of(context).size.width;
@@ -218,80 +219,93 @@ class ContactsEasyTable extends StatelessWidget {
     final _rows = directoryProvider.filteredData;
 
     return Center(
-      child: EasyTable(
-        EasyTableModel(
-          rows: _rows,
-          columns: [
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Name",
-              stringValue: (row) =>
-                  "${(row as Map)["LastName"]}, ${row["FirstName"]}",
-              width: 200,
-            ),
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Phone Number",
-              cellBuilder: (context, row) => InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    (row as Map)["PhoneNumber"],
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                onTap: () => launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
-              ),
-              width: 130,
-            ),
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Title",
-              stringValue: (row) => (row as Map)["JobTitle"],
-              width: 200,
-            ),
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Department",
-              stringValue: (row) => (row as Map)["Department"],
-              width: 260,
-            ),
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Email",
-              cellBuilder: (context, row) => InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Text(
-                    (row as Map)["EmailAddress"],
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                onTap: () =>
-                    launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
-              ),
-              width: 230,
-            ),
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Campus",
-              stringValue: (row) => (row as Map)["Campus"],
-              width: 130,
-            ),
-            EasyTableColumn(
-              padding: const EdgeInsets.all(5),
-              name: "Office",
-              stringValue: (row) => (row as Map)["Office"],
-              width: 100,
-            ),
-          ],
+      child: EasyTableTheme(
+        data: EasyTableThemeData(
+          headerCell: const HeaderCellThemeData(padding: EdgeInsets.all(5)),
+          row: RowThemeData(
+            hoveredColor: (index) => themeProvider.rowColorHover,
+            columnDividerColor: themeProvider.text,
+            color: (index) => index % 2 == 0
+                ? themeProvider.rowColorHighlighted
+                : themeProvider.rowColorNormal,
+          ),
         ),
-        columnsFit: viewPortWidth(context) >= 1300 ? true : false,
-        visibleRowsCount: 20,
+        child: EasyTable(
+          EasyTableModel(
+            rows: _rows,
+            columns: [
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Name",
+                stringValue: (row) =>
+                    "${(row as Map)["LastName"]}, ${row["FirstName"]}",
+                width: 200,
+              ),
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Phone Number",
+                cellBuilder: (context, row) => InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      (row as Map)["PhoneNumber"],
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                  onTap: () =>
+                      launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
+                ),
+                width: 130,
+              ),
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Title",
+                stringValue: (row) => (row as Map)["JobTitle"],
+                width: 200,
+              ),
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Department",
+                stringValue: (row) => (row as Map)["Department"],
+                width: 260,
+              ),
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Email",
+                cellBuilder: (context, row) => InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      (row as Map)["EmailAddress"],
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                  onTap: () =>
+                      launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
+                ),
+                width: 230,
+              ),
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Campus",
+                stringValue: (row) => (row as Map)["Campus"],
+                width: 130,
+              ),
+              EasyTableColumn(
+                padding: const EdgeInsets.all(5),
+                name: "Office",
+                stringValue: (row) => (row as Map)["Office"],
+                width: 100,
+              ),
+            ],
+          ),
+          columnsFit: viewPortWidth(context) >= 1300 ? true : false,
+          visibleRowsCount: 20,
+        ),
       ),
     );
   }
