@@ -29,7 +29,8 @@ class Schedule extends ChangeNotifier {
   String get searchString => _searchString;
   set searchString(String s) {
     // LIGHTLY SANITIZE AND SET SEARCH STRING
-    _searchString = s.replaceAll("(", "\\(").replaceAll(")", "\\)");
+    _searchString =
+        s.replaceAll("(", "\\(").replaceAll(")", "\\)").replaceAll(" ", ".+");
     notifyListeners();
   }
 
