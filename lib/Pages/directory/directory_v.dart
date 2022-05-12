@@ -224,7 +224,6 @@ class ContactsEasyTable extends StatelessWidget {
           ),
           row: RowThemeData(
             hoveredColor: (index) => themeProvider.rowColorHover,
-            columnDividerColor: themeProvider.text,
             color: (index) => index % 2 == 0
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
