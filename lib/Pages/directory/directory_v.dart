@@ -240,6 +240,7 @@ class ContactsEasyTable extends StatelessWidget {
                 stringValue: (row) =>
                     "${(row as Map)["LastName"]}, ${row["FirstName"]}",
                 width: 200,
+                pinned: true,
               ),
               EasyTableColumn(
                 padding: const EdgeInsets.all(5),
