@@ -62,10 +62,6 @@ class Schedule extends ChangeNotifier {
       queryParameters["termty"] = termType;
     }
 
-    // if (campus.isNotEmpty) {
-    //   queryParameters["camp"] = campus;
-    // }
-
     final _uri = Uri.https(
         jsonProviderBaseUri, jsonProviderSchedulePath, queryParameters);
 
@@ -145,7 +141,6 @@ class Schedule extends ChangeNotifier {
           .where((e) => e["Desc"] == _retrievedTerm)
           .toList()[0]["Desc"];
     }
-    // log.info(_selectedTermDesc);
     final _termsList = _scheduleTermsMenuController.termsList;
     if (_termsList.contains(_selectedTermDesc)) {
       final _retrievedTermIndex = _termsList.indexOf(_selectedTermDesc);
@@ -387,7 +382,6 @@ class Schedule extends ChangeNotifier {
                   ),
                   trailing: SelectableText(row["CH"].toString()),
                 ),
-
                 // ADDITIONAL FEES
                 const ListTile(
                   dense: true,
@@ -451,11 +445,7 @@ class Schedule extends ChangeNotifier {
                         ? parse(row["N"].toString())
                             .body!
                             .text
-                            // .toString()
                             .replaceAll("<br/>", "\n")
-                        // .replaceAll("&lt;", "")
-                        // .replaceAll("&gt;", "")
-                        // .replaceAll("br/", "")
                         : "No description.",
                     style: const TextStyle(
                       fontSize: 14,
@@ -641,7 +631,6 @@ class ScheduleCampusMenu extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    // if (_campusList.isEmpty) {
     _campusList = [];
     final _scheduleData = Modular.get<Schedule>().data;
 
@@ -664,14 +653,5 @@ class ScheduleCampusMenu extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
-
-    // log.info(_campusList.toString());
   }
-
-  // _error(String message) {
-  //   _isLoading = false;
-  //   _hasError = true;
-  //   _errorMessage = message;
-  //   notifyListeners();
-  // }
 }

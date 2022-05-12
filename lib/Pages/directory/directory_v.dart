@@ -57,14 +57,6 @@ class _DirectoryPageState extends State<DirectoryPage> {
                     color: AppColor.navy,
                   ),
                 ),
-                // REMOVE ONE PADDING-ICON DUE TO NAV BAR HAMBURGER MENU
-                // Padding(
-                //   padding: EdgeInsets.all(8.0),
-                //   child: Icon(
-                //     Icons.search,
-                //     color: AppColor.navy,
-                //   ),
-                // ),
                 Text("Directory$titleAppendedCampus"),
               ],
             ),
@@ -499,35 +491,6 @@ class ContactsCard extends StatelessWidget {
                     ),
                   ],
                 ),
-
-                // Row(
-                //   children: [
-                //     const Icon(
-                //       Icons.email_outlined,
-                //       size: 40,
-                //     ),
-                //     const SizedBox(width: 10),
-                //     Column(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: const [
-                //         Text(
-                //           "test",
-                //           style: TextStyle(
-                //             fontSize: 16,
-                //             color: Colors.deepPurple,
-                //           ),
-                //         ),
-                //         Text(
-                //           "test",
-                //           style: TextStyle(
-                //             fontSize: 16,
-                //             color: Colors.deepPurple,
-                //           ),
-                //         ),
-                //       ],
-                //     )
-                //   ],
-                // ),
               ],
             ),
           ),

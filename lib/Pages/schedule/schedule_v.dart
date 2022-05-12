@@ -24,7 +24,6 @@ class _SchedulePageState extends State<SchedulePage> {
     // Schedule app title to run in the future to allow `MyApp.build()`
     // to finish before updating.
     Future.delayed(const Duration(seconds: 1)).then((r) {
-      // log.info("setting title");
       Modular.get<AppTitle>().title = "Schedule of Classes";
     });
     super.initState();
@@ -37,17 +36,11 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleCampusMenuProvider = context.watch<ScheduleCampusMenu>();
     final themeProvider = context.watch<AppTheme>();
 
-    // final myTableController = context.watch<MyTableController>();
-
     final _groupButtonCampusMenuController =
         scheduleCampusMenuProvider.groupButtonCampusMenuController;
 
     final _groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
-
-    // double _tableFontSize = 10;
-
-    // print(_viewPortWidth);
 
     return Scaffold(
       // key: globalKey,
@@ -66,14 +59,6 @@ class _SchedulePageState extends State<SchedulePage> {
                     color: AppColor.navy,
                   ),
                 ),
-                // REMOVE ONE PADDING-ICON DUE TO NAV BAR HAMBURGER MENU
-                // Padding(
-                //   padding: EdgeInsets.all(8.0),
-                //   child: Icon(
-                //     Icons.search,
-                //     color: AppColor.navy,
-                //   ),
-                // ),
                 Text("Schedule of Classes"),
               ],
             ),
