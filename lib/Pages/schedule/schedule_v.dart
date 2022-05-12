@@ -135,16 +135,16 @@ class _SchedulePageState extends State<SchedulePage> {
                   right: 10,
                 ),
                 child: scheduleCampusMenuProvider.isLoading
-                    ? const SkeletonLine(
+                    ? SkeletonLine(
                         style: SkeletonLineStyle(
-                            alignment: Alignment.center,
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            padding: EdgeInsets.only(
-                              left: 200,
-                              right: 200,
-                            )
-                            // randomLength: true,
-                            ),
+                          alignment: Alignment.center,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          padding: EdgeInsets.only(
+                            left: viewPortWidth(context) * .2,
+                            right: viewPortWidth(context) * .2,
+                          ),
+                          // randomLength: true,
+                        ),
                       )
                     : scheduleCampusMenuProvider.hasError
                         ? Center(
