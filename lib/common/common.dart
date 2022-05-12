@@ -24,7 +24,6 @@ export 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';
-export 'package:schedule/common/controllers/counter.dart';
 export 'package:schedule/common/controllers/app_title.dart';
 export 'package:schedule/common/controllers/persistence.dart';
 export 'package:schedule/common/controllers/theme.dart';
