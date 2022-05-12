@@ -128,12 +128,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                   right: 20,
                 ),
                 child: directoryProvider.isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                            // color:
-                            //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
-                            ),
-                      )
+                    ? const CustomLoadingIndicator()
                     : directoryProvider.hasError
                         ? Center(child: Text(directoryProvider.errorMessage))
                         // : SelectableText(directoryProvider.data[0].toString()),

@@ -4,6 +4,10 @@ import 'package:schedule/config.dart';
 
 import 'package:talker/talker.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:rive/rive.dart' hide LinearGradient, RadialGradient;
+import 'package:flutter_modular/flutter_modular.dart';
+
+import 'package:schedule/common/controllers/theme.dart';
 
 export 'package:flutter/material.dart';
 
@@ -127,4 +131,30 @@ void showSnackBar(
     alignment: Alignment.center,
     position: StyledToastPosition.bottom,
   );
+}
+
+class CustomLoadingIndicator extends StatelessWidget {
+  const CustomLoadingIndicator({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: 150,
+        height: 150,
+        child: RiveAnimation.asset(
+          // "assets/rive/ldcc_mark.riv",
+          "assets/rive/elastic_circle.riv",
+          animations: [
+            Modular.get<AppTheme>().themeMode == ThemeMode.dark
+                ? "whiteInfinite"
+                : "navyInfinite"
+          ],
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
 }

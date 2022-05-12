@@ -329,12 +329,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   right: 20,
                 ),
                 child: scheduleProvider.isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                            // color:
-                            //     themeProvider.dark.colorScheme.secondary.withOpacity(1),
-                            ),
-                      )
+                    ? const CustomLoadingIndicator()
                     : scheduleProvider.hasError
                         ? Center(
                             child:
