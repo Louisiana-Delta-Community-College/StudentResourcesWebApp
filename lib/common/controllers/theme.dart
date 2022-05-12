@@ -19,12 +19,12 @@ class AppTheme extends ChangeNotifier {
       _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.white;
 
   Color get rowColorNormal =>
-      _themeMode == ThemeMode.dark ? Colors.black12 : Colors.white54;
+      _themeMode == ThemeMode.dark ? Colors.transparent : Colors.white54;
   Color get rowColorHighlighted => _themeMode == ThemeMode.dark
       ? AppColor.bronze2.withOpacity(.30)
       : AppColor.bronze2.withOpacity(.15);
   Color get rowColorHover => _themeMode == ThemeMode.dark
-      ? AppColor.bronze2.withOpacity(.45)
+      ? AppColor.bronze2.withOpacity(.50)
       : AppColor.bronze2.withOpacity(.30);
 
   init() {
