@@ -138,7 +138,8 @@ class _SchedulePageState extends State<SchedulePage> {
                     ? SkeletonLine(
                         style: SkeletonLineStyle(
                           alignment: Alignment.center,
-                          borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
                           padding: EdgeInsets.only(
                             left: viewPortWidth(context) * .2,
                             right: viewPortWidth(context) * .2,
@@ -419,6 +420,7 @@ class ScheduleEasyTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
+    final themeProvider = context.watch<AppTheme>();
     // final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
 
     // final _viewPortWidth = MediaQuery.of(context).size.width;
@@ -426,149 +428,163 @@ class ScheduleEasyTable extends StatelessWidget {
     final _rows = scheduleProvider.filteredData;
 
     return Center(
-      child: EasyTable(
-        EasyTableModel(
-          rows: _rows,
-          columns: [
-            EasyTableColumn(
-              name: "Controls",
-              width: 140,
-              cellBuilder: (context, row) => EasyTableCell(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // MORE INFO ICON
-                    IconButton(
-                      tooltip: "More Info",
-                      padding: const EdgeInsets.only(
-                        left: 1,
-                        right: 1,
+      child: EasyTableTheme(
+        data: EasyTableThemeData(
+          headerCell: HeaderCellThemeData(padding: EdgeInsets.all(5)),
+          row: RowThemeData(
+            hoveredColor: (index) => themeProvider.rowColorHover,
+            columnDividerColor: themeProvider.text,
+            color: (index) => index % 2 == 0
+                ? themeProvider.rowColorHighlighted
+                : themeProvider.rowColorNormal,
+          ),
+        ),
+        child: EasyTable(
+          EasyTableModel(
+            rows: _rows,
+            columns: [
+              EasyTableColumn(
+                name: "Controls",
+                width: 140,
+                // pinned: true,
+                cellBuilder: (context, row) => EasyTableCell(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // MORE INFO ICON
+                      IconButton(
+                        tooltip: "More Info",
+                        padding: const EdgeInsets.only(
+                          left: 1,
+                          right: 1,
+                        ),
+                        icon: const Icon(
+                          Icons.info_outline,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          scheduleProvider.showMoreInfoDialog(context, row);
+                        },
                       ),
-                      icon: const Icon(
-                        Icons.info_outline,
-                        size: 20,
+                      // BUY BOOKS ICON
+                      IconButton(
+                        tooltip: "Buy Materials",
+                        padding: const EdgeInsets.only(
+                          left: 1,
+                          right: 1,
+                        ),
+                        icon: const Icon(
+                          Icons.menu_book_sharp,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          scheduleProvider.launchBookStore(row);
+                        },
                       ),
-                      onPressed: () {
-                        scheduleProvider.showMoreInfoDialog(context, row);
-                      },
-                    ),
-                    // BUY BOOKS ICON
-                    IconButton(
-                      tooltip: "Buy Materials",
-                      padding: const EdgeInsets.only(
-                        left: 1,
-                        right: 1,
-                      ),
-                      icon: const Icon(
-                        Icons.menu_book_sharp,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        scheduleProvider.launchBookStore(row);
-                      },
-                    ),
-                    IconButton(
-                      tooltip: "Copy to Clipboard",
-                      padding: const EdgeInsets.only(
-                        left: 1,
-                        right: 1,
-                      ),
-                      icon: const Icon(
-                        Icons.copy_all_sharp,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        scheduleProvider.copyRowToClipboard(row);
+                      IconButton(
+                        tooltip: "Copy to Clipboard",
+                        padding: const EdgeInsets.only(
+                          left: 1,
+                          right: 1,
+                        ),
+                        icon: const Icon(
+                          Icons.copy_all_sharp,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          scheduleProvider.copyRowToClipboard(row);
 
-                        showSnackBar(
-                          'Course information copied to clipboard!',
-                          isSuccess: true,
-                        );
-                      },
-                    ),
-                  ],
+                          showSnackBar(
+                            'Course information copied to clipboard!',
+                            isSuccess: true,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            EasyTableColumn(
-              name: "CRN",
-              stringValue: (row) => (row as Map)["CRN"],
-              width: 60,
-            ),
-            EasyTableColumn(
-              name: "Subject",
-              stringValue: (row) => (row as Map)["SC"],
-              width: 70,
-            ),
-            EasyTableColumn(
-              name: "Course",
-              stringValue: (row) => (row as Map)["CN"],
-              width: 70,
-            ),
-            EasyTableColumn(
-              name: "Description",
-              stringValue: (row) => (row as Map)["CT"],
-              width: 250,
-            ),
-            EasyTableColumn(
-              name: "Days",
-              stringValue: (row) => (row as Map)["D"],
-              width: 80,
-            ),
-            EasyTableColumn(
-              name: "Start",
-              stringValue: (row) => (row as Map)["TB"],
-              width: 80,
-            ),
-            EasyTableColumn(
-              name: "End",
-              stringValue: (row) => (row as Map)["TE"],
-              width: 80,
-            ),
-            EasyTableColumn(
-              name: "Building",
-              stringValue: (row) => (row as Map)["B"],
-              width: 220,
-            ),
-            EasyTableColumn(
-              name: "Room",
-              stringValue: (row) => (row as Map)["R"],
-              width: 80,
-            ),
-            EasyTableColumn(
-              name: "Teacher(s)",
-              stringValue: (row) => (row as Map)["TN"].toString(),
-              width: 240,
-            ),
-            EasyTableColumn(
-              name: "Enrolled",
-              stringValue: (row) => "${(row as Map)["E"]} / ${row["MS"]}",
-              width: 80,
-            ),
-            EasyTableColumn(
-              name: "Date Start",
-              stringValue: (row) => (row as Map)["PTRMDS"],
-              width: 100,
-            ),
-            EasyTableColumn(
-              name: "Date End",
-              stringValue: (row) => (row as Map)["PTRMDE"],
-              width: 100,
-            ),
-            EasyTableColumn(
-              name: "Method",
-              stringValue: (row) => (row as Map)["INSMC"],
-              width: 80,
-            ),
-            EasyTableColumn(
-              name: "Added Fees",
-              stringValue: (row) => (row as Map)["AF"],
-              width: 100,
-            ),
-          ],
+              EasyTableColumn(
+                name: "CRN",
+                stringValue: (row) => (row as Map)["CRN"],
+                width: 60,
+                // pinned: true,
+              ),
+              EasyTableColumn(
+                name: "Subject",
+                stringValue: (row) => (row as Map)["SC"],
+                width: 70,
+              ),
+              EasyTableColumn(
+                name: "Course",
+                stringValue: (row) => (row as Map)["CN"],
+                width: 70,
+              ),
+              EasyTableColumn(
+                name: "Description",
+                stringValue: (row) => (row as Map)["CT"],
+                width: 250,
+              ),
+              EasyTableColumn(
+                name: "Days",
+                stringValue: (row) => (row as Map)["D"],
+                width: 80,
+              ),
+              EasyTableColumn(
+                name: "Start",
+                stringValue: (row) => (row as Map)["TB"],
+                width: 80,
+              ),
+              EasyTableColumn(
+                name: "End",
+                stringValue: (row) => (row as Map)["TE"],
+                width: 80,
+              ),
+              EasyTableColumn(
+                name: "Building",
+                stringValue: (row) => (row as Map)["B"],
+                width: 220,
+              ),
+              EasyTableColumn(
+                name: "Room",
+                stringValue: (row) => (row as Map)["R"],
+                width: 80,
+              ),
+              EasyTableColumn(
+                name: "Teacher(s)",
+                stringValue: (row) => (row as Map)["TN"].toString(),
+                width: 240,
+              ),
+              EasyTableColumn(
+                name: "Enrolled",
+                stringValue: (row) => "${(row as Map)["E"]} / ${row["MS"]}",
+                width: 80,
+              ),
+              EasyTableColumn(
+                name: "Date Start",
+                stringValue: (row) => (row as Map)["PTRMDS"],
+                width: 100,
+              ),
+              EasyTableColumn(
+                name: "Date End",
+                stringValue: (row) => (row as Map)["PTRMDE"],
+                width: 100,
+              ),
+              EasyTableColumn(
+                name: "Method",
+                stringValue: (row) => (row as Map)["INSMC"],
+                width: 80,
+              ),
+              EasyTableColumn(
+                name: "Added Fees",
+                stringValue: (row) => (row as Map)["AF"],
+                width: 100,
+              ),
+            ],
+          ),
+          // columnsFit: _viewPortWidth >= 1950 ? true : false,
+          visibleRowsCount: 20,
         ),
-        // columnsFit: _viewPortWidth >= 1950 ? true : false,
-        visibleRowsCount: 20,
       ),
     );
   }
