@@ -66,7 +66,7 @@ bool isSmallFormFactor(context) {
 void makeToast(String message) {
   showToast(
     message,
-    duration: const Duration(seconds: 3),
+    duration: const Duration(seconds: 4),
     animation: StyledToastAnimation.fade,
     reverseAnimation: StyledToastAnimation.fade,
     alignment: Alignment.center,
