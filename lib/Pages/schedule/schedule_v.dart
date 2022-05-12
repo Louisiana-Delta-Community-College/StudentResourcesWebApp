@@ -403,8 +403,10 @@ class _SchedulePageState extends State<SchedulePage> {
                 tooltip: 'Refresh',
                 child: const Icon(Icons.refresh),
                 heroTag: "btnRefresh",
-                backgroundColor: themeProvider.surface,
-                foregroundColor: AppColor.white,
+                backgroundColor:
+                    themeProvider.floatingActionButtonBackgroundColor,
+                foregroundColor:
+                    themeProvider.floatingActionButtonForegroundColor,
               ),
             ),
           ],

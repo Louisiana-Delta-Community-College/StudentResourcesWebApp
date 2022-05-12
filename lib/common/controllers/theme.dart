@@ -27,6 +27,11 @@ class AppTheme extends ChangeNotifier {
       ? AppColor.bronze2.withOpacity(.50)
       : AppColor.bronze2.withOpacity(.30);
 
+  Color get floatingActionButtonBackgroundColor =>
+      _themeMode == ThemeMode.dark ? Colors.white : AppColor.navy;
+  Color get floatingActionButtonForegroundColor =>
+      _themeMode == ThemeMode.dark ? AppColor.navy : Colors.white;
+
   init() {
     Modular.get<Persistence>().isDark
         ? _themeMode = ThemeMode.dark
