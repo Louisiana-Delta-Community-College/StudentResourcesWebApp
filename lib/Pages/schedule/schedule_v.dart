@@ -218,113 +218,106 @@ class _SchedulePageState extends State<SchedulePage> {
                 //   ])
                 ),
             // TERMS MENU
-            Expanded(
-              flex: 10,
-              child: Container(
-                  padding: const EdgeInsets.only(
-                    // top: 10,
-                    bottom: 10,
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: scheduleTermsMenuProvider.isLoading
-                      ? const SkeletonLine(
-                          style: SkeletonLineStyle(
-                              alignment: Alignment.center,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              padding: EdgeInsets.only(
-                                left: 200,
-                                right: 200,
-                              )
-                              // randomLength: true,
-                              ),
-                        )
-                      : scheduleTermsMenuProvider.hasError
-                          ? Center(
-                              child: SelectableText(
-                                  scheduleTermsMenuProvider.errorMessage),
+            Container(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                ),
+                child: scheduleTermsMenuProvider.isLoading
+                    ? const SkeletonLine(
+                        style: SkeletonLineStyle(
+                            alignment: Alignment.center,
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            padding: EdgeInsets.only(
+                              left: 200,
+                              right: 200,
                             )
-                          : GroupButton(
-                              controller: _groupButtonTermMenuController,
-                              buttons: scheduleTermsMenuProvider.termsList,
-                              isRadio: true,
-                              onSelected: (selectedTermDesc, index, ___) {
-                                if (!scheduleProvider.isLoading) {
-                                  // log.info(selectedTermDesc.toString());
-                                  // final selectedTermData =
-                                  //     scheduleTermsMenuProvider
-                                  //         .data
-                                  //         .where((e) =>
-                                  //             e["Term"] ==
-                                  //             selectedTermDesc.toString())
-                                  //         .toList();
-                                  scheduleProvider.term =
-                                      scheduleTermsMenuProvider.data[index]
-                                              ["Term"]
-                                          .toString();
-                                  scheduleProvider.termType =
-                                      scheduleTermsMenuProvider.data[index]
-                                              ["TermTy"]
-                                          .toString();
-                                  scheduleTermsMenuProvider.selectedTermDesc =
-                                      selectedTermDesc.toString();
-                                  // log.info(
-                                  //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
-                                  scheduleProvider.getScheduleData();
-                                }
-                              },
-                              options: const GroupButtonOptions(
-                                  unselectedColor: AppColor.navy,
-                                  unselectedTextStyle: TextStyle(
-                                    color: AppColor.white,
-                                  ),
-                                  selectedColor: AppColor.bronze2,
-                                  runSpacing: 0,
-                                  spacing: 0,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              buttonIndexedBuilder:
-                                  (isSelected, index, context) {
-                                return Container(
-                                  margin: const EdgeInsets.all(0),
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, top: 5, bottom: 5),
-                                  decoration: BoxDecoration(
-                                      color: isSelected
-                                          ? AppColor.bronze2
-                                          : AppColor.navy,
-                                      border: Border.all(
-                                          color: AppColor.bronze2, width: 2),
-                                      borderRadius: index == 0
-                                          ? const BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10))
-                                          : scheduleTermsMenuProvider
-                                                      .termsList[index] ==
-                                                  scheduleTermsMenuProvider
-                                                      .termsList.last
-                                              ? const BorderRadius.only(
-                                                  topRight: Radius.circular(10),
-                                                  bottomRight:
-                                                      Radius.circular(10))
-                                              : null),
-                                  child: Text(
+                            // randomLength: true,
+                            ),
+                      )
+                    : scheduleTermsMenuProvider.hasError
+                        ? Center(
+                            child: SelectableText(
+                                scheduleTermsMenuProvider.errorMessage),
+                          )
+                        : GroupButton(
+                            controller: _groupButtonTermMenuController,
+                            buttons: scheduleTermsMenuProvider.termsList,
+                            isRadio: true,
+                            onSelected: (selectedTermDesc, index, ___) {
+                              if (!scheduleProvider.isLoading) {
+                                // log.info(selectedTermDesc.toString());
+                                // final selectedTermData =
+                                //     scheduleTermsMenuProvider
+                                //         .data
+                                //         .where((e) =>
+                                //             e["Term"] ==
+                                //             selectedTermDesc.toString())
+                                //         .toList();
+                                scheduleProvider.term =
                                     scheduleTermsMenuProvider.data[index]
-                                            ["Desc"]
-                                        .toString(),
-                                    style: const TextStyle(
-                                        color: AppColor.white, fontSize: 12),
-                                  ),
-                                );
-                              },
-                            )
-                  // isSelected: [
-                  //     for (final item in scheduleMenuProvider.data) true
-                  //   ])
-                  ),
-              // COURSES
-            ),
+                                            ["Term"]
+                                        .toString();
+                                scheduleProvider.termType =
+                                    scheduleTermsMenuProvider.data[index]
+                                            ["TermTy"]
+                                        .toString();
+                                scheduleTermsMenuProvider.selectedTermDesc =
+                                    selectedTermDesc.toString();
+                                // log.info(
+                                //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
+                                scheduleProvider.getScheduleData();
+                              }
+                            },
+                            options: const GroupButtonOptions(
+                                unselectedColor: AppColor.navy,
+                                unselectedTextStyle: TextStyle(
+                                  color: AppColor.white,
+                                ),
+                                selectedColor: AppColor.bronze2,
+                                runSpacing: 0,
+                                spacing: 0,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            buttonIndexedBuilder: (isSelected, index, context) {
+                              return Container(
+                                margin: const EdgeInsets.all(0),
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
+                                decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? AppColor.bronze2
+                                        : AppColor.navy,
+                                    border: Border.all(
+                                        color: AppColor.bronze2, width: 2),
+                                    borderRadius: index == 0
+                                        ? const BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            bottomLeft: Radius.circular(10))
+                                        : scheduleTermsMenuProvider
+                                                    .termsList[index] ==
+                                                scheduleTermsMenuProvider
+                                                    .termsList.last
+                                            ? const BorderRadius.only(
+                                                topRight: Radius.circular(10),
+                                                bottomRight:
+                                                    Radius.circular(10))
+                                            : null),
+                                child: Text(
+                                  scheduleTermsMenuProvider.data[index]["Desc"]
+                                      .toString(),
+                                  style: const TextStyle(
+                                      color: AppColor.white, fontSize: 12),
+                                ),
+                              );
+                            },
+                          )
+                // isSelected: [
+                //     for (final item in scheduleMenuProvider.data) true
+                //   ])
+                ),
             Expanded(
               flex: 80,
               child: Container(
