@@ -221,7 +221,10 @@ class ContactsEasyTable extends StatelessWidget {
     return Center(
       child: EasyTableTheme(
         data: EasyTableThemeData(
-          headerCell: const HeaderCellThemeData(padding: EdgeInsets.all(5)),
+          headerCell: HeaderCellThemeData(
+            padding: const EdgeInsets.all(5),
+            sortIconColor: themeProvider.text,
+          ),
           row: RowThemeData(
             hoveredColor: (index) => themeProvider.rowColorHover,
             columnDividerColor: themeProvider.text,
