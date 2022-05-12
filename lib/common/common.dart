@@ -66,7 +66,7 @@ bool isSmallFormFactor(context) {
 void makeToast(String message) {
   showToast(
     message,
-    duration: const Duration(seconds: 4),
+    duration: const Duration(seconds: 5),
     animation: StyledToastAnimation.fade,
     reverseAnimation: StyledToastAnimation.fade,
     alignment: Alignment.center,
@@ -75,5 +75,56 @@ void makeToast(String message) {
     textStyle: const TextStyle(
       color: AppColor.white,
     ),
+  );
+}
+
+void showSnackBar(
+  String message, {
+  dynamic isSuccess,
+}) {
+  Widget? iconWidget;
+  if (isSuccess is bool && isSuccess) {
+    iconWidget = Icon(
+      Icons.check_circle_outline_sharp,
+      color: Colors.green[400],
+    );
+  } else if (isSuccess is bool && !isSuccess) {
+    iconWidget = Icon(
+      Icons.cancel_outlined,
+      color: Colors.red[400],
+    );
+  } else {
+    iconWidget = Container();
+  }
+  showToastWidget(
+    Container(
+      height: 50,
+      width: double.infinity,
+      color: AppColor.navy,
+      child: Align(
+        child: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconWidget,
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  message,
+                  style: TextStyle(color: AppColor.white),
+                ),
+              ),
+            ],
+          ),
+        ),
+        alignment: Alignment.centerLeft,
+      ),
+    ),
+    duration: const Duration(seconds: 5),
+    animation: StyledToastAnimation.slideFromBottom,
+    reverseAnimation: StyledToastAnimation.slideFromBottom,
+    alignment: Alignment.center,
+    position: StyledToastPosition.bottom,
   );
 }

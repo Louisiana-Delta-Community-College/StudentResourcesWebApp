@@ -480,7 +480,10 @@ class ScheduleEasyTable extends StatelessWidget {
                       onPressed: () {
                         scheduleProvider.copyRowToClipboard(row);
 
-                        makeToast('Course information copied to clipboard!');
+                        showSnackBar(
+                          'Course information copied to clipboard!',
+                          isSuccess: true,
+                        );
                       },
                     ),
                   ],
