@@ -240,8 +240,7 @@ class Schedule extends ChangeNotifier {
                       TextButton.icon(
                         onPressed: () {
                           copyRowToClipboard(row);
-                          showSnackBarMessage(context,
-                              "Course information copied to clipboard!");
+                          makeToast("Course information copied to clipboard!");
                         },
                         icon: const Icon(Icons.copy_all_sharp),
                         label: const Text("Copy to Clipboard"),

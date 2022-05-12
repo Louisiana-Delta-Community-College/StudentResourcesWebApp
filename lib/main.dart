@@ -7,7 +7,10 @@ void main() async {
   runApp(
     ModularApp(
       module: ModularConfig(),
-      child: const MyApp(),
+      child: StyledToast(
+        child: const MyApp(),
+        locale: const Locale("en", "US"),
+      ),
     ),
   );
 }
@@ -84,6 +87,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      globalContext = context;
+    });
     final themeProvider = context.watch<AppTheme>();
     final titleProvider = context.watch<AppTitle>();
     return MaterialApp.router(

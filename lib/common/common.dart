@@ -1,7 +1,9 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:schedule/config.dart';
 
 import 'package:talker/talker.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 export 'package:flutter/material.dart';
 
@@ -14,6 +16,7 @@ export 'package:html/parser.dart' show parse;
 export 'package:recase/recase.dart';
 export 'package:skeletons/skeletons.dart';
 export 'package:clipboard/clipboard.dart';
+export 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';
@@ -24,6 +27,8 @@ export 'package:schedule/common/controllers/theme.dart';
 
 export 'package:schedule/Pages/schedule/schedule_c.dart';
 export 'package:schedule/Pages/directory/directory_c.dart';
+
+late BuildContext globalContext;
 
 final log = Talker();
 // final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
@@ -58,24 +63,18 @@ bool isSmallFormFactor(context) {
   return _isSmallFormFactor;
 }
 
-// TODO: CHANGE THIS TO USE SOMETHING BETTER WHICH DOES NOT REQUIRE A SCAFFOLD CONTEXT....
-void showSnackBarMessage(BuildContext context, String message) {
-  final snackBar = SnackBar(
-    backgroundColor: Theme.of(context).colorScheme.tertiary,
-    content: Text(
-      message,
-      style: TextStyle(color: Theme.of(context).colorScheme.onTertiary),
-    ),
-    action: SnackBarAction(
-      label: 'OK',
-      onPressed: () {
-        // Some code to undo the change.
-      },
-      textColor: Theme.of(context).colorScheme.onTertiary,
+void makeToast(String message) {
+  log.verbose(globalContext.toString());
+  showToast(
+    message,
+    duration: const Duration(seconds: 3),
+    animation: StyledToastAnimation.fade,
+    reverseAnimation: StyledToastAnimation.fade,
+    alignment: Alignment.center,
+    position: StyledToastPosition.bottom,
+    backgroundColor: AppColor.navy.withOpacity(.8),
+    textStyle: const TextStyle(
+      color: AppColor.white,
     ),
   );
-
-  // Find the ScaffoldMessenger in the widget tree
-  // and use it to show a SnackBar.
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
