@@ -257,6 +257,11 @@ class ContactsEasyTable extends StatelessWidget {
                   onTap: () =>
                       launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                 ),
+                sort: (a, b) {
+                  return (a as Map)["PhoneNumber"]
+                      .toString()
+                      .compareTo((b as Map)["PhoneNumber"].toString());
+                },
                 width: 130,
               ),
               EasyTableColumn(
