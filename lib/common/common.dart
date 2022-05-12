@@ -64,7 +64,6 @@ bool isSmallFormFactor(context) {
 }
 
 void makeToast(String message) {
-  log.verbose(globalContext.toString());
   showToast(
     message,
     duration: const Duration(seconds: 3),
