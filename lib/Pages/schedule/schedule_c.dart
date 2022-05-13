@@ -339,8 +339,10 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  InfoRow("Flat:", "${(row)["FF"]}"),
-                  InfoRow("Credit:", "${row["FC"]}"),
+                  InfoRow(
+                      "Flat:", "${(row)["FF"] == "" ? "0.00" : (row)["FF"]}"),
+                  InfoRow(
+                      "Credit:", "${(row)["FC"] == "" ? "0.00" : (row)["FC"]}"),
                   Divider(
                     thickness: 1,
                     indent: 16,
