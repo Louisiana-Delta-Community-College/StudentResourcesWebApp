@@ -290,180 +290,78 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  const ListTile(
-                    dense: true,
-                    leading: Text(
-                      "Course Details",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: const [
+                        Text(
+                          "Course Details",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "CRN:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(
-                      row["CRN"].toString().trim(),
-                    ),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
+                  InfoRow("CRN:", row["CRN"].toString().trim()),
+                  InfoRow(
                       "Campus:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(
                       row["C"]
                           .toString()
                           .replaceAll("LDCC", "")
                           .replaceAll("CAMPUS", "")
                           .titleCase
-                          .trim(),
-                    ),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Teacher(s):",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(row["TN"].toString()),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Enrolled:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText("${row["E"]} / ${row["MS"]}"),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Building:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(row["B"].toString()),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Room:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(row["R"].toString()),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Dates in Session:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing:
-                        SelectableText("${row["PTRMDS"]} / ${row["PTRMDE"]}"),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Days:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(row["D"].toString()),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Time:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText("${row["TB"]} - ${row["TE"]}"),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Credit Hours:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText(row["CH"].toString()),
-                  ),
+                          .trim()),
+                  InfoRow("Teacher(s):", row["TN"].toString()),
+                  InfoRow("Enrolled:", "${row["E"]} / ${row["MS"]}"),
+                  InfoRow("Building:", row["B"].toString()),
+                  InfoRow("Room:", row["R"].toString()),
+                  InfoRow("Dates in Session:",
+                      "${row["PTRMDS"]} / ${row["PTRMDE"]}"),
+                  InfoRow("Days:", row["D"].toString()),
+                  InfoRow("Time:", "${row["TB"]} - ${row["TE"]}"),
+                  InfoRow("Credit Hours:", row["CH"].toString()),
                   // ADDITIONAL FEES
-                  const ListTile(
-                    dense: true,
-                    leading: Text(
-                      "Additional Fees",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: const [
+                        Text(
+                          "Additional Fees",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Flat:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText("${(row)["FF"]}"),
-                  ),
-                  ListTile(
-                    dense: true,
-                    leading: const Text(
-                      "Credit:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    trailing: SelectableText("${row["FC"]}"),
-                  ),
+                  InfoRow("Flat:", "${(row)["FF"]}"),
+                  InfoRow("Credit:", "${row["FC"]}"),
                   Divider(
                     thickness: 1,
+                    indent: 16,
+                    endIndent: 16,
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
-                  ListTile(
-                    dense: true,
-                    // leading: const SelectableText(
-                    //   "Credit:",
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    trailing: SelectableText(feesTotal),
-                  ),
+                  InfoRow("", feesTotal),
                   // DESCRIPTION
-                  const ListTile(
-                    dense: true,
-                    leading: Text(
-                      "Description",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: const [
+                        Text(
+                          "Description",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   ListTile(
@@ -682,5 +580,38 @@ class ScheduleCampusMenu extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+}
+
+class InfoRow extends StatelessWidget {
+  const InfoRow(this.name, this.value, {Key? key}) : super(key: key);
+
+  final String name;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            name,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+          SelectableText(
+            value,
+            style: const TextStyle(
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
