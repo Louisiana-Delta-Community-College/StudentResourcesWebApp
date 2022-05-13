@@ -194,6 +194,8 @@ class Schedule extends ChangeNotifier {
   }
 
   Future<dynamic> showMoreInfoDialog(BuildContext context, Object? row) {
+    final ScrollController _scrollController = ScrollController();
+
     return showDialog(
       context: context,
       builder: (context) {
@@ -229,252 +231,257 @@ class Schedule extends ChangeNotifier {
           content: SizedBox(
             height: MediaQuery.of(context).size.height * .80,
             width: MediaQuery.of(context).size.width * .80,
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                // BUY MATERIALS BUTTON
-                ListTile(
-                  dense: true,
-                  title: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton.icon(
-                        onPressed: () => launchBookStore(row),
-                        icon: const Icon(Icons.menu_book_sharp),
-                        label: const Text("Buy Materials"),
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
-                              AppColor.bronze2.withOpacity(.5)),
-                          foregroundColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.tertiary,
-                          ),
-                          side: MaterialStateProperty.all(
-                            BorderSide(
-                              width: 1,
-                              color: Theme.of(context).colorScheme.tertiary,
+            child: Scrollbar(
+              controller: _scrollController,
+              isAlwaysShown: true,
+              child: ListView(
+                shrinkWrap: true,
+                controller: _scrollController,
+                children: [
+                  // BUY MATERIALS BUTTON
+                  ListTile(
+                    dense: true,
+                    title: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () => launchBookStore(row),
+                          icon: const Icon(Icons.menu_book_sharp),
+                          label: const Text("Buy Materials"),
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(
+                                AppColor.bronze2.withOpacity(.5)),
+                            foregroundColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.tertiary,
+                            ),
+                            side: MaterialStateProperty.all(
+                              BorderSide(
+                                width: 1,
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      TextButton.icon(
-                        onPressed: () {
-                          copyRowToClipboard(row);
-                          showSnackBar(
-                            "Course information copied to clipboard!",
-                            isSuccess: true,
-                          );
-                        },
-                        icon: const Icon(Icons.copy_all_sharp),
-                        label: const Text("Copy to Clipboard"),
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
-                              AppColor.bronze2.withOpacity(.5)),
-                          foregroundColor: MaterialStateProperty.all(
-                            Theme.of(context).colorScheme.tertiary,
-                          ),
-                          side: MaterialStateProperty.all(
-                            BorderSide(
-                              width: 1,
-                              color: Theme.of(context).colorScheme.tertiary,
+                        TextButton.icon(
+                          onPressed: () {
+                            copyRowToClipboard(row);
+                            showSnackBar(
+                              "Course information copied to clipboard!",
+                              isSuccess: true,
+                            );
+                          },
+                          icon: const Icon(Icons.copy_all_sharp),
+                          label: const Text("Copy to Clipboard"),
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(
+                                AppColor.bronze2.withOpacity(.5)),
+                            foregroundColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.tertiary,
+                            ),
+                            side: MaterialStateProperty.all(
+                              BorderSide(
+                                width: 1,
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  const ListTile(
+                    dense: true,
+                    leading: Text(
+                      "Course Details",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                    ],
-                  ),
-                ),
-                const ListTile(
-                  dense: true,
-                  leading: Text(
-                    "Course Details",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
                     ),
                   ),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "CRN:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "CRN:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(
+                      row["CRN"].toString().trim(),
                     ),
                   ),
-                  trailing: SelectableText(
-                    row["CRN"].toString().trim(),
-                  ),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Campus:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Campus:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(
+                      row["C"]
+                          .toString()
+                          .replaceAll("LDCC", "")
+                          .replaceAll("CAMPUS", "")
+                          .titleCase
+                          .trim(),
                     ),
                   ),
-                  trailing: SelectableText(
-                    row["C"]
-                        .toString()
-                        .replaceAll("LDCC", "")
-                        .replaceAll("CAMPUS", "")
-                        .titleCase
-                        .trim(),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Teacher(s):",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(row["TN"].toString()),
                   ),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Teacher(s):",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Enrolled:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText("${row["E"]} / ${row["MS"]}"),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Building:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(row["B"].toString()),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Room:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(row["R"].toString()),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Dates in Session:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing:
+                        SelectableText("${row["PTRMDS"]} / ${row["PTRMDE"]}"),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Days:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(row["D"].toString()),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Time:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText("${row["TB"]} - ${row["TE"]}"),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Credit Hours:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText(row["CH"].toString()),
+                  ),
+                  // ADDITIONAL FEES
+                  const ListTile(
+                    dense: true,
+                    leading: Text(
+                      "Additional Fees",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                  trailing: SelectableText(row["TN"].toString()),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Enrolled:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Flat:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText("${(row)["FF"]}"),
+                  ),
+                  ListTile(
+                    dense: true,
+                    leading: const Text(
+                      "Credit:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    trailing: SelectableText("${row["FC"]}"),
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                  ListTile(
+                    dense: true,
+                    // leading: const SelectableText(
+                    //   "Credit:",
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    trailing: SelectableText(feesTotal),
+                  ),
+                  // DESCRIPTION
+                  const ListTile(
+                    dense: true,
+                    leading: Text(
+                      "Description",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                  trailing: SelectableText("${row["E"]} / ${row["MS"]}"),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Building:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    dense: true,
+                    title: SelectableText(
+                      row["N"].toString().trim() != ""
+                          ? parse(row["N"].toString())
+                              .body!
+                              .text
+                              .replaceAll("<br/>", "\n")
+                          : "No description.",
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                  trailing: SelectableText(row["B"].toString()),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Room:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing: SelectableText(row["R"].toString()),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Dates in Session:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing:
-                      SelectableText("${row["PTRMDS"]} / ${row["PTRMDE"]}"),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Days:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing: SelectableText(row["D"].toString()),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Time:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing: SelectableText("${row["TB"]} - ${row["TE"]}"),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Credit Hours:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing: SelectableText(row["CH"].toString()),
-                ),
-                // ADDITIONAL FEES
-                const ListTile(
-                  dense: true,
-                  leading: Text(
-                    "Additional Fees",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Flat:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing: SelectableText("${(row)["FF"]}"),
-                ),
-                ListTile(
-                  dense: true,
-                  leading: const Text(
-                    "Credit:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  trailing: SelectableText("${row["FC"]}"),
-                ),
-                Divider(
-                  thickness: 1,
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
-                ListTile(
-                  dense: true,
-                  // leading: const SelectableText(
-                  //   "Credit:",
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  trailing: SelectableText(feesTotal),
-                ),
-                // DESCRIPTION
-                const ListTile(
-                  dense: true,
-                  leading: Text(
-                    "Description",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  dense: true,
-                  title: SelectableText(
-                    row["N"].toString().trim() != ""
-                        ? parse(row["N"].toString())
-                            .body!
-                            .text
-                            .replaceAll("<br/>", "\n")
-                        : "No description.",
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
