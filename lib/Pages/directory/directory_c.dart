@@ -40,11 +40,22 @@ class Directory extends ChangeNotifier {
           ? contact["Campus"].toString().toLowerCase() ==
               _selectedCampus.toLowerCase()
           : true)
-      .where((contact) => contact
-          .toString()
-          .toLowerCase()
-          // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-          .contains(RegExp(_searchString, caseSensitive: false)))
+      .where((contact) =>
+          (contact as Map)
+              .values
+              .toList()
+              .toString()
+              .toLowerCase()
+              // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
+              .contains(RegExp(_searchString, caseSensitive: false)) ||
+          contact.values
+              .toList()
+              .reversed
+              .toList()
+              .toString()
+              .toLowerCase()
+              // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
+              .contains(RegExp(_searchString, caseSensitive: false)))
       .toList();
 
   Future getDirectoryData() async {
