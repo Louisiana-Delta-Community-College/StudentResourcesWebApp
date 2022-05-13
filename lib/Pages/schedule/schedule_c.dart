@@ -210,7 +210,7 @@ class Schedule extends ChangeNotifier {
           log.error(e.toString());
         }
         return AlertDialog(
-          title: Text("${row["CT"]} - ${row["SC"]} ${row["CN"]}"),
+          title: Text("${row["SC"]} ${row["CN"]} - ${row["CT"]}"),
           alignment: Alignment.center,
           actions: [
             TextButton(
