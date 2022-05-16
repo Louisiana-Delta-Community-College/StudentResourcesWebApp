@@ -507,6 +507,11 @@ class ScheduleEasyTable extends StatelessWidget {
                 width: 250,
               ),
               EasyTableColumn(
+                name: "Hours",
+                stringValue: (row) => (row as Map)["CH"],
+                width: 60,
+              ),
+              EasyTableColumn(
                 name: "Days",
                 stringValue: (row) => (row as Map)["D"],
                 width: 80,
@@ -563,7 +568,7 @@ class ScheduleEasyTable extends StatelessWidget {
               ),
             ],
           ),
-          // columnsFit: _viewPortWidth >= 1950 ? true : false,
+          // columnsFit: viewPortWidth(context) >= 1900 ? true : false,
           visibleRowsCount: 20,
         ),
       ),
