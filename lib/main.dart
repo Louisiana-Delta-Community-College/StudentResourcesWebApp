@@ -1,4 +1,5 @@
 import 'package:schedule/common/common.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -13,6 +14,7 @@ void main() async {
       ),
     ),
   );
+  RendererBinding.instance!.setSemanticsEnabled(true);
 }
 
 class ModularConfig extends Module {
