@@ -473,16 +473,18 @@ else:
 
 def main():
 
-  if not useCachedFile:
+  if useCachedFile:
+    # conditions met to use the cached data, so return that
+
+    # print("returning cached data")
+
+    JSONString = open(os.path.join(cacheDir, cachedFileName), "r").read()
+  else:
+    # conditions are NOT met to return cached data, so attempt to get fresh data
+
     # print("getting fresh data")
 
     scheduleList = []
-
-    # with open('C:/inetpub/wwwroot/cache/test.json' % globals(), 'r') as schedule:
-    #   scheduleList = schedule.read()
-    #   print()
-    #   print(scheduleList)
-    #   exit()
 
     if RS:
       for i in RS:
@@ -586,20 +588,19 @@ def main():
           }
         )
 
-    JSONString = json.dumps(
-      scheduleList,
-      # sort_keys=True,
-      # indent=4
-      )
+      JSONString = json.dumps(
+        scheduleList,
+        # sort_keys=True,
+        # indent=4
+        )
 
-    # cache the data
-    with open(os.path.join(cacheDir, f"{term}_{termty}.json"), "w") as cf:
-      cf.write(JSONString)
-
-  else:
-    # print("using cached data")
-    # use the cached data
-    JSONString = open(os.path.join(cacheDir, cachedFileName), "r").read()
+      # cache the data
+      with open(os.path.join(cacheDir, f"{term}_{termty}.json"), "w") as cf:
+        cf.write(JSONString)
+    else:
+      # couldn't get fresh data from banner, so try to return cached data
+      JSONString = open(os.path.join(cacheDir, cachedFileName), "r").read()
+    
 
   # import gzip
   # print('Content-type: application/octet-stream\n')
