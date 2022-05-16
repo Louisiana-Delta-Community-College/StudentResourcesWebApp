@@ -272,7 +272,7 @@ class Schedule extends ChangeNotifier {
                             );
                           },
                           icon: const Icon(Icons.copy_all_sharp),
-                          label: const Text("Copy to Clipboard"),
+                          label: const Text("Copy Course Info"),
                           style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
                                 AppColor.bronze2.withOpacity(.5)),

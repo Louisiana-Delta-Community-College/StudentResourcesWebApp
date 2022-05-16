@@ -463,7 +463,7 @@ class ScheduleEasyTable extends StatelessWidget {
                         },
                       ),
                       IconButton(
-                        tooltip: "Copy to Clipboard",
+                        tooltip: "Copy Course Information",
                         padding: const EdgeInsets.only(
                           left: 1,
                           right: 1,
