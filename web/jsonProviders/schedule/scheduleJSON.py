@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 # Debug mode:
 cgitb.enable()
 
-cacheDir = 'C:/inetpub/wwwroot/cache/'
+cacheDir = 'C:/inetpub/wwwroot/cache/schedule'
 cacheTimeOutInSeconds = 60 * 60  # 1 hour
 
 import sys
@@ -80,6 +80,11 @@ camp = ''
 termty = ''
 term = ''
 
+if form.getvalue('termty'):
+  termty = form.getvalue('termty')
+else:
+  termty = ''
+
 if form.getvalue('camp'):
   camp = form.getvalue("camp")
   if (camp == '') or (camp.upper() == 'ALL'):
@@ -107,7 +112,10 @@ else:
 if form.getvalue('term'):
   term = form.getvalue('term')
 else:
+  # no term passed in so we need to know which term to retrieve
   try:
+    # attempt to derive it given the current date, relative to 
+    # the start and end dates of terms in banner
     strTermSQL = """
     SELECT 
       stvterm.stvterm_code term,
@@ -131,10 +139,28 @@ else:
     if RSTermCurrent:
       term = RSTermCurrent[0]
       strTermDesc = RSTermCurrent[1]
+      # persist derived term in case we need it later 
+      # (connection to LDCC fails at a later time)
+      with open(os.path.join(cacheDir, "lastDerivedTerm.json"), 'w') as ldt:
+        ldt.write(json.dumps({"term": term}))
   except:
-    term = '202120'
+    # could not derive term from banner, so...
+    try:
+      # attempt retrieving last derived term first
+      if os.path.exists(os.path.join(cacheDir, "lastDerivedTerm.json")):
+        with open(os.path.join(cacheDir, "lastDerivedTerm.json"), 'r') as ldt:
+          term = json.loads(ldt.read())["term"]
+    except:
+      # if that fails, check for default term in scheduleTermMenu.json file
+      with open(os.path.join("C:/inetpub/wwwroot/jsonProviders/schedule", "scheduleTermMenu.json")) as termMenuJson:
+        termMenuData = json.loads(termMenuJson.read())
+        for entry in termMenuData:
+          if entry["default"]:
+            term = entry["Term"]
+            break
 
-cachedFileName, cachedFileModifiedTime = checkCache(term=term)
+
+cachedFileName, cachedFileModifiedTime = checkCache(term=term, termType=termty)
 def setUseCachedFile():
   if cachedFileName is not None:
     modTime = datetime.fromtimestamp(cachedFileModifiedTime)
@@ -149,10 +175,7 @@ if cachedFileName != "" and useCachedFile:
   pass
 else:
     strTermTySQL = ''
-    if form.getvalue('termty'):
-      termty = form.getvalue('termty')
-    else:
-      termty = ''
+    
 
     if (termty.upper() == 'W') or (termty.upper() == 'JWN'):
       strTermTySQL = "AND SSBSECT.SSBSECT_PTRM_CODE = 'JWN' "
