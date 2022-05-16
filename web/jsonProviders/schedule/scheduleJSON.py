@@ -5,7 +5,6 @@ __author__ = 'jaredfields'
 
 import cgi, cgitb
 import os
-import sys
 from datetime import datetime, timedelta
 # Debug mode:
 cgitb.enable()
@@ -35,7 +34,7 @@ def checkCache(term="", termType=""):
       try:
           cachedTerm, cachedTermType = f.replace(".json", "").split('_')
       except:
-          cachedTerm = f.replace(".txt", "").split('_')
+          cachedTerm = f.replace(".json", "").split('_')
           cachedTermType = ""
       if term == cachedTerm and termType == cachedTermType:
         return f, os.path.getmtime(os.path.join(cacheDir, f))
