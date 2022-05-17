@@ -21,15 +21,23 @@ class AppTheme extends ChangeNotifier {
   Color get rowColorNormal =>
       _themeMode == ThemeMode.dark ? Colors.transparent : Colors.white54;
   Color get rowColorHighlighted => _themeMode == ThemeMode.dark
-      ? AppColor.secondary.withOpacity(.30)
-      : AppColor.secondary.withOpacity(.50);
+      ? AppColor.secondary.withOpacity(.40)
+      : AppColor.secondary.withOpacity(.30);
   Color get rowColorHover => _themeMode == ThemeMode.dark
-      ? AppColor.secondary.withOpacity(.50)
-      : AppColor.secondary.withOpacity(.70);
+      ? AppColor.secondary.withOpacity(.60)
+      : AppColor.secondary.withOpacity(.50);
 
   Color get menuColor => AppColor.primary;
   // Color get menuColorSelected => AppColor.darkSilver.withOpacity(.9);
   Color get menuColorSelected => AppColor.secondary.withAlpha(200);
+
+  Color get mobileCardBorderColor => _themeMode == ThemeMode.dark
+      ? AppColor.secondary.withAlpha(200)
+      : AppColor.primary;
+  Color get mobileCardBorderTextColor =>
+      mobileCardBorderColor.computeLuminance() >= .5
+          ? AppColor.navy
+          : AppColor.white;
 
   Color get floatingActionButtonBackgroundColor =>
       _themeMode == ThemeMode.dark ? Colors.white : AppColor.primary;

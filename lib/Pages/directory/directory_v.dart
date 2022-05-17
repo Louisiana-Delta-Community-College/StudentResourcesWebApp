@@ -318,11 +318,9 @@ class ContactsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final String _courseName = "${course["SC"]} ${course["CN"]}";
-    // final borderColor = AppColor.bronze3.withOpacity(.7);
-    final Color _borderColor = Theme.of(context).colorScheme.primary;
-    // final Color _color = Theme.of(context).colorScheme.primary;
-    final Color _borderTextColor = Theme.of(context).colorScheme.onPrimary;
+    final themeProvider = context.watch<AppTheme>();
+    final Color _borderColor = themeProvider.mobileCardBorderColor;
+    final Color _borderTextColor = themeProvider.mobileCardBorderTextColor;
     final Color _textColor = Theme.of(context).colorScheme.onBackground;
 
     final name = contact["LastName"].toString().trim() +
