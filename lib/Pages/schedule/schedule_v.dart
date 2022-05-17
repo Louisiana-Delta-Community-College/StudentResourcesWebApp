@@ -166,12 +166,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColor.bronze3
+                                      ? AppColor.copper
                                       : AppColor.navy,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5)),
                                   border: Border.all(
-                                      color: AppColor.bronze3, width: 2),
+                                      color: AppColor.copper, width: 2),
                                   // borderRadius: index == 0
                                   //     ? const BorderRadius.only(
                                   //         topLeft: Radius.circular(10),
@@ -192,14 +192,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .replaceAll("CAMPUS", "")
                                       .titleCase
                                       .trim(),
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppColor.navy
-                                        : AppColor.white,
+                                  style: const TextStyle(
+                                    color: AppColor.white,
                                     fontSize: 12,
-                                    fontWeight: isSelected
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
                               );
@@ -268,7 +264,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 unselectedTextStyle: TextStyle(
                                   color: AppColor.white,
                                 ),
-                                selectedColor: AppColor.bronze3,
+                                selectedColor: AppColor.copper,
                                 runSpacing: 0,
                                 spacing: 0,
                                 borderRadius:
@@ -280,10 +276,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                     color: isSelected
-                                        ? AppColor.bronze3
+                                        ? AppColor.copper
                                         : AppColor.navy,
                                     border: Border.all(
-                                        color: AppColor.bronze3, width: 2),
+                                        color: AppColor.copper, width: 2),
                                     borderRadius: index == 0
                                         ? const BorderRadius.only(
                                             topLeft: Radius.circular(10),
@@ -301,13 +297,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                   scheduleTermsMenuProvider.data[index]["Desc"]
                                       .toString(),
                                   style: TextStyle(
-                                    color: isSelected
-                                        ? AppColor.navy
-                                        : AppColor.white,
+                                    color: AppColor.white,
                                     fontSize: 12,
-                                    fontWeight: isSelected
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
+                                    fontWeight: FontWeight.normal,
                                   ),
                                 ),
                               );
