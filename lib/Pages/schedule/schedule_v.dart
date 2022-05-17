@@ -210,7 +210,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     //         ? AppColor.primary
                                     //         : AppColor.white,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                    // fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               );
@@ -329,7 +329,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     //         ? AppColor.primary
                                     //         : AppColor.white,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                    // fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               );
