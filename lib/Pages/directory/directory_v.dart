@@ -161,7 +161,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
           ],
         ),
       ),
-      floatingActionButton: FadeInRight(
+      floatingActionButton: FadeInUp(
         preferences: const AnimationPreferences(
           duration: Duration(
             milliseconds: 500,
@@ -354,7 +354,7 @@ class ContactsCard extends StatelessWidget {
               name,
               style: TextStyle(
                 color: _borderTextColor,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.w600,
               ),
             ),
             height: 30,

@@ -146,14 +146,15 @@ class _SchedulePageState extends State<SchedulePage> {
                                 scheduleProvider.campus = selected.toString();
                               }
                             },
-                            options: const GroupButtonOptions(
+                            options: GroupButtonOptions(
                               unselectedColor: AppColor.navy,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              unselectedTextStyle: TextStyle(
+                                  const BorderRadius.all(Radius.circular(10)),
+                              unselectedTextStyle: const TextStyle(
                                 color: AppColor.white,
                               ),
-                              selectedColor: AppColor.bronze,
+                              selectedColor:
+                                  AppColor.darkSilver.withOpacity(.9),
                               runSpacing: 2,
                               spacing: 2,
                               // borderRadius:
@@ -166,12 +167,14 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColor.bronze
+                                      ? AppColor.darkSilver.withOpacity(.9)
                                       : AppColor.navy,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5)),
                                   border: Border.all(
-                                      color: AppColor.bronze, width: 2),
+                                      color:
+                                          AppColor.darkSilver.withOpacity(.9),
+                                      width: 2),
                                   // borderRadius: index == 0
                                   //     ? const BorderRadius.only(
                                   //         topLeft: Radius.circular(10),
@@ -192,10 +195,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .replaceAll("CAMPUS", "")
                                       .titleCase
                                       .trim(),
-                                  style: const TextStyle(
-                                    color: AppColor.white,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? AppColor.navy
+                                        : AppColor.white,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               );
@@ -259,16 +264,17 @@ class _SchedulePageState extends State<SchedulePage> {
                                 scheduleProvider.getScheduleData();
                               }
                             },
-                            options: const GroupButtonOptions(
+                            options: GroupButtonOptions(
                                 unselectedColor: AppColor.navy,
-                                unselectedTextStyle: TextStyle(
+                                unselectedTextStyle: const TextStyle(
                                   color: AppColor.white,
                                 ),
-                                selectedColor: AppColor.bronze,
+                                selectedColor:
+                                    AppColor.darkSilver.withOpacity(.9),
                                 runSpacing: 0,
                                 spacing: 0,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
                             buttonIndexedBuilder: (isSelected, index, context) {
                               return Container(
                                 margin: const EdgeInsets.all(0),
@@ -276,10 +282,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                     color: isSelected
-                                        ? AppColor.bronze
+                                        ? AppColor.darkSilver.withOpacity(.9)
                                         : AppColor.navy,
                                     border: Border.all(
-                                        color: AppColor.bronze, width: 2),
+                                        color:
+                                            AppColor.darkSilver.withOpacity(.9),
+                                        width: 2),
                                     borderRadius: index == 0
                                         ? const BorderRadius.only(
                                             topLeft: Radius.circular(10),
@@ -296,10 +304,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                 child: Text(
                                   scheduleTermsMenuProvider.data[index]["Desc"]
                                       .toString(),
-                                  style: const TextStyle(
-                                    color: AppColor.white,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? AppColor.navy
+                                        : AppColor.white,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.normal,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               );
@@ -366,7 +376,7 @@ class _SchedulePageState extends State<SchedulePage> {
           ],
         ),
       ),
-      floatingActionButton: FadeInRight(
+      floatingActionButton: FadeInUp(
         preferences: const AnimationPreferences(
           duration: Duration(
             milliseconds: 500,
@@ -593,7 +603,6 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final String _courseName = "${course["SC"]} ${course["CN"]}";
-    // final borderColor = AppColor.bronze3.withOpacity(.7);
     final Color _borderColor = Theme.of(context).colorScheme.primary;
     // final Color _color = Theme.of(context).colorScheme.primary;
     final Color _borderTextColor = Theme.of(context).colorScheme.onPrimary;
@@ -634,7 +643,7 @@ class CourseCard extends StatelessWidget {
               friendlyName,
               style: TextStyle(
                 color: _borderTextColor,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.w600,
               ),
             ),
             height: 30,

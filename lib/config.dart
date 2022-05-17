@@ -7,6 +7,8 @@ class AppColor {
   static const bronze = Color.fromARGB(255, 153, 98, 44);
   static const copper = Color.fromARGB(255, 160, 82, 45);
   static const copperLighter = Color.fromARGB(255, 199, 103, 57);
+  static const silver = Color.fromARGB(255, 171, 168, 161);
+  static const darkSilver = Color.fromARGB(104, 171, 168, 161);
 }
 
 const String mainWebSite = "https://www.ladelta.edu";
