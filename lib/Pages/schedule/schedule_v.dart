@@ -634,7 +634,7 @@ class CourseCard extends StatelessWidget {
               friendlyName,
               style: TextStyle(
                 color: _borderTextColor,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
               ),
             ),
             height: 30,

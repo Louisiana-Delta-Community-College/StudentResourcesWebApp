@@ -354,7 +354,7 @@ class ContactsCard extends StatelessWidget {
               name,
               style: TextStyle(
                 color: _borderTextColor,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
               ),
             ),
             height: 30,
