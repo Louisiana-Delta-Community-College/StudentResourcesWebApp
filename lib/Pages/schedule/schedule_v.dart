@@ -153,7 +153,7 @@ class _SchedulePageState extends State<SchedulePage> {
                               unselectedTextStyle: TextStyle(
                                 color: AppColor.white,
                               ),
-                              selectedColor: AppColor.bronze3,
+                              selectedColor: AppColor.bronze2,
                               runSpacing: 2,
                               spacing: 2,
                               // borderRadius:
@@ -166,12 +166,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColor.copper
+                                      ? AppColor.bronze2
                                       : AppColor.navy,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5)),
                                   border: Border.all(
-                                      color: AppColor.copper, width: 2),
+                                      color: AppColor.bronze2, width: 2),
                                   // borderRadius: index == 0
                                   //     ? const BorderRadius.only(
                                   //         topLeft: Radius.circular(10),
@@ -264,7 +264,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 unselectedTextStyle: TextStyle(
                                   color: AppColor.white,
                                 ),
-                                selectedColor: AppColor.copper,
+                                selectedColor: AppColor.bronze2,
                                 runSpacing: 0,
                                 spacing: 0,
                                 borderRadius:
@@ -276,10 +276,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                     color: isSelected
-                                        ? AppColor.copper
+                                        ? AppColor.bronze2
                                         : AppColor.navy,
                                     border: Border.all(
-                                        color: AppColor.copper, width: 2),
+                                        color: AppColor.bronze2, width: 2),
                                     borderRadius: index == 0
                                         ? const BorderRadius.only(
                                             topLeft: Radius.circular(10),
@@ -296,7 +296,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 child: Text(
                                   scheduleTermsMenuProvider.data[index]["Desc"]
                                       .toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: AppColor.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.normal,

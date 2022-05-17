@@ -12,20 +12,20 @@ class AppTheme extends ChangeNotifier {
   Color get text =>
       _themeMode == ThemeMode.dark ? AppColor.white : AppColor.navy;
   Color get background =>
-      _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.bronze3;
+      _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.bronze2;
   Color get surface =>
-      _themeMode == ThemeMode.dark ? AppColor.bronze3 : AppColor.navy;
+      _themeMode == ThemeMode.dark ? AppColor.bronze2 : AppColor.navy;
   Color get onSurface =>
       _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.white;
 
   Color get rowColorNormal =>
       _themeMode == ThemeMode.dark ? Colors.transparent : Colors.white54;
   Color get rowColorHighlighted => _themeMode == ThemeMode.dark
-      ? AppColor.bronze3.withOpacity(.30)
-      : AppColor.bronze3.withOpacity(.15);
+      ? AppColor.bronze2.withOpacity(.30)
+      : AppColor.bronze2.withOpacity(.15);
   Color get rowColorHover => _themeMode == ThemeMode.dark
-      ? AppColor.bronze3.withOpacity(.50)
-      : AppColor.bronze3.withOpacity(.30);
+      ? AppColor.bronze2.withOpacity(.50)
+      : AppColor.bronze2.withOpacity(.30);
 
   Color get floatingActionButtonBackgroundColor =>
       _themeMode == ThemeMode.dark ? Colors.white : AppColor.navy;
@@ -53,13 +53,13 @@ class AppTheme extends ChangeNotifier {
       brightness: Brightness.light,
       primary: AppColor.navy,
       onPrimary: AppColor.white,
-      secondary: AppColor.bronze3,
+      secondary: AppColor.bronze2,
       onSecondary: AppColor.white,
       error: Colors.red,
       onError: Colors.black,
       background: AppColor.white,
       onBackground: AppColor.navy,
-      surface: AppColor.bronze3,
+      surface: AppColor.bronze2,
       onSurface: Colors.white,
       tertiary: AppColor.navy,
       onTertiary: AppColor.white,
@@ -103,9 +103,9 @@ class AppTheme extends ChangeNotifier {
   ThemeData dark = ThemeData.dark().copyWith(
     colorScheme: const ColorScheme(
         brightness: Brightness.dark,
-        primary: AppColor.bronze3,
+        primary: AppColor.bronze2,
         onPrimary: AppColor.white,
-        secondary: AppColor.bronze3,
+        secondary: AppColor.bronze2,
         onSecondary: AppColor.white,
         error: Colors.red,
         onError: Colors.black,
@@ -115,9 +115,9 @@ class AppTheme extends ChangeNotifier {
         onSurface: Colors.white,
         tertiary: AppColor.white,
         onTertiary: AppColor.navy),
-    primaryColor: AppColor.bronze3,
+    primaryColor: AppColor.bronze2,
     textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: AppColor.bronze3,
+      selectionColor: AppColor.bronze2,
     ),
     primaryTextTheme: Typography().white,
     scrollbarTheme: ScrollbarThemeData(
