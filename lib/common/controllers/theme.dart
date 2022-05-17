@@ -29,7 +29,7 @@ class AppTheme extends ChangeNotifier {
 
   Color get menuColor => AppColor.primary;
   // Color get menuColorSelected => AppColor.darkSilver.withOpacity(.9);
-  Color get menuColorSelected => AppColor.secondary.withAlpha(200);
+  Color get menuColorSelected => AppColor.secondary.withOpacity(.95);
 
   Color get mobileCardBorderColor => _themeMode == ThemeMode.dark
       ? AppColor.secondary.withAlpha(200)

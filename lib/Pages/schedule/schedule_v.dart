@@ -171,8 +171,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5)),
                                   border: Border.all(
-                                      color: themeProvider.menuColorSelected,
-                                      width: 2),
+                                    color: AppColor.navy,
+                                    width: 2,
+                                  ),
                                   // borderRadius: index == 0
                                   //     ? const BorderRadius.only(
                                   //         topLeft: Radius.circular(10),
@@ -290,8 +291,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                         ? themeProvider.menuColorSelected
                                         : AppColor.primary,
                                     border: Border.all(
-                                        color: themeProvider.menuColorSelected,
-                                        width: 2),
+                                      color: AppColor.navy,
+                                      width: 2,
+                                    ),
                                     borderRadius: index == 0
                                         ? const BorderRadius.only(
                                             topLeft: Radius.circular(10),
