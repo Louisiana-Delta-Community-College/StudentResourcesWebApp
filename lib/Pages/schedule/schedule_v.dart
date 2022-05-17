@@ -192,8 +192,15 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .replaceAll("CAMPUS", "")
                                       .titleCase
                                       .trim(),
-                                  style: const TextStyle(
-                                      color: AppColor.white, fontSize: 12),
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? AppColor.navy
+                                        : AppColor.white,
+                                    fontSize: 12,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
                                 ),
                               );
                             },
@@ -293,8 +300,15 @@ class _SchedulePageState extends State<SchedulePage> {
                                 child: Text(
                                   scheduleTermsMenuProvider.data[index]["Desc"]
                                       .toString(),
-                                  style: const TextStyle(
-                                      color: AppColor.white, fontSize: 12),
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? AppColor.navy
+                                        : AppColor.white,
+                                    fontSize: 12,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
                                 ),
                               );
                             },
