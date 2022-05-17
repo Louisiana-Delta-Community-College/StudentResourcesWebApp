@@ -30,7 +30,7 @@ class AppTheme extends ChangeNotifier {
   Color get menuColorBorder => isDark ? AppColor.silver : AppColor.navy;
 
   Color get mobileCardBorderColor =>
-      isDark ? AppColor.secondary.withAlpha(200) : AppColor.primary;
+      isDark ? AppColor.secondary.withOpacity(.95) : AppColor.primary;
   Color get mobileCardBorderTextColor =>
       mobileCardBorderColor.computeLuminance() >= .3
           ? AppColor.navy
