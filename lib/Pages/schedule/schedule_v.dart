@@ -171,7 +171,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5)),
                                   border: Border.all(
-                                    color: AppColor.navy,
+                                    color: themeProvider.menuColorBorder,
                                     width: 2,
                                   ),
                                   // borderRadius: index == 0
@@ -196,16 +196,19 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .trim(),
                                   style: TextStyle(
                                     color: isSelected
-                                        ? themeProvider.menuColorSelected
-                                                    .computeLuminance() >=
-                                                .5
-                                            ? AppColor.primary
-                                            : AppColor.white
-                                        : themeProvider.menuColor
-                                                    .computeLuminance() >=
-                                                .5
-                                            ? AppColor.primary
-                                            : AppColor.white,
+                                        ? AppColor.primary
+                                        : AppColor.white,
+                                    // color: isSelected
+                                    //     ? themeProvider.menuColorSelected
+                                    //                 .computeLuminance() >=
+                                    //             .5
+                                    //         ? AppColor.primary
+                                    //         : AppColor.white
+                                    //     : themeProvider.menuColor
+                                    //                 .computeLuminance() >=
+                                    //             .5
+                                    //         ? AppColor.primary
+                                    //         : AppColor.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -291,7 +294,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                         ? themeProvider.menuColorSelected
                                         : AppColor.primary,
                                     border: Border.all(
-                                      color: AppColor.navy,
+                                      color: themeProvider.menuColorBorder,
                                       width: 2,
                                     ),
                                     borderRadius: index == 0
@@ -312,16 +315,19 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .toString(),
                                   style: TextStyle(
                                     color: isSelected
-                                        ? themeProvider.menuColorSelected
-                                                    .computeLuminance() >=
-                                                .5
-                                            ? AppColor.primary
-                                            : AppColor.white
-                                        : themeProvider.menuColor
-                                                    .computeLuminance() >=
-                                                .5
-                                            ? AppColor.primary
-                                            : AppColor.white,
+                                        ? AppColor.primary
+                                        : AppColor.white,
+                                    // color: isSelected
+                                    //     ? themeProvider.menuColorSelected
+                                    //                 .computeLuminance() >=
+                                    //             .5
+                                    //         ? AppColor.primary
+                                    //         : AppColor.white
+                                    //     : themeProvider.menuColor
+                                    //                 .computeLuminance() >=
+                                    //             .5
+                                    //         ? AppColor.primary
+                                    //         : AppColor.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),

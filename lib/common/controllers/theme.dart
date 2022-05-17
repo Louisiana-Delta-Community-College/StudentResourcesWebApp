@@ -5,44 +5,41 @@ class AppTheme extends ChangeNotifier {
 
   ThemeMode get themeMode => _themeMode;
 
-  Icon get icon => _themeMode == ThemeMode.dark
+  bool get _isDark => _themeMode == ThemeMode.dark;
+
+  Icon get icon => _isDark
       ? const Icon(Icons.light_mode_sharp)
       : const Icon(Icons.dark_mode_sharp);
 
-  Color get text =>
-      _themeMode == ThemeMode.dark ? AppColor.white : AppColor.primary;
-  Color get background =>
-      _themeMode == ThemeMode.dark ? AppColor.primary : AppColor.darkSilver;
-  Color get surface =>
-      _themeMode == ThemeMode.dark ? AppColor.darkSilver : AppColor.primary;
-  Color get onSurface =>
-      _themeMode == ThemeMode.dark ? AppColor.primary : AppColor.white;
+  Color get text => _isDark ? AppColor.white : AppColor.primary;
+  Color get background => _isDark ? AppColor.primary : AppColor.darkSilver;
+  Color get surface => _isDark ? AppColor.darkSilver : AppColor.primary;
+  Color get onSurface => _isDark ? AppColor.primary : AppColor.white;
 
-  Color get rowColorNormal =>
-      _themeMode == ThemeMode.dark ? Colors.transparent : Colors.white54;
-  Color get rowColorHighlighted => _themeMode == ThemeMode.dark
+  Color get rowColorNormal => _isDark ? Colors.transparent : Colors.white54;
+  Color get rowColorHighlighted => _isDark
       ? AppColor.secondary.withOpacity(.40)
       : AppColor.secondary.withOpacity(.30);
-  Color get rowColorHover => _themeMode == ThemeMode.dark
+  Color get rowColorHover => _isDark
       ? AppColor.secondary.withOpacity(.60)
       : AppColor.secondary.withOpacity(.50);
 
   Color get menuColor => AppColor.primary;
   // Color get menuColorSelected => AppColor.darkSilver.withOpacity(.9);
   Color get menuColorSelected => AppColor.secondary.withOpacity(.95);
+  Color get menuColorBorder => _isDark ? AppColor.silver : AppColor.navy;
 
-  Color get mobileCardBorderColor => _themeMode == ThemeMode.dark
-      ? AppColor.secondary.withAlpha(200)
-      : AppColor.primary;
+  Color get mobileCardBorderColor =>
+      _isDark ? AppColor.secondary.withAlpha(200) : AppColor.primary;
   Color get mobileCardBorderTextColor =>
       mobileCardBorderColor.computeLuminance() >= .5
           ? AppColor.navy
           : AppColor.white;
 
   Color get floatingActionButtonBackgroundColor =>
-      _themeMode == ThemeMode.dark ? Colors.white : AppColor.primary;
+      _isDark ? Colors.white : AppColor.primary;
   Color get floatingActionButtonForegroundColor =>
-      _themeMode == ThemeMode.dark ? AppColor.primary : Colors.white;
+      _isDark ? AppColor.primary : Colors.white;
 
   init() {
     Modular.get<Persistence>().isDark
@@ -52,11 +49,8 @@ class AppTheme extends ChangeNotifier {
   }
 
   toggle() {
-    _themeMode == ThemeMode.dark
-        ? _themeMode = ThemeMode.light
-        : _themeMode = ThemeMode.dark;
-    Modular.get<Persistence>().isDark =
-        _themeMode == ThemeMode.dark ? true : false;
+    _isDark ? _themeMode = ThemeMode.light : _themeMode = ThemeMode.dark;
+    Modular.get<Persistence>().isDark = _isDark ? true : false;
     notifyListeners();
   }
 
