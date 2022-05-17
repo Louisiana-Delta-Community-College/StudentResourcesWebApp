@@ -251,7 +251,7 @@ class Schedule extends ChangeNotifier {
                           label: const Text("Buy Materials"),
                           style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
-                                AppColor.bronze2.withOpacity(.5)),
+                                AppColor.bronze.withOpacity(.5)),
                             foregroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.tertiary,
                             ),
@@ -275,7 +275,7 @@ class Schedule extends ChangeNotifier {
                           label: const Text("Copy Course Info"),
                           style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
-                                AppColor.bronze2.withOpacity(.5)),
+                                AppColor.bronze.withOpacity(.5)),
                             foregroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.tertiary,
                             ),
