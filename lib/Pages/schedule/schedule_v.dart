@@ -56,7 +56,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.dark_mode_sharp,
-                    color: AppColor.navy,
+                    color: AppColor.primary,
                   ),
                 ),
                 Text("Schedule of Classes"),
@@ -80,7 +80,7 @@ class _SchedulePageState extends State<SchedulePage> {
             )
           ],
         ),
-        backgroundColor: AppColor.navy,
+        backgroundColor: AppColor.primary,
         foregroundColor: AppColor.white,
         searchCursorColor: themeProvider.text,
         searchBackIconTheme: IconThemeData(
@@ -147,14 +147,13 @@ class _SchedulePageState extends State<SchedulePage> {
                               }
                             },
                             options: GroupButtonOptions(
-                              unselectedColor: AppColor.navy,
+                              unselectedColor: AppColor.primary,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10)),
                               unselectedTextStyle: const TextStyle(
                                 color: AppColor.white,
                               ),
-                              selectedColor:
-                                  AppColor.darkSilver.withOpacity(.9),
+                              selectedColor: themeProvider.menuColorSelected,
                               runSpacing: 2,
                               spacing: 2,
                               // borderRadius:
@@ -167,13 +166,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColor.darkSilver.withOpacity(.9)
-                                      : AppColor.navy,
+                                      ? themeProvider.menuColorSelected
+                                      : AppColor.primary,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5)),
                                   border: Border.all(
-                                      color:
-                                          AppColor.darkSilver.withOpacity(.9),
+                                      color: themeProvider.menuColorSelected,
                                       width: 2),
                                   // borderRadius: index == 0
                                   //     ? const BorderRadius.only(
@@ -197,8 +195,16 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .trim(),
                                   style: TextStyle(
                                     color: isSelected
-                                        ? AppColor.navy
-                                        : AppColor.white,
+                                        ? themeProvider.menuColorSelected
+                                                    .computeLuminance() >=
+                                                .5
+                                            ? AppColor.primary
+                                            : AppColor.white
+                                        : themeProvider.menuColor
+                                                    .computeLuminance() >=
+                                                .5
+                                            ? AppColor.primary
+                                            : AppColor.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -265,12 +271,11 @@ class _SchedulePageState extends State<SchedulePage> {
                               }
                             },
                             options: GroupButtonOptions(
-                                unselectedColor: AppColor.navy,
+                                unselectedColor: AppColor.primary,
                                 unselectedTextStyle: const TextStyle(
                                   color: AppColor.white,
                                 ),
-                                selectedColor:
-                                    AppColor.darkSilver.withOpacity(.9),
+                                selectedColor: themeProvider.menuColorSelected,
                                 runSpacing: 0,
                                 spacing: 0,
                                 borderRadius: const BorderRadius.all(
@@ -282,11 +287,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                     left: 10, right: 10, top: 5, bottom: 5),
                                 decoration: BoxDecoration(
                                     color: isSelected
-                                        ? AppColor.darkSilver.withOpacity(.9)
-                                        : AppColor.navy,
+                                        ? themeProvider.menuColorSelected
+                                        : AppColor.primary,
                                     border: Border.all(
-                                        color:
-                                            AppColor.darkSilver.withOpacity(.9),
+                                        color: themeProvider.menuColorSelected,
                                         width: 2),
                                     borderRadius: index == 0
                                         ? const BorderRadius.only(
@@ -306,8 +310,16 @@ class _SchedulePageState extends State<SchedulePage> {
                                       .toString(),
                                   style: TextStyle(
                                     color: isSelected
-                                        ? AppColor.navy
-                                        : AppColor.white,
+                                        ? themeProvider.menuColorSelected
+                                                    .computeLuminance() >=
+                                                .5
+                                            ? AppColor.primary
+                                            : AppColor.white
+                                        : themeProvider.menuColor
+                                                    .computeLuminance() >=
+                                                .5
+                                            ? AppColor.primary
+                                            : AppColor.white,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),

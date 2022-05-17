@@ -10,27 +10,31 @@ class AppTheme extends ChangeNotifier {
       : const Icon(Icons.dark_mode_sharp);
 
   Color get text =>
-      _themeMode == ThemeMode.dark ? AppColor.white : AppColor.navy;
+      _themeMode == ThemeMode.dark ? AppColor.white : AppColor.primary;
   Color get background =>
-      _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.darkSilver;
+      _themeMode == ThemeMode.dark ? AppColor.primary : AppColor.darkSilver;
   Color get surface =>
-      _themeMode == ThemeMode.dark ? AppColor.darkSilver : AppColor.navy;
+      _themeMode == ThemeMode.dark ? AppColor.darkSilver : AppColor.primary;
   Color get onSurface =>
-      _themeMode == ThemeMode.dark ? AppColor.navy : AppColor.white;
+      _themeMode == ThemeMode.dark ? AppColor.primary : AppColor.white;
 
   Color get rowColorNormal =>
       _themeMode == ThemeMode.dark ? Colors.transparent : Colors.white54;
   Color get rowColorHighlighted => _themeMode == ThemeMode.dark
-      ? AppColor.silver.withOpacity(.30)
-      : AppColor.silver.withOpacity(.50);
+      ? AppColor.secondary.withOpacity(.30)
+      : AppColor.secondary.withOpacity(.50);
   Color get rowColorHover => _themeMode == ThemeMode.dark
-      ? AppColor.silver.withOpacity(.50)
-      : AppColor.silver.withOpacity(.70);
+      ? AppColor.secondary.withOpacity(.50)
+      : AppColor.secondary.withOpacity(.70);
+
+  Color get menuColor => AppColor.primary;
+  // Color get menuColorSelected => AppColor.darkSilver.withOpacity(.9);
+  Color get menuColorSelected => AppColor.secondary.withAlpha(200);
 
   Color get floatingActionButtonBackgroundColor =>
-      _themeMode == ThemeMode.dark ? Colors.white : AppColor.navy;
+      _themeMode == ThemeMode.dark ? Colors.white : AppColor.primary;
   Color get floatingActionButtonForegroundColor =>
-      _themeMode == ThemeMode.dark ? AppColor.navy : Colors.white;
+      _themeMode == ThemeMode.dark ? AppColor.primary : Colors.white;
 
   init() {
     Modular.get<Persistence>().isDark
@@ -51,24 +55,24 @@ class AppTheme extends ChangeNotifier {
   ThemeData light = ThemeData.light().copyWith(
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
-      primary: AppColor.navy,
+      primary: AppColor.primary,
       onPrimary: AppColor.white,
-      secondary: AppColor.silver,
-      onSecondary: AppColor.navy,
+      secondary: AppColor.secondary,
+      onSecondary: AppColor.primary,
       error: Colors.red,
       onError: Colors.black,
       background: AppColor.white,
-      onBackground: AppColor.navy,
-      surface: AppColor.silver,
-      onSurface: AppColor.navy,
-      tertiary: AppColor.navy,
+      onBackground: AppColor.primary,
+      surface: AppColor.secondary,
+      onSurface: AppColor.primary,
+      tertiary: AppColor.primary,
       onTertiary: AppColor.white,
     ),
     primaryTextTheme: Typography().black,
     scrollbarTheme: ScrollbarThemeData(
       isAlwaysShown: true,
       thickness: MaterialStateProperty.all(7),
-      thumbColor: MaterialStateProperty.all(AppColor.navy.withOpacity(.75)),
+      thumbColor: MaterialStateProperty.all(AppColor.primary.withOpacity(.75)),
       radius: const Radius.circular(10),
       crossAxisMargin: 0,
       minThumbLength: 50,
@@ -103,21 +107,21 @@ class AppTheme extends ChangeNotifier {
   ThemeData dark = ThemeData.dark().copyWith(
     colorScheme: const ColorScheme(
         brightness: Brightness.dark,
-        primary: AppColor.silver,
-        onPrimary: AppColor.navy,
-        secondary: AppColor.silver,
-        onSecondary: AppColor.navy,
+        primary: AppColor.secondary,
+        onPrimary: AppColor.primary,
+        secondary: AppColor.secondary,
+        onSecondary: AppColor.primary,
         error: Colors.red,
         onError: Colors.black,
-        background: AppColor.navy,
+        background: AppColor.primary,
         onBackground: AppColor.white,
-        surface: AppColor.navy,
+        surface: AppColor.primary,
         onSurface: Colors.white,
         tertiary: AppColor.white,
-        onTertiary: AppColor.navy),
-    primaryColor: AppColor.silver,
+        onTertiary: AppColor.primary),
+    primaryColor: AppColor.secondary,
     textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: AppColor.silver,
+      selectionColor: AppColor.secondary,
     ),
     primaryTextTheme: Typography().white,
     scrollbarTheme: ScrollbarThemeData(

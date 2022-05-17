@@ -24,7 +24,7 @@ class NotFoundPage extends StatelessWidget {
             )
           ],
         ),
-        backgroundColor: AppColor.navy,
+        backgroundColor: AppColor.primary,
         foregroundColor: AppColor.white,
       ),
       body: Center(

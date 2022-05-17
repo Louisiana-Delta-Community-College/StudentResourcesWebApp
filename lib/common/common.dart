@@ -74,7 +74,7 @@ void makeToast(String message) {
     reverseAnimation: StyledToastAnimation.fade,
     alignment: Alignment.center,
     position: StyledToastPosition.bottom,
-    backgroundColor: AppColor.navy.withOpacity(.8),
+    backgroundColor: AppColor.primary.withOpacity(.8),
     textStyle: const TextStyle(
       color: AppColor.white,
     ),
@@ -103,7 +103,7 @@ void showSnackBar(
     Container(
       height: 50,
       width: double.infinity,
-      color: AppColor.navy,
+      color: AppColor.primary,
       child: Align(
         child: Padding(
           padding: const EdgeInsets.only(left: 10),

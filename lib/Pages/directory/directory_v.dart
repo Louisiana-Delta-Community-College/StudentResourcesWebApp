@@ -54,7 +54,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                   padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.dark_mode_sharp,
-                    color: AppColor.navy,
+                    color: AppColor.primary,
                   ),
                 ),
                 Text("Directory$titleAppendedCampus"),
@@ -73,7 +73,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
             )
           ],
         ),
-        backgroundColor: AppColor.navy,
+        backgroundColor: AppColor.primary,
         foregroundColor: AppColor.white,
         searchCursorColor: themeProvider.text,
         searchBackIconTheme: IconThemeData(
