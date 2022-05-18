@@ -75,7 +75,7 @@ void makeToast(String message) {
     reverseAnimation: StyledToastAnimation.fade,
     alignment: Alignment.center,
     position: StyledToastPosition.bottom,
-    backgroundColor: AppColor.navy80,
+    backgroundColor: AppTheme.primary80,
     textStyle: const TextStyle(
       color: AppColor.white,
     ),

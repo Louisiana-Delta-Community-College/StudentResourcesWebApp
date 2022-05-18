@@ -250,8 +250,8 @@ class Schedule extends ChangeNotifier {
                           icon: const Icon(Icons.menu_book_sharp),
                           label: const Text("Buy Materials"),
                           style: ButtonStyle(
-                            overlayColor: MaterialStateProperty.all(
-                                AppColor.darkSilver50),
+                            overlayColor:
+                                MaterialStateProperty.all(AppTheme.secondary50),
                             foregroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.tertiary,
                             ),
@@ -274,8 +274,8 @@ class Schedule extends ChangeNotifier {
                           icon: const Icon(Icons.copy_all_sharp),
                           label: const Text("Copy Course Info"),
                           style: ButtonStyle(
-                            overlayColor: MaterialStateProperty.all(
-                                AppColor.darkSilver50),
+                            overlayColor:
+                                MaterialStateProperty.all(AppTheme.secondary50),
                             foregroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.tertiary,
                             ),
