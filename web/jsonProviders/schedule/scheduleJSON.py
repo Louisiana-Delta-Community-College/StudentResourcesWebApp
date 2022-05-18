@@ -111,52 +111,59 @@ else:
 if form.getvalue('term'):
   term = form.getvalue('term')
 else:
-  # no term passed in so we need to know which term to retrieve
-  try:
-    # attempt to derive it given the current date, relative to 
-    # the start and end dates of terms in banner
-    strTermSQL = """
-    SELECT 
-      stvterm.stvterm_code term,
-      stvterm.stvterm_desc term_desc
-    FROM stvterm 
-    JOIN (
-      SELECT 
-        max(stvterm.stvterm_fa_proc_yr) ma
-      FROM stvterm 
-      WHERE stvterm.stvterm_start_date < CURRENT_DATE
-      AND CURRENT_DATE < stvterm.stvterm_end_date
-    ) maxa on maxa.ma = stvterm.stvterm_fa_proc_yr
-    WHERE stvterm.stvterm_start_date < CURRENT_DATE
-    AND CURRENT_DATE < stvterm.stvterm_end_date
-    and rownum <= 1
-    and stvterm.stvterm_code not like '%05'
-    """
+  # # no term passed in so we need to know which term to retrieve
+  # try:
+  #   # attempt to derive it given the current date, relative to 
+  #   # the start and end dates of terms in banner
+  #   strTermSQL = """
+  #   SELECT 
+  #     stvterm.stvterm_code term,
+  #     stvterm.stvterm_desc term_desc
+  #   FROM stvterm 
+  #   JOIN (
+  #     SELECT 
+  #       max(stvterm.stvterm_fa_proc_yr) ma
+  #     FROM stvterm 
+  #     WHERE stvterm.stvterm_start_date < CURRENT_DATE
+  #     AND CURRENT_DATE < stvterm.stvterm_end_date
+  #   ) maxa on maxa.ma = stvterm.stvterm_fa_proc_yr
+  #   WHERE stvterm.stvterm_start_date < CURRENT_DATE
+  #   AND CURRENT_DATE < stvterm.stvterm_end_date
+  #   and rownum <= 1
+  #   and stvterm.stvterm_code not like '%05'
+  #   """
 
-    RS = Bcur.execute(strTermSQL)
-    RSTermCurrent = RS.fetchone()
-    if RSTermCurrent:
-      term = RSTermCurrent[0]
-      strTermDesc = RSTermCurrent[1]
-      # persist derived term in case we need it later 
-      # (connection to LDCC fails at a later time)
-      with open(os.path.join(cacheDir, "lastDerivedTerm.json"), 'w') as ldt:
-        ldt.write(json.dumps({"term": term}))
-  except:
-    # could not derive term from banner, so...
-    try:
-      # attempt retrieving last derived term first
-      if os.path.exists(os.path.join(cacheDir, "lastDerivedTerm.json")):
-        with open(os.path.join(cacheDir, "lastDerivedTerm.json"), 'r') as ldt:
-          term = json.loads(ldt.read())["term"]
-    except:
-      # if that fails, check for default term in scheduleTermMenu.json file
-      with open(os.path.join("C:/inetpub/wwwroot/jsonProviders/schedule", "scheduleTermMenu.json")) as termMenuJson:
-        termMenuData = json.loads(termMenuJson.read())
-        for entry in termMenuData:
-          if entry["default"]:
-            term = entry["Term"]
-            break
+  #   RS = Bcur.execute(strTermSQL)
+  #   RSTermCurrent = RS.fetchone()
+  #   if RSTermCurrent:
+  #     term = RSTermCurrent[0]
+  #     strTermDesc = RSTermCurrent[1]
+  #     # persist derived term in case we need it later 
+  #     # (connection to LDCC fails at a later time)
+  #     with open(os.path.join(cacheDir, "lastDerivedTerm.json"), 'w') as ldt:
+  #       ldt.write(json.dumps({"term": term}))
+  # except:
+  #   # could not derive term from banner, so...
+  #   try:
+  #     # attempt retrieving last derived term first
+  #     if os.path.exists(os.path.join(cacheDir, "lastDerivedTerm.json")):
+  #       with open(os.path.join(cacheDir, "lastDerivedTerm.json"), 'r') as ldt:
+  #         term = json.loads(ldt.read())["term"]
+  #   except:
+  #     # if that fails, check for default term in scheduleTermMenu.json file
+  #     with open(os.path.join("C:/inetpub/wwwroot/jsonProviders/schedule", "scheduleTermMenu.json")) as termMenuJson:
+  #       termMenuData = json.loads(termMenuJson.read())
+  #       for entry in termMenuData:
+  #         if entry["default"]:
+  #           term = entry["Term"]
+  #           break
+  # FOR NOW... JUST USE WHAT'S SET TO DEFAULT IN THE scheduleTermMenu.json FILE
+  with open(os.path.join("C:/inetpub/wwwroot/jsonProviders/schedule", "scheduleTermMenu.json")) as termMenuJson:
+    termMenuData = json.loads(termMenuJson.read())
+    for entry in termMenuData:
+      if entry["default"]:
+        term = entry["Term"]
+        break
 
 
 cachedFileName, cachedFileModifiedTime = checkCache(term=term, termType=termty)
