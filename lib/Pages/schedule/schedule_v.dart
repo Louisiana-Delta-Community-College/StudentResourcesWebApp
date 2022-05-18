@@ -405,17 +405,18 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 }
 
-class ScheduleEasyTable extends StatelessWidget {
+class ScheduleEasyTable extends StatefulWidget {
   const ScheduleEasyTable({Key? key}) : super(key: key);
 
+  @override
+  State<ScheduleEasyTable> createState() => _ScheduleEasyTableState();
+}
+
+class _ScheduleEasyTableState extends State<ScheduleEasyTable> {
   @override
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
     final themeProvider = context.watch<AppTheme>();
-    // final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
-
-    // final _viewPortWidth = MediaQuery.of(context).size.width;
-
     final _rows = scheduleProvider.filteredData;
 
     return Center(

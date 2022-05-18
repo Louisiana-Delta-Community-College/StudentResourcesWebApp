@@ -194,17 +194,18 @@ class _DirectoryPageState extends State<DirectoryPage> {
   }
 }
 
-class ContactsEasyTable extends StatelessWidget {
+class ContactsEasyTable extends StatefulWidget {
   const ContactsEasyTable({Key? key}) : super(key: key);
 
+  @override
+  State<ContactsEasyTable> createState() => _ContactsEasyTableState();
+}
+
+class _ContactsEasyTableState extends State<ContactsEasyTable> {
   @override
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
-    // final _doFitTableColumns = MediaQuery.of(context).size.width >= 1750;
-
-    // final _viewPortWidth = MediaQuery.of(context).size.width;
-
     final _rows = directoryProvider.filteredData;
 
     return Center(
@@ -236,18 +237,20 @@ class ContactsEasyTable extends StatelessWidget {
               EasyTableColumn(
                 padding: const EdgeInsets.all(5),
                 name: "Phone Number",
-                cellBuilder: (context, row) => InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(
-                      (row as Map)["PhoneNumber"],
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                cellBuilder: (context, row) => EasyTableCell(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        (row as Map)["PhoneNumber"],
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
+                    onTap: () =>
+                        launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                   ),
-                  onTap: () =>
-                      launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                 ),
                 sort: (a, b) {
                   return (a as Map)["PhoneNumber"]
@@ -271,18 +274,20 @@ class ContactsEasyTable extends StatelessWidget {
               EasyTableColumn(
                 padding: const EdgeInsets.all(5),
                 name: "Email",
-                cellBuilder: (context, row) => InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(
-                      (row as Map)["EmailAddress"],
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                cellBuilder: (context, row) => EasyTableCell(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        (row as Map)["EmailAddress"],
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
+                    onTap: () =>
+                        launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
                   ),
-                  onTap: () =>
-                      launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
                 ),
                 width: 230,
               ),
@@ -301,7 +306,7 @@ class ContactsEasyTable extends StatelessWidget {
             ],
           ),
           columnsFit: viewPortWidth(context) >= 1300 ? true : false,
-          visibleRowsCount: 20,
+          // visibleRowsCount: 20,
         ),
       ),
     );
