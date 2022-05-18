@@ -17,24 +17,20 @@ class AppTheme extends ChangeNotifier {
   Color get onSurface => isDark ? AppColor.primary : AppColor.white;
 
   Color get rowColorNormal => isDark ? Colors.transparent : Colors.white54;
-  Color get rowColorHighlighted => isDark
-      ? AppColor.secondary.withOpacity(.40)
-      : AppColor.secondary.withOpacity(.30);
-  Color get rowColorHover => isDark
-      ? AppColor.secondary.withOpacity(.60)
-      : AppColor.secondary.withOpacity(.50);
+  Color get rowColorHighlighted =>
+      isDark ? AppColor.darkSilver40 : AppColor.darkSilver30;
+  Color get rowColorHover =>
+      isDark ? AppColor.darkSilver60 : AppColor.darkSilver50;
 
   Color get menuColor => AppColor.primary;
-  // Color get menuColorSelected => AppColor.darkSilver.withOpacity(.9);
-  Color get menuColorSelected => AppColor.secondary.withOpacity(.95);
-  Color get menuColorBorder => isDark ? AppColor.silver : AppColor.navy;
+  // Color get menuColorSelected => AppColor.darkSilver90;
+  Color get menuColorSelected => AppColor.secondary;
+  Color get menuColorBorder => isDark ? AppColor.secondary : AppColor.primary;
 
   Color get mobileCardBorderColor =>
-      isDark ? AppColor.secondary.withOpacity(.95) : AppColor.primary;
+      isDark ? AppColor.secondary : AppColor.primary;
   Color get mobileCardBorderTextColor =>
-      mobileCardBorderColor.computeLuminance() >= .3
-          ? AppColor.navy
-          : AppColor.white;
+      isDark ? AppColor.navy : AppColor.white;
 
   Color get floatingActionButtonBackgroundColor =>
       isDark ? Colors.white : AppColor.primary;
@@ -54,7 +50,9 @@ class AppTheme extends ChangeNotifier {
     notifyListeners();
   }
 
-  ThemeData light = ThemeData.light().copyWith(
+  ThemeData light = ThemeData(
+    brightness: Brightness.light,
+    fontFamily: "OpenSans",
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: AppColor.primary,
@@ -74,39 +72,16 @@ class AppTheme extends ChangeNotifier {
     scrollbarTheme: ScrollbarThemeData(
       isAlwaysShown: true,
       thickness: MaterialStateProperty.all(7),
-      thumbColor: MaterialStateProperty.all(AppColor.primary.withOpacity(.75)),
+      thumbColor: MaterialStateProperty.all(AppColor.navy70),
       radius: const Radius.circular(10),
       crossAxisMargin: 0,
       minThumbLength: 50,
     ),
-    // textTheme: const TextTheme(
-    //         bodyText1: TextStyle(),
-    //         bodyText2: TextStyle(),
-    //         headline4: TextStyle())
-    //     .apply(
-    //   bodyColor: AppColor.navy,
-    //   displayColor: AppColor.navy,
-    // ),
-    // textTheme: const TextTheme(
-    //   bodyText1: TextStyle(
-    //     fontSize: 20,
-    //     color: Colors.black,
-    //   ),
-    //   bodyText2: TextStyle(
-    //     fontSize: 18,
-    //     color: Colors.black,
-    //   ),
-    //   button: TextStyle(
-    //     fontSize: 20,
-    //     color: Colors.black,
-    //   ),
-    //   headline4: TextStyle(
-    //     color: Colors.black,
-    //   ),
-    // ),
   );
 
-  ThemeData dark = ThemeData.dark().copyWith(
+  ThemeData dark = ThemeData(
+    brightness: Brightness.dark,
+    fontFamily: "OpenSans",
     colorScheme: const ColorScheme(
         brightness: Brightness.dark,
         primary: AppColor.secondary,
@@ -129,32 +104,10 @@ class AppTheme extends ChangeNotifier {
     scrollbarTheme: ScrollbarThemeData(
       isAlwaysShown: true,
       thickness: MaterialStateProperty.all(7),
-      thumbColor: MaterialStateProperty.all(AppColor.white.withOpacity(.5)),
+      thumbColor: MaterialStateProperty.all(AppColor.white50),
       radius: const Radius.circular(10),
       crossAxisMargin: 0,
       minThumbLength: 50,
     ),
-    // textTheme: const TextTheme(
-    //         bodyText1: TextStyle(),
-    //         bodyText2: TextStyle(),
-    //         headline4: TextStyle())
-    //     .apply(
-    //   bodyColor: AppColor.navy,
-    //   displayColor: AppColor.navy,
-    // ),
-    // textTheme: const TextTheme(
-    //   bodyText1: TextStyle(
-    //     fontSize: 20,
-    //     color: Colors.white,
-    //   ),
-    //   bodyText2: TextStyle(
-    //     fontSize: 18,
-    //     color: Colors.white,
-    //   ),
-    //   button: TextStyle(
-    //     fontSize: 20,
-    //     color: Colors.white,
-    //   ),
-    // ),
   );
 }

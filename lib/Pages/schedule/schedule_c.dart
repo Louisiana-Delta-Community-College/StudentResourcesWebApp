@@ -146,7 +146,7 @@ class Schedule extends ChangeNotifier {
           //   jsonDecode(
           //       '{"success": false, "message": "Error connecting to the database."}')
           // ] as List<Map<String, dynamic>>;
-          log.info(_data.runtimeType.toString());
+          // log.info(_data.runtimeType.toString());
         } catch (e) {
           _error(e.toString());
         }
@@ -251,7 +251,7 @@ class Schedule extends ChangeNotifier {
                           label: const Text("Buy Materials"),
                           style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
-                                AppColor.secondary.withOpacity(.5)),
+                                AppColor.darkSilver50),
                             foregroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.tertiary,
                             ),
@@ -275,7 +275,7 @@ class Schedule extends ChangeNotifier {
                           label: const Text("Copy Course Info"),
                           style: ButtonStyle(
                             overlayColor: MaterialStateProperty.all(
-                                AppColor.secondary.withOpacity(.5)),
+                                AppColor.darkSilver50),
                             foregroundColor: MaterialStateProperty.all(
                               Theme.of(context).colorScheme.tertiary,
                             ),
@@ -484,7 +484,8 @@ class ScheduleTermsMenu extends ChangeNotifier {
   }
 
   Future getMenuData() async {
-    Map<String, dynamic> queryParameters = {};
+    final rng = Random().nextInt(9999999).toString();
+    Map<String, dynamic> queryParameters = {"v": rng};
 
     final _uri = Uri.https(
         jsonProviderBaseUri, jsonProviderTermMenuPath, queryParameters);

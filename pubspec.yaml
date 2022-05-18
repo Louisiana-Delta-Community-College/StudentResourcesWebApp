@@ -115,3 +115,6 @@ flutter:
     - family: DMSerifDisplay
       fonts:
         - asset: assets/fonts/DMSerifDisplay-Regular.ttf
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-VariableFont.ttf

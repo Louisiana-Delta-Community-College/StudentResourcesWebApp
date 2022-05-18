@@ -1,14 +1,15 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:schedule/config.dart';
 
 import 'package:talker/talker.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:rive/rive.dart' hide LinearGradient, RadialGradient;
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:schedule/config.dart';
 import 'package:schedule/common/controllers/theme.dart';
 
+export 'dart:math';
 export 'package:flutter/material.dart';
 
 export 'package:flutter_modular/flutter_modular.dart';
@@ -74,7 +75,7 @@ void makeToast(String message) {
     reverseAnimation: StyledToastAnimation.fade,
     alignment: Alignment.center,
     position: StyledToastPosition.bottom,
-    backgroundColor: AppColor.primary.withOpacity(.8),
+    backgroundColor: AppColor.navy80,
     textStyle: const TextStyle(
       color: AppColor.white,
     ),

@@ -198,19 +198,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     color: isSelected
                                         ? AppColor.primary
                                         : AppColor.white,
-                                    // color: isSelected
-                                    //     ? themeProvider.menuColorSelected
-                                    //                 .computeLuminance() >=
-                                    //             .5
-                                    //         ? AppColor.primary
-                                    //         : AppColor.white
-                                    //     : themeProvider.menuColor
-                                    //                 .computeLuminance() >=
-                                    //             .5
-                                    //         ? AppColor.primary
-                                    //         : AppColor.white,
-                                    fontSize: 12,
-                                    // fontWeight: FontWeight.w600,
+                                    fontSize: 13,
                                   ),
                                 ),
                               );
@@ -317,19 +305,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     color: isSelected
                                         ? AppColor.primary
                                         : AppColor.white,
-                                    // color: isSelected
-                                    //     ? themeProvider.menuColorSelected
-                                    //                 .computeLuminance() >=
-                                    //             .5
-                                    //         ? AppColor.primary
-                                    //         : AppColor.white
-                                    //     : themeProvider.menuColor
-                                    //                 .computeLuminance() >=
-                                    //             .5
-                                    //         ? AppColor.primary
-                                    //         : AppColor.white,
-                                    fontSize: 12,
-                                    // fontWeight: FontWeight.w600,
+                                    fontSize: 13,
                                   ),
                                 ),
                               );
