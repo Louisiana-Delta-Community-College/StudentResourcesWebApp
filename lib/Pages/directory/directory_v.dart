@@ -221,10 +221,10 @@ class _ContactsEasyTableState extends State<ContactsEasyTable> {
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
           ),
-          scroll: TableScrollThemeData(
+          scroll: const TableScrollThemeData(
             thickness: 7,
-            thumbColor: AppTheme.primary70,
-            radius: const Radius.circular(10),
+            thumbColor: AppTheme.primary,
+            radius: Radius.circular(10),
           ),
         ),
         child: EasyTable(
