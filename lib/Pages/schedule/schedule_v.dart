@@ -405,14 +405,9 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 }
 
-class ScheduleEasyTable extends StatefulWidget {
+class ScheduleEasyTable extends StatelessWidget {
   const ScheduleEasyTable({Key? key}) : super(key: key);
 
-  @override
-  State<ScheduleEasyTable> createState() => _ScheduleEasyTableState();
-}
-
-class _ScheduleEasyTableState extends State<ScheduleEasyTable> {
   @override
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();

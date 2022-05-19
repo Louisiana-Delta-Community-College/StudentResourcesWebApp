@@ -194,14 +194,9 @@ class _DirectoryPageState extends State<DirectoryPage> {
   }
 }
 
-class ContactsEasyTable extends StatefulWidget {
+class ContactsEasyTable extends StatelessWidget {
   const ContactsEasyTable({Key? key}) : super(key: key);
 
-  @override
-  State<ContactsEasyTable> createState() => _ContactsEasyTableState();
-}
-
-class _ContactsEasyTableState extends State<ContactsEasyTable> {
   @override
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
