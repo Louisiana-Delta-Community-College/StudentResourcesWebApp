@@ -432,6 +432,11 @@ class _ScheduleEasyTableState extends State<ScheduleEasyTable> {
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
           ),
+          scroll: TableScrollThemeData(
+            thickness: 7,
+            thumbColor: AppTheme.primary70,
+            radius: const Radius.circular(10),
+          ),
         ),
         child: EasyTable(
           EasyTableModel(
@@ -441,61 +446,59 @@ class _ScheduleEasyTableState extends State<ScheduleEasyTable> {
                 name: "Controls",
                 width: 140,
                 // pinned: true,
-                cellBuilder: (context, row) => EasyTableCell(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // MORE INFO ICON
-                      IconButton(
-                        tooltip: "More Info",
-                        padding: const EdgeInsets.only(
-                          left: 1,
-                          right: 1,
-                        ),
-                        icon: const Icon(
-                          Icons.info_outline,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          scheduleProvider.showMoreInfoDialog(context, row);
-                        },
+                cellBuilder: (context, row) => Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // MORE INFO ICON
+                    IconButton(
+                      tooltip: "More Info",
+                      padding: const EdgeInsets.only(
+                        left: 1,
+                        right: 1,
                       ),
-                      // BUY BOOKS ICON
-                      IconButton(
-                        tooltip: "Buy Materials",
-                        padding: const EdgeInsets.only(
-                          left: 1,
-                          right: 1,
-                        ),
-                        icon: const Icon(
-                          Icons.menu_book_sharp,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          scheduleProvider.launchBookStore(row);
-                        },
+                      icon: const Icon(
+                        Icons.info_outline,
+                        size: 20,
                       ),
-                      IconButton(
-                        tooltip: "Copy Course Information",
-                        padding: const EdgeInsets.only(
-                          left: 1,
-                          right: 1,
-                        ),
-                        icon: const Icon(
-                          Icons.copy_all_sharp,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          scheduleProvider.copyRowToClipboard(row);
+                      onPressed: () {
+                        scheduleProvider.showMoreInfoDialog(context, row);
+                      },
+                    ),
+                    // BUY BOOKS ICON
+                    IconButton(
+                      tooltip: "Buy Materials",
+                      padding: const EdgeInsets.only(
+                        left: 1,
+                        right: 1,
+                      ),
+                      icon: const Icon(
+                        Icons.menu_book_sharp,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        scheduleProvider.launchBookStore(row);
+                      },
+                    ),
+                    IconButton(
+                      tooltip: "Copy Course Information",
+                      padding: const EdgeInsets.only(
+                        left: 1,
+                        right: 1,
+                      ),
+                      icon: const Icon(
+                        Icons.copy_all_sharp,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        scheduleProvider.copyRowToClipboard(row);
 
-                          showSnackBar(
-                            'Course information copied to clipboard!',
-                            isSuccess: true,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                        showSnackBar(
+                          'Course information copied to clipboard!',
+                          isSuccess: true,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
               EasyTableColumn(

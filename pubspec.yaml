@@ -39,7 +39,7 @@ dependencies:
   flutter_animator: ^3.2.1
   http: ^0.13.4
   group_button: ^5.0.0
-  easy_table: ^1.1.0
+  easy_table: 1.2.0
   talker: ^0.9.1
   url_launcher: ^6.1.0
   easy_search_bar: ^2.3.1

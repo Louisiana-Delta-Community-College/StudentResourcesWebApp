@@ -221,13 +221,18 @@ class _ContactsEasyTableState extends State<ContactsEasyTable> {
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
           ),
+          scroll: TableScrollThemeData(
+            thickness: 7,
+            thumbColor: AppTheme.primary70,
+            radius: const Radius.circular(10),
+          ),
         ),
         child: EasyTable(
           EasyTableModel(
             rows: _rows,
             columns: [
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Name",
                 stringValue: (row) =>
                     "${(row as Map)["LastName"]}, ${row["FirstName"]}",
@@ -235,22 +240,20 @@ class _ContactsEasyTableState extends State<ContactsEasyTable> {
                 pinned: true,
               ),
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Phone Number",
-                cellBuilder: (context, row) => EasyTableCell(
-                  child: InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Text(
-                        (row as Map)["PhoneNumber"],
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                        ),
+                cellBuilder: (context, row) => InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      (row as Map)["PhoneNumber"],
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
                       ),
                     ),
-                    onTap: () =>
-                        launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                   ),
+                  onTap: () =>
+                      launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                 ),
                 sort: (a, b) {
                   return (a as Map)["PhoneNumber"]
@@ -260,45 +263,43 @@ class _ContactsEasyTableState extends State<ContactsEasyTable> {
                 width: 130,
               ),
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Title",
                 stringValue: (row) => (row as Map)["JobTitle"],
                 width: 200,
               ),
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Department",
                 stringValue: (row) => (row as Map)["Department"],
                 width: 260,
               ),
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Email",
-                cellBuilder: (context, row) => EasyTableCell(
-                  child: InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Text(
-                        (row as Map)["EmailAddress"],
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                        ),
+                cellBuilder: (context, row) => InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(
+                      (row as Map)["EmailAddress"],
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
                       ),
                     ),
-                    onTap: () =>
-                        launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
                   ),
+                  onTap: () =>
+                      launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
                 ),
                 width: 230,
               ),
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Campus",
                 stringValue: (row) => (row as Map)["Campus"],
                 width: 130,
               ),
               EasyTableColumn(
-                padding: const EdgeInsets.all(5),
+                // padding: const EdgeInsets.all(5),
                 name: "Office",
                 stringValue: (row) => (row as Map)["Office"],
                 width: 100,
