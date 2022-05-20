@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:group_button/group_button.dart';
@@ -25,6 +26,40 @@ class Schedule extends ChangeNotifier {
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
   String get campus => _campus;
+
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _vScrollController = ScrollController();
+  final ScrollController _hScrollController = ScrollController();
+
+  FocusNode get focusNode => _focusNode;
+  ScrollController get vScrollController => _vScrollController;
+  ScrollController get hScrollController => _hScrollController;
+
+  void handleKeyEvent(RawKeyEvent event) {
+    log.info(event.toString());
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _vScrollController.animateTo(_vScrollController.offset - 200,
+          duration: const Duration(milliseconds: 30), curve: Curves.ease);
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      _vScrollController.animateTo(_vScrollController.offset + 200,
+          duration: const Duration(milliseconds: 30), curve: Curves.ease);
+      log.info("going down");
+    }
+  }
+
+  void toggleFocus() {
+    var _focusable = _focusNode.descendantsAreFocusable;
+    if (_focusable == true) {
+      _focusable = false;
+    } else {
+      _focusable = true;
+    }
+    notifyListeners();
+  }
+
+  void init() {
+    toggleFocus();
+  }
 
   String get searchString => _searchString;
   set searchString(String s) {

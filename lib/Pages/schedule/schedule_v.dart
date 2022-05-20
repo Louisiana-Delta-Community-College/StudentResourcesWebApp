@@ -19,6 +19,7 @@ class _SchedulePageState extends State<SchedulePage> {
     // errors would ensue due to trying to rebuild while build is being executed.
     // This is due to Modular's notifyListeners() method which is used to update
     // isLoading status at the beginning of Schedule.getScheduleData()
+    Modular.get<Schedule>().init();
     Modular.get<Schedule>().getScheduleData();
     Modular.get<ScheduleTermsMenu>().getMenuData();
     // Schedule app title to run in the future to allow `MyApp.build()`
@@ -42,363 +43,373 @@ class _SchedulePageState extends State<SchedulePage> {
     final _groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
-    return Scaffold(
-      // key: globalKey,
-      drawer: const NavBar(),
-      appBar: EasySearchBar(
-        title: Stack(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
+    return RawKeyboardListener(
+      focusNode: scheduleProvider.focusNode,
+      onKey: scheduleProvider.handleKeyEvent,
+      child: Scaffold(
+        // key: globalKey,
+        drawer: const NavBar(),
+        appBar: EasySearchBar(
+          title: Stack(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.dark_mode_sharp,
+                      color: AppColor.primary,
+                    ),
                   ),
-                ),
-                Text("Schedule of Classes"),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                InkWell(
-                  // onTap: () {
-                  //   globalKey.currentState!.openDrawer();
-                  // },
-                  child: Image.asset(
-                      isSmallFormFactor(context)
-                          ? "assets/images/mark.png"
-                          : "assets/images/logo.png",
-                      fit: BoxFit.fitHeight),
-                )
-              ],
-            )
-          ],
-        ),
-        backgroundColor: AppColor.primary,
-        foregroundColor: AppColor.white,
-        searchCursorColor: themeProvider.text,
-        searchBackIconTheme: IconThemeData(
-          color: themeProvider.text,
-        ),
-        // centerTitle: true,
-        actions: [
-          FadeInDown(
-            preferences: const AnimationPreferences(
-              autoPlay: AnimationPlayStates.Forward,
-              duration: Duration(
-                milliseconds: 500,
+                  Text("Schedule of Classes"),
+                ],
               ),
-            ),
-            child: IconButton(
-                onPressed: () {
-                  themeProvider.toggle();
-                },
-                icon: themeProvider.icon),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                    // onTap: () {
+                    //   globalKey.currentState!.openDrawer();
+                    // },
+                    child: Image.asset(
+                        isSmallFormFactor(context)
+                            ? "assets/images/mark.png"
+                            : "assets/images/logo.png",
+                        fit: BoxFit.fitHeight),
+                  )
+                ],
+              )
+            ],
           ),
-        ],
-        onSearch: (value) {
-          scheduleProvider.searchString = value;
-          // log.verbose("Searching for: $value");
-        },
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            // CAMPUS MENU
-            Container(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  bottom: 10,
-                  left: 10,
-                  right: 10,
+          backgroundColor: AppColor.primary,
+          foregroundColor: AppColor.white,
+          searchCursorColor: themeProvider.text,
+          searchBackIconTheme: IconThemeData(
+            color: themeProvider.text,
+          ),
+          // centerTitle: true,
+          actions: [
+            FadeInDown(
+              preferences: const AnimationPreferences(
+                autoPlay: AnimationPlayStates.Forward,
+                duration: Duration(
+                  milliseconds: 500,
                 ),
-                child: scheduleCampusMenuProvider.isLoading
-                    ? SkeletonLine(
-                        style: SkeletonLineStyle(
-                          alignment: Alignment.center,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
-                          padding: EdgeInsets.only(
-                            left: viewPortWidth(context) * .2,
-                            right: viewPortWidth(context) * .2,
-                          ),
-                          // randomLength: true,
-                        ),
-                      )
-                    : scheduleCampusMenuProvider.hasError
-                        ? Center(
-                            child: SelectableText(
-                                scheduleCampusMenuProvider.errorMessage),
-                          )
-                        : GroupButton(
-                            controller: _groupButtonCampusMenuController,
-                            buttons: scheduleCampusMenuProvider.campusList,
-                            isRadio: true,
-                            onSelected: (selected, index, ___) {
-                              if (!scheduleProvider.isLoading) {
-                                scheduleProvider.campus = selected.toString();
-                              }
-                            },
-                            options: GroupButtonOptions(
-                              unselectedColor: AppColor.primary,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              unselectedTextStyle: const TextStyle(
-                                color: AppColor.white,
-                              ),
-                              selectedColor: themeProvider.menuColorSelected,
-                              runSpacing: 2,
-                              spacing: 2,
-                              // borderRadius:
-                              //     BorderRadius.all(Radius.circular(10)),
-                            ),
-                            buttonIndexedBuilder: (isSelected, index, context) {
-                              return Container(
-                                margin: const EdgeInsets.all(0),
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 5, bottom: 5),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? themeProvider.menuColorSelected
-                                      : AppColor.primary,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
-                                  border: Border.all(
-                                    color: themeProvider.menuColorBorder,
-                                    width: 2,
-                                  ),
-                                  // borderRadius: index == 0
-                                  //     ? const BorderRadius.only(
-                                  //         topLeft: Radius.circular(10),
-                                  //         bottomLeft: Radius.circular(10))
-                                  //     : scheduleCampusMenuProvider
-                                  //                 .campusList[index] ==
-                                  //             scheduleCampusMenuProvider
-                                  //                 .campusList.last
-                                  //         ? const BorderRadius.only(
-                                  //             topRight: Radius.circular(10),
-                                  //             bottomRight: Radius.circular(10))
-                                  //         : null,
-                                ),
-                                child: Text(
-                                  scheduleCampusMenuProvider.campusList[index]
-                                      .toString()
-                                      .replaceAll("LDCC", "")
-                                      .replaceAll("CAMPUS", "")
-                                      .titleCase
-                                      .trim(),
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppColor.primary
-                                        : AppColor.white,
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                // isSelected: [
-                //     for (final item in scheduleMenuProvider.data) true
-                //   ])
-                ),
-            // TERMS MENU
-            Container(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 20,
-                  left: 20,
-                  right: 20,
-                ),
-                child: scheduleTermsMenuProvider.isLoading
-                    ? const SkeletonLine(
-                        style: SkeletonLineStyle(
+              ),
+              child: IconButton(
+                  onPressed: () {
+                    themeProvider.toggle();
+                  },
+                  icon: themeProvider.icon),
+            ),
+          ],
+          onSearch: (value) {
+            scheduleProvider.searchString = value;
+            // log.verbose("Searching for: $value");
+          },
+        ),
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              // CAMPUS MENU
+              Container(
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
+                  ),
+                  child: scheduleCampusMenuProvider.isLoading
+                      ? SkeletonLine(
+                          style: SkeletonLineStyle(
                             alignment: Alignment.center,
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                             padding: EdgeInsets.only(
-                              left: 200,
-                              right: 200,
-                            )
-                            // randomLength: true,
+                              left: viewPortWidth(context) * .2,
+                              right: viewPortWidth(context) * .2,
                             ),
-                      )
-                    : scheduleTermsMenuProvider.hasError
-                        ? Center(
-                            child: SelectableText(
-                                scheduleTermsMenuProvider.errorMessage),
-                          )
-                        : GroupButton(
-                            controller: _groupButtonTermMenuController,
-                            buttons: scheduleTermsMenuProvider.termsList,
-                            isRadio: true,
-                            onSelected: (selectedTermDesc, index, ___) {
-                              if (!scheduleProvider.isLoading) {
-                                // log.info(selectedTermDesc.toString());
-                                // final selectedTermData =
-                                //     scheduleTermsMenuProvider
-                                //         .data
-                                //         .where((e) =>
-                                //             e["Term"] ==
-                                //             selectedTermDesc.toString())
-                                //         .toList();
-                                scheduleProvider.term =
-                                    scheduleTermsMenuProvider.data[index]
-                                            ["Term"]
-                                        .toString();
-                                scheduleProvider.termType =
-                                    scheduleTermsMenuProvider.data[index]
-                                            ["TermTy"]
-                                        .toString();
-                                scheduleTermsMenuProvider.selectedTermDesc =
-                                    selectedTermDesc.toString();
-                                // log.info(
-                                //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
-                                scheduleProvider.getScheduleData();
-                              }
-                            },
-                            options: GroupButtonOptions(
+                            // randomLength: true,
+                          ),
+                        )
+                      : scheduleCampusMenuProvider.hasError
+                          ? Center(
+                              child: SelectableText(
+                                  scheduleCampusMenuProvider.errorMessage),
+                            )
+                          : GroupButton(
+                              controller: _groupButtonCampusMenuController,
+                              buttons: scheduleCampusMenuProvider.campusList,
+                              isRadio: true,
+                              onSelected: (selected, index, ___) {
+                                if (!scheduleProvider.isLoading) {
+                                  scheduleProvider.campus = selected.toString();
+                                }
+                              },
+                              options: GroupButtonOptions(
                                 unselectedColor: AppColor.primary,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
                                 unselectedTextStyle: const TextStyle(
                                   color: AppColor.white,
                                 ),
                                 selectedColor: themeProvider.menuColorSelected,
-                                runSpacing: 0,
-                                spacing: 0,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10))),
-                            buttonIndexedBuilder: (isSelected, index, context) {
-                              return Container(
-                                margin: const EdgeInsets.all(0),
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 5, bottom: 5),
-                                decoration: BoxDecoration(
+                                runSpacing: 2,
+                                spacing: 2,
+                                // borderRadius:
+                                //     BorderRadius.all(Radius.circular(10)),
+                              ),
+                              buttonIndexedBuilder:
+                                  (isSelected, index, context) {
+                                return Container(
+                                  margin: const EdgeInsets.all(0),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
                                     color: isSelected
                                         ? themeProvider.menuColorSelected
                                         : AppColor.primary,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
                                     border: Border.all(
                                       color: themeProvider.menuColorBorder,
                                       width: 2,
                                     ),
-                                    borderRadius: index == 0
-                                        ? const BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10))
-                                        : scheduleTermsMenuProvider
-                                                    .termsList[index] ==
-                                                scheduleTermsMenuProvider
-                                                    .termsList.last
-                                            ? const BorderRadius.only(
-                                                topRight: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10))
-                                            : null),
-                                child: Text(
-                                  scheduleTermsMenuProvider.data[index]["Desc"]
-                                      .toString(),
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppColor.primary
-                                        : AppColor.white,
-                                    fontSize: 13,
+                                    // borderRadius: index == 0
+                                    //     ? const BorderRadius.only(
+                                    //         topLeft: Radius.circular(10),
+                                    //         bottomLeft: Radius.circular(10))
+                                    //     : scheduleCampusMenuProvider
+                                    //                 .campusList[index] ==
+                                    //             scheduleCampusMenuProvider
+                                    //                 .campusList.last
+                                    //         ? const BorderRadius.only(
+                                    //             topRight: Radius.circular(10),
+                                    //             bottomRight: Radius.circular(10))
+                                    //         : null,
+                                  ),
+                                  child: Text(
+                                    scheduleCampusMenuProvider.campusList[index]
+                                        .toString()
+                                        .replaceAll("LDCC", "")
+                                        .replaceAll("CAMPUS", "")
+                                        .titleCase
+                                        .trim(),
+                                    style: TextStyle(
+                                      color: isSelected
+                                          ? AppColor.primary
+                                          : AppColor.white,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                  // isSelected: [
+                  //     for (final item in scheduleMenuProvider.data) true
+                  //   ])
+                  ),
+              // TERMS MENU
+              Container(
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: scheduleTermsMenuProvider.isLoading
+                      ? const SkeletonLine(
+                          style: SkeletonLineStyle(
+                              alignment: Alignment.center,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              padding: EdgeInsets.only(
+                                left: 200,
+                                right: 200,
+                              )
+                              // randomLength: true,
+                              ),
+                        )
+                      : scheduleTermsMenuProvider.hasError
+                          ? Center(
+                              child: SelectableText(
+                                  scheduleTermsMenuProvider.errorMessage),
+                            )
+                          : GroupButton(
+                              controller: _groupButtonTermMenuController,
+                              buttons: scheduleTermsMenuProvider.termsList,
+                              isRadio: true,
+                              onSelected: (selectedTermDesc, index, ___) {
+                                if (!scheduleProvider.isLoading) {
+                                  // log.info(selectedTermDesc.toString());
+                                  // final selectedTermData =
+                                  //     scheduleTermsMenuProvider
+                                  //         .data
+                                  //         .where((e) =>
+                                  //             e["Term"] ==
+                                  //             selectedTermDesc.toString())
+                                  //         .toList();
+                                  scheduleProvider.term =
+                                      scheduleTermsMenuProvider.data[index]
+                                              ["Term"]
+                                          .toString();
+                                  scheduleProvider.termType =
+                                      scheduleTermsMenuProvider.data[index]
+                                              ["TermTy"]
+                                          .toString();
+                                  scheduleTermsMenuProvider.selectedTermDesc =
+                                      selectedTermDesc.toString();
+                                  // log.info(
+                                  //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
+                                  scheduleProvider.getScheduleData();
+                                }
+                              },
+                              options: GroupButtonOptions(
+                                  unselectedColor: AppColor.primary,
+                                  unselectedTextStyle: const TextStyle(
+                                    color: AppColor.white,
+                                  ),
+                                  selectedColor:
+                                      themeProvider.menuColorSelected,
+                                  runSpacing: 0,
+                                  spacing: 0,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10))),
+                              buttonIndexedBuilder:
+                                  (isSelected, index, context) {
+                                return Container(
+                                  margin: const EdgeInsets.all(0),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? themeProvider.menuColorSelected
+                                          : AppColor.primary,
+                                      border: Border.all(
+                                        color: themeProvider.menuColorBorder,
+                                        width: 2,
+                                      ),
+                                      borderRadius: index == 0
+                                          ? const BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              bottomLeft: Radius.circular(10))
+                                          : scheduleTermsMenuProvider
+                                                      .termsList[index] ==
+                                                  scheduleTermsMenuProvider
+                                                      .termsList.last
+                                              ? const BorderRadius.only(
+                                                  topRight: Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10))
+                                              : null),
+                                  child: Text(
+                                    scheduleTermsMenuProvider.data[index]
+                                            ["Desc"]
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: isSelected
+                                          ? AppColor.primary
+                                          : AppColor.white,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                  // isSelected: [
+                  //     for (final item in scheduleMenuProvider.data) true
+                  //   ])
+                  ),
+              Expanded(
+                flex: 80,
+                child: Container(
+                  // color: Colors.green,
+                  padding: const EdgeInsets.only(
+                    // top: 10,
+                    bottom: 10,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: scheduleProvider.isLoading
+                      ? const CustomLoadingIndicator()
+                      : scheduleProvider.hasError
+                          ? Center(
+                              child:
+                                  SelectableText(scheduleProvider.errorMessage))
+                          // : SelectableText(scheduleProvider.data[0].toString()),
+                          : scheduleProvider.filteredData.isNotEmpty
+                              ? isSmallFormFactor(context)
+                                  // MOBILE STYLE CARDS
+                                  ? ListView.builder(
+                                      itemCount:
+                                          scheduleProvider.filteredData.length,
+                                      itemBuilder: (context, index) {
+                                        final _course = scheduleProvider
+                                            .filteredData[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 4, bottom: 4),
+                                          child: ListTile(
+                                            dense: true,
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            title: CourseCard(
+                                              course: _course,
+                                            ),
+                                            onTap: () => scheduleProvider
+                                                .showMoreInfoDialog(
+                                                    context, _course),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  // SHOW REGULAR TABLE
+                                  : const ScheduleEasyTable()
+                              : Center(
+                                  child: SelectableText(
+                                    scheduleProvider.searchString.isNotEmpty
+                                        ? "No results for that search."
+                                        : "No courses for this campus / term.",
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
-                              );
-                            },
-                          )
-                // isSelected: [
-                //     for (final item in scheduleMenuProvider.data) true
-                //   ])
                 ),
-            Expanded(
-              flex: 80,
-              child: Container(
-                // color: Colors.green,
-                padding: const EdgeInsets.only(
-                  // top: 10,
-                  bottom: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: scheduleProvider.isLoading
-                    ? const CustomLoadingIndicator()
-                    : scheduleProvider.hasError
-                        ? Center(
-                            child:
-                                SelectableText(scheduleProvider.errorMessage))
-                        // : SelectableText(scheduleProvider.data[0].toString()),
-                        : scheduleProvider.filteredData.isNotEmpty
-                            ? isSmallFormFactor(context)
-                                // MOBILE STYLE CARDS
-                                ? ListView.builder(
-                                    itemCount:
-                                        scheduleProvider.filteredData.length,
-                                    itemBuilder: (context, index) {
-                                      final _course =
-                                          scheduleProvider.filteredData[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4, bottom: 4),
-                                        child: ListTile(
-                                          dense: true,
-                                          visualDensity: VisualDensity.compact,
-                                          title: CourseCard(
-                                            course: _course,
-                                          ),
-                                          onTap: () => scheduleProvider
-                                              .showMoreInfoDialog(
-                                                  context, _course),
-                                        ),
-                                      );
-                                    },
-                                  )
-                                // SHOW REGULAR TABLE
-                                : const ScheduleEasyTable()
-                            : Center(
-                                child: SelectableText(
-                                  scheduleProvider.searchString.isNotEmpty
-                                      ? "No results for that search."
-                                      : "No courses for this campus / term.",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-              ),
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FadeInUp(
-        preferences: const AnimationPreferences(
-          duration: Duration(
-            milliseconds: 500,
+              )
+            ],
           ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                mini: true,
-                onPressed: () {
-                  // Modular.to.pushNamed('/other');
-                  scheduleProvider.getScheduleData();
-                },
-                tooltip: 'Refresh',
-                child: const Icon(Icons.refresh),
-                heroTag: "btnRefresh",
-                backgroundColor:
-                    themeProvider.floatingActionButtonBackgroundColor,
-                foregroundColor:
-                    themeProvider.floatingActionButtonForegroundColor,
-              ),
+        floatingActionButton: FadeInUp(
+          preferences: const AnimationPreferences(
+            duration: Duration(
+              milliseconds: 500,
             ),
-          ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                child: FloatingActionButton(
+                  mini: true,
+                  onPressed: () {
+                    // Modular.to.pushNamed('/other');
+                    scheduleProvider.getScheduleData();
+                  },
+                  tooltip: 'Refresh',
+                  child: const Icon(Icons.refresh),
+                  heroTag: "btnRefresh",
+                  backgroundColor:
+                      themeProvider.floatingActionButtonBackgroundColor,
+                  foregroundColor:
+                      themeProvider.floatingActionButtonForegroundColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -580,6 +591,9 @@ class ScheduleEasyTable extends StatelessWidget {
             ],
           ),
           // columnsFit: viewPortWidth(context) >= 1900 ? true : false,
+          verticalScrollController: scheduleProvider.vScrollController,
+          unpinnedHorizontalScrollController:
+              scheduleProvider.hScrollController,
           visibleRowsCount: 20,
         ),
       ),
