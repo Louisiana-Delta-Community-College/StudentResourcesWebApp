@@ -424,6 +424,7 @@ class ContactsCard extends StatelessWidget {
               children: [
                 InkWell(
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.phone,
@@ -472,6 +473,7 @@ class ContactsCard extends StatelessWidget {
                 ),
                 InkWell(
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.email_sharp, size: 35, color: _textColor),
                       const SizedBox(width: 10),
