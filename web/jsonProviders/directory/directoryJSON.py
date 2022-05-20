@@ -7,8 +7,7 @@ import sys
 sys.path.append('C:\\inetpub\\wwwroot\\includes\\python')
 
 import cgi
-# print()
-# import cgitb; cgitb.enable()
+import asyncio
 import os
 import string
 from datetime import datetime
@@ -17,6 +16,16 @@ try:
   from ...includes.python.banner_prod_con import *
 except:
   from banner_prod_con import *
+
+withDebug = False
+
+if withDebug:
+  import cgitb; cgitb.enable()
+  print()
+
+def debug(msg):
+  if withDebug:
+    print(msg)
   
 cacheDir = 'C:/inetpub/wwwroot/cache/directory'
 cachedDirectoryPath = os.path.join(cacheDir, "cachedDirectory.json")
@@ -31,13 +40,8 @@ def useCached():
     return (datetime.now() - modTime).total_seconds() <= cacheTimeOutInSeconds
   return False
 
-def main():
-  if useCached():
-    # print("using cached data")
-    JSONString = open(cachedDirectoryPath, "r").read()
-  else:
-    # print("retrieving fresh data")
-    strSQL = '''
+async def get_fresh_data():
+  strSQL = '''
     SELECT
       CASE
         WHEN aka.pidm IS NOT NULL
@@ -236,59 +240,72 @@ def main():
       END                        <> 'STUDENT WORKER'
     AND emp_status.ECLS_CODE NOT IN ('CO', 'AC')
     order by spriden.spriden_last_name,
-      spriden.spriden_first_name '''.format(**locals())
+      spriden.spriden_first_name'''.format(**locals())
 
-    RS = Bcur.execute(strSQL)
+  RS = Bcur.execute(strSQL)
 
-    employeeList = []
+  employeeList = []
 
-    if RS:
-      from string import capwords
-      for i in RS:
-        FirstName = i[0]
-        LastName = i[1]
-        PhoneNumber = i[2]
-        if PhoneNumber == None:
-            PhoneNumber = ''
-        else:
-            PhoneNumber = str('(' + PhoneNumber[0:3] +') ' + PhoneNumber[3:6] + '-' + PhoneNumber[6:])
-        JobTitle = i[3]
-        Department = i[4]
-        if Department == None:
-            Department = ''
-        EmailAddress = i[5]
-        Campus = i[6]
-        Office = i[7]
-        if Office == None:
-            Office = ''
-        employeeList.append(
-          {
-            "FirstName": FirstName,
-            "LastName": LastName,
-            "PhoneNumber": PhoneNumber,
-            "JobTitle": JobTitle,
-            "Department": Department,
-            "EmailAddress": EmailAddress,
-            "Campus": Campus,
-            "Office": Office
-          }
-        )
-      
-      # cache fresh data
-      with open(cachedDirectoryPath, 'w') as cachedFile:
-        cachedFile.write(json.dumps(employeeList))
-
-      # build JSON string to return
-      JSONString = json.dumps(
-        employeeList,
-        # sort_keys=True,
-        # indent=4
-        )
+  if RS:
+    from string import capwords
+    for i in RS:
+      FirstName = i[0]
+      LastName = i[1]
+      PhoneNumber = i[2]
+      if PhoneNumber == None:
+          PhoneNumber = ''
+      else:
+          PhoneNumber = str('(' + PhoneNumber[0:3] +') ' + PhoneNumber[3:6] + '-' + PhoneNumber[6:])
+      JobTitle = i[3]
+      Department = i[4]
+      if Department == None:
+          Department = ''
+      EmailAddress = i[5]
+      Campus = i[6]
+      Office = i[7]
+      if Office == None:
+          Office = ''
+      employeeList.append(
+        {
+          "FirstName": FirstName,
+          "LastName": LastName,
+          "PhoneNumber": PhoneNumber,
+          "JobTitle": JobTitle,
+          "Department": Department,
+          "EmailAddress": EmailAddress,
+          "Campus": Campus,
+          "Office": Office
+        }
+      )
     
+    # cache fresh data
+    with open(cachedDirectoryPath, 'w') as cachedFile:
+      cachedFile.write(json.dumps(employeeList))
+
+    # build JSON string to return
+    return json.dumps(
+      employeeList,
+      # sort_keys=True,
+      # indent=4
+      )
+
+async def main():
+  if useCached():
+    debug("Cached data still valid. Returning cached data.")
+    JSONString = open(cachedDirectoryPath, "r").read()
+  else:
+    debug("Cached data expired.")
     try:
-      JSONString = open(cachedDirectoryPath, "r").read()
+      debug("Attempting to retrieve fresh data.")
+      JSONString = await asyncio.wait_for(get_fresh_data(), timeout=3)
     except:
-      JSONString = """{"success": false, message: "Could not connect to database."}"""
+      debug("Retrieving fresh data failed.")
+      try:
+        debug("Attempting to return cached data.")
+        JSONString = open(cachedDirectoryPath, "r").read()
+      except:
+        debug("No cached data found. Returning error.")
+        JSONString = """{"success": false, message: "Could not connect to database."}"""
 
   # print('Content-type: application/octet-stream\n')
   # print('Content-encoding: gzip\n\n\')
@@ -302,4 +319,5 @@ def main():
     print(JSONString)
 
 if __name__ == "__main__":
-  main()
+  # loop = asyncio.get_event_loop()
+  asyncio.run(main())
