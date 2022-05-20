@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+export 'package:flutter/services.dart';
 
 import 'package:talker/talker.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';

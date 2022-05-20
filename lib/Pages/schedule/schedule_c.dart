@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
+
 import 'package:http/http.dart' as http;
 
 import 'package:group_button/group_button.dart';
@@ -35,24 +35,32 @@ class Schedule extends ChangeNotifier {
   ScrollController get vScrollController => _vScrollController;
   ScrollController get hScrollController => _hScrollController;
 
-  void handleKeyEvent(RawKeyEvent event) {
-    log.info(event.toString());
+  void handleKeyEvent(RawKeyEvent event) async {
+    // log.info(event.toString());
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       _vScrollController.animateTo(_vScrollController.offset - 200,
-          duration: const Duration(milliseconds: 30), curve: Curves.ease);
-      log.info("up");
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("up");
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _vScrollController.animateTo(_vScrollController.offset + 200,
-          duration: const Duration(milliseconds: 30), curve: Curves.ease);
-      log.info("down");
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("down");
     } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      _hScrollController.animateTo(_hScrollController.offset - 200,
-          duration: const Duration(milliseconds: 30), curve: Curves.ease);
-      log.info("left");
+      _hScrollController.animateTo(_hScrollController.offset - 50,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("left");
     } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      _hScrollController.animateTo(_hScrollController.offset + 200,
-          duration: const Duration(milliseconds: 30), curve: Curves.ease);
-      log.info("right");
+      _hScrollController.animateTo(_hScrollController.offset + 50,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("right");
+    } else if (event.logicalKey == LogicalKeyboardKey.pageUp) {
+      _vScrollController.animateTo(_vScrollController.offset - 1000,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("up");
+    } else if (event.logicalKey == LogicalKeyboardKey.pageDown) {
+      _vScrollController.animateTo(_vScrollController.offset + 1000,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("down");
     }
   }
 
