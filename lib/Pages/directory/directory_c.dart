@@ -20,6 +20,57 @@ class Directory extends ChangeNotifier {
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
 
+  final FocusNode _focusNode = FocusNode();
+  final ScrollController _vScrollController = ScrollController();
+  final ScrollController _hScrollController = ScrollController();
+
+  FocusNode get focusNode => _focusNode;
+  ScrollController get vScrollController => _vScrollController;
+  ScrollController get hScrollController => _hScrollController;
+
+  void handleKeyEvent(RawKeyEvent event) async {
+    // log.info(event.toString());
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _vScrollController.animateTo(_vScrollController.offset - 200,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("up");
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      _vScrollController.animateTo(_vScrollController.offset + 200,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("down");
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      _hScrollController.animateTo(_hScrollController.offset - 50,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("left");
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      _hScrollController.animateTo(_hScrollController.offset + 50,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("right");
+    } else if (event.logicalKey == LogicalKeyboardKey.pageUp) {
+      _vScrollController.animateTo(_vScrollController.offset - 1000,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("up");
+    } else if (event.logicalKey == LogicalKeyboardKey.pageDown) {
+      _vScrollController.animateTo(_vScrollController.offset + 1000,
+          duration: const Duration(milliseconds: 10), curve: Curves.ease);
+      // log.info("down");
+    }
+  }
+
+  void toggleFocus() {
+    var _focusable = _focusNode.descendantsAreFocusable;
+    if (_focusable == true) {
+      _focusable = false;
+    } else {
+      _focusable = true;
+    }
+    notifyListeners();
+  }
+
+  void init() {
+    toggleFocus();
+  }
+
   String get searchString => _searchString;
   set searchString(String s) {
     // LIGHTLY SANITIZE AND SET SEARCH STRING
