@@ -40,10 +40,19 @@ class Schedule extends ChangeNotifier {
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       _vScrollController.animateTo(_vScrollController.offset - 200,
           duration: const Duration(milliseconds: 30), curve: Curves.ease);
+      log.info("up");
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       _vScrollController.animateTo(_vScrollController.offset + 200,
           duration: const Duration(milliseconds: 30), curve: Curves.ease);
-      log.info("going down");
+      log.info("down");
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+      _hScrollController.animateTo(_hScrollController.offset - 200,
+          duration: const Duration(milliseconds: 30), curve: Curves.ease);
+      log.info("left");
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+      _hScrollController.animateTo(_hScrollController.offset + 200,
+          duration: const Duration(milliseconds: 30), curve: Curves.ease);
+      log.info("right");
     }
   }
 
