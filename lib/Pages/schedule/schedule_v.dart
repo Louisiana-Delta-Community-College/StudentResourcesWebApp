@@ -647,7 +647,7 @@ class CourseCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 15),
-            child: SelectableText(
+            child: Text(
               friendlyName,
               style: TextStyle(
                 color: _borderTextColor,
@@ -719,7 +719,7 @@ class CourseCard extends StatelessWidget {
                       color: _textColor,
                     ),
                     const SizedBox(width: 10),
-                    SelectableText(
+                    Text(
                       buildingAndRoom,
                       style: TextStyle(
                         fontSize: 14,
@@ -733,7 +733,7 @@ class CourseCard extends StatelessWidget {
                     Icon(Icons.calendar_month_outlined,
                         size: 35, color: _textColor),
                     const SizedBox(width: 10),
-                    SelectableText(
+                    Text(
                       days,
                       style: TextStyle(
                         fontSize: 14,
@@ -747,7 +747,7 @@ class CourseCard extends StatelessWidget {
                     Icon(Icons.watch_later_outlined,
                         size: 35, color: _textColor),
                     const SizedBox(width: 10),
-                    SelectableText(
+                    Text(
                       meetingTimes,
                       style: TextStyle(
                         fontSize: 14,
