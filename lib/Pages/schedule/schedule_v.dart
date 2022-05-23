@@ -53,14 +53,17 @@ class _SchedulePageState extends State<SchedulePage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
+                // This is here to pad the title to center position
+                Icon(
+                  Icons.dark_mode_sharp,
+                  color: AppColor.primary,
+                ),
+                Center(
+                  child: Text(
+                    "Schedule of Classes",
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                Text("Schedule of Classes"),
               ],
             ),
             Row(

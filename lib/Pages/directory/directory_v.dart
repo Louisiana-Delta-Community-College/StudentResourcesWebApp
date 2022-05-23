@@ -50,14 +50,17 @@ class _DirectoryPageState extends State<DirectoryPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
+                // This is here to pad the title to center position
+                const Icon(
+                  Icons.dark_mode_sharp,
+                  color: AppColor.primary,
+                ),
+                Center(
+                  child: Text(
+                    "Directory$titleAppendedCampus",
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                Text("Directory$titleAppendedCampus"),
               ],
             ),
             Row(
