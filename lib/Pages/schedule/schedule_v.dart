@@ -339,27 +339,32 @@ class _SchedulePageState extends State<SchedulePage> {
                         : scheduleProvider.filteredData.isNotEmpty
                             ? isSmallFormFactor(context)
                                 // MOBILE STYLE CARDS
-                                ? ListView.builder(
-                                    itemCount:
-                                        scheduleProvider.filteredData.length,
-                                    itemBuilder: (context, index) {
-                                      final _course =
-                                          scheduleProvider.filteredData[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4, bottom: 4),
-                                        child: ListTile(
-                                          dense: true,
-                                          visualDensity: VisualDensity.compact,
-                                          title: CourseCard(
-                                            course: _course,
+                                ? GlowingOverscrollIndicator(
+                                    axisDirection: AxisDirection.down,
+                                    color: AppColor.secondary,
+                                    child: ListView.builder(
+                                      itemCount:
+                                          scheduleProvider.filteredData.length,
+                                      itemBuilder: (context, index) {
+                                        final _course = scheduleProvider
+                                            .filteredData[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 4, bottom: 4),
+                                          child: ListTile(
+                                            dense: true,
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            title: CourseCard(
+                                              course: _course,
+                                            ),
+                                            onTap: () => scheduleProvider
+                                                .showMoreInfoDialog(
+                                                    context, _course),
                                           ),
-                                          onTap: () => scheduleProvider
-                                              .showMoreInfoDialog(
-                                                  context, _course),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   )
                                 // SHOW REGULAR TABLE
                                 : const ScheduleEasyTable()

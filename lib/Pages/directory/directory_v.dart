@@ -130,24 +130,29 @@ class _DirectoryPageState extends State<DirectoryPage> {
                         : directoryProvider.filteredData.isNotEmpty
                             ? isSmallFormFactor(context)
                                 // MOBILE STYLE CARDS
-                                ? ListView.builder(
-                                    itemCount:
-                                        directoryProvider.filteredData.length,
-                                    itemBuilder: (context, index) {
-                                      final _contact =
-                                          directoryProvider.filteredData[index];
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 4, bottom: 4),
-                                        child: ListTile(
-                                          dense: true,
-                                          visualDensity: VisualDensity.compact,
-                                          title: ContactsCard(
-                                            contact: _contact,
+                                ? GlowingOverscrollIndicator(
+                                    axisDirection: AxisDirection.down,
+                                    color: AppColor.secondary,
+                                    child: ListView.builder(
+                                      itemCount:
+                                          directoryProvider.filteredData.length,
+                                      itemBuilder: (context, index) {
+                                        final _contact = directoryProvider
+                                            .filteredData[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 4, bottom: 4),
+                                          child: ListTile(
+                                            dense: true,
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            title: ContactsCard(
+                                              contact: _contact,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                   )
                                 // SHOW REGULAR TABLE
                                 : const ContactsEasyTable()
