@@ -231,10 +231,15 @@ class ContactsEasyTable extends StatelessWidget {
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
           ),
-          scroll: const TableScrollThemeData(
+          scrollbar: const TableScrollbarThemeData(
             thickness: 7,
             thumbColor: AppTheme.primary,
             radius: Radius.circular(10),
+          ),
+          cell: CellThemeData(
+            textStyle: TextStyle(
+              color: themeProvider.text,
+            ),
           ),
         ),
         child: EasyTable(
