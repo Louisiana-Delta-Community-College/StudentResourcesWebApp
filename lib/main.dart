@@ -9,8 +9,8 @@ void main() async {
     ModularApp(
       module: ModularConfig(),
       child: StyledToast(
-        child: const MyApp(),
         locale: const Locale("en", "US"),
+        child: const MyApp(),
       ),
     ),
   );

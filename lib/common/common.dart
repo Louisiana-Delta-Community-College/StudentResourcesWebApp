@@ -46,26 +46,25 @@ String? encodeQueryParameters(Map<String, String> params) {
 }
 
 bool get isMobile {
-  bool _isMobile = false;
+  bool isMobile = false;
 
   if (Platform.isAndroid || Platform.isIOS) {
-    _isMobile = true;
+    isMobile = true;
   }
 
-  return _isMobile;
+  return isMobile;
 }
 
 double viewPortWidth(context) {
-  double _viewPortWidth = double.infinity;
-  _viewPortWidth = MediaQuery.of(context).size.width;
-  return _viewPortWidth;
+  double viewPortWidth = double.infinity;
+  viewPortWidth = MediaQuery.of(context).size.width;
+  return viewPortWidth;
 }
 
 bool isSmallFormFactor(context) {
-  var _isSmallFormFactor = false;
-  final _viewPortWidth = viewPortWidth(context);
-  _isSmallFormFactor = _viewPortWidth <= 800;
-  return _isSmallFormFactor;
+  var isSmallFormFactor = false;
+  isSmallFormFactor = viewPortWidth(context) <= 800;
+  return isSmallFormFactor;
 }
 
 void makeToast(String message) {
@@ -107,6 +106,7 @@ void showSnackBar(
       width: double.infinity,
       color: AppColor.primary,
       child: Align(
+        alignment: Alignment.centerLeft,
         child: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Row(
@@ -123,7 +123,6 @@ void showSnackBar(
             ],
           ),
         ),
-        alignment: Alignment.centerLeft,
       ),
     ),
     duration: const Duration(seconds: 5),

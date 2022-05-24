@@ -61,7 +61,7 @@ class Directory extends ChangeNotifier {
   Future getDirectoryData() async {
     Map<String, dynamic> queryParameters = {};
 
-    final _uri = Uri.https(
+    final uri = Uri.https(
         jsonProviderBaseUri, jsonProviderDirectoryPath, queryParameters);
 
     _errorMessage = "";
@@ -70,17 +70,17 @@ class Directory extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await http.get(_uri);
+      final response = await http.get(uri);
       if (response.statusCode == 200) {
         // final _responseTest =
         //     '{"success": false, "message": "Error connecting to the database."}';
         if (response.body.length < 200) {
-          final _checkError = jsonDecode(response.body) as Map<String, dynamic>;
-          if (_checkError.containsKey("success") &&
-              _checkError["success"] == false) {
+          final checkError = jsonDecode(response.body) as Map<String, dynamic>;
+          if (checkError.containsKey("success") &&
+              checkError["success"] == false) {
             _isLoading = false;
             notifyListeners();
-            _error(_checkError["message"].toString());
+            _error(checkError["message"].toString());
           }
         } else {
           // response.body is already a JSON formatted string

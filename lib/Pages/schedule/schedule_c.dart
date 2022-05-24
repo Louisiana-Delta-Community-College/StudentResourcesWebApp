@@ -85,7 +85,7 @@ class Schedule extends ChangeNotifier {
       queryParameters["termty"] = termType;
     }
 
-    final _uri = Uri.https(
+    final uri = Uri.https(
         jsonProviderBaseUri, jsonProviderSchedulePath, queryParameters);
 
     _errorMessage = "";
@@ -93,22 +93,22 @@ class Schedule extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final _scheduleCampusMenu = Modular.get<ScheduleCampusMenu>();
+    final scheduleCampusMenu = Modular.get<ScheduleCampusMenu>();
 
     try {
-      final response = await http.get(_uri);
+      final response = await http.get(uri);
       if (response.statusCode == 200) {
         // final _responseTest =
         //     '{"success": false, "message": "Error connecting to the database."}';
         if (response.body.length < 200) {
-          final _checkError = jsonDecode(response.body) as Map<String, dynamic>;
-          if (_checkError.containsKey("success") &&
-              _checkError["success"] == false) {
+          final checkError = jsonDecode(response.body) as Map<String, dynamic>;
+          if (checkError.containsKey("success") &&
+              checkError["success"] == false) {
             _isLoading = false;
-            _scheduleCampusMenu.isLoading = false;
-            _scheduleCampusMenu._campusList = ["None"];
+            scheduleCampusMenu.isLoading = false;
+            scheduleCampusMenu._campusList = ["None"];
             notifyListeners();
-            _error(_checkError["message"].toString());
+            _error(checkError["message"].toString());
           }
         } else {
           // response.body is already a JSON formatted string
@@ -118,7 +118,7 @@ class Schedule extends ChangeNotifier {
           if (_data.isEmpty) {
             _error("No data.");
           } else {
-            _scheduleCampusMenu.getMenuData();
+            scheduleCampusMenu.getMenuData();
             _isLoading = false;
 
             notifyListeners();
@@ -156,35 +156,35 @@ class Schedule extends ChangeNotifier {
   }
 
   void updateTermsMenuSelection() {
-    final _scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
-    final _retrievedTerm = _data[0]["TD"];
-    var _selectedTermDesc = _scheduleTermsMenuController.selectedTermDesc;
-    if (_selectedTermDesc.isEmpty) {
-      _selectedTermDesc = _scheduleTermsMenuController.data
-          .where((e) => e["Desc"] == _retrievedTerm)
+    final scheduleTermsMenuController = Modular.get<ScheduleTermsMenu>();
+    final retrievedTerm = _data[0]["TD"];
+    var selectedTermDesc = scheduleTermsMenuController.selectedTermDesc;
+    if (selectedTermDesc.isEmpty) {
+      selectedTermDesc = scheduleTermsMenuController.data
+          .where((e) => e["Desc"] == retrievedTerm)
           .toList()[0]["Desc"];
     }
-    final _termsList = _scheduleTermsMenuController.termsList;
-    if (_termsList.contains(_selectedTermDesc)) {
-      final _retrievedTermIndex = _termsList.indexOf(_selectedTermDesc);
-      _scheduleTermsMenuController.groupButtonTermMenuController
-          .selectIndex(_retrievedTermIndex);
+    final termsList = scheduleTermsMenuController.termsList;
+    if (termsList.contains(selectedTermDesc)) {
+      final retrievedTermIndex = termsList.indexOf(selectedTermDesc);
+      scheduleTermsMenuController.groupButtonTermMenuController
+          .selectIndex(retrievedTermIndex);
     }
   }
 
   void updateCampusMenuSelection() {
-    int _termIndex = 0;
-    final _scheduleCampusMenuController = Modular.get<ScheduleCampusMenu>();
-    final _selectedCampus = _campus;
-    final _campusList = _scheduleCampusMenuController.campusList;
-    if (_campusList.contains(_selectedCampus)) {
-      _termIndex = _campusList.indexOf(_selectedCampus);
+    int termIndex = 0;
+    final scheduleCampusMenuController = Modular.get<ScheduleCampusMenu>();
+    final selectedCampus = _campus;
+    final campusList = scheduleCampusMenuController.campusList;
+    if (campusList.contains(selectedCampus)) {
+      termIndex = campusList.indexOf(selectedCampus);
     } else {
-      _campus = _campusList[0];
-      _termIndex = 0;
+      _campus = campusList[0];
+      termIndex = 0;
     }
-    _scheduleCampusMenuController.groupButtonCampusMenuController
-        .selectIndex(_termIndex);
+    scheduleCampusMenuController.groupButtonCampusMenuController
+        .selectIndex(termIndex);
   }
 
   _error(String message) {
@@ -195,7 +195,7 @@ class Schedule extends ChangeNotifier {
   }
 
   Future<dynamic> showMoreInfoDialog(BuildContext context, Object? row) {
-    final ScrollController _scrollController = ScrollController();
+    final ScrollController scrollController = ScrollController();
 
     return showDialog(
       context: context,
@@ -215,7 +215,6 @@ class Schedule extends ChangeNotifier {
           alignment: Alignment.center,
           actions: [
             TextButton(
-              child: const Text("Close"),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
                   Theme.of(context).colorScheme.primary,
@@ -227,18 +226,19 @@ class Schedule extends ChangeNotifier {
               onPressed: () {
                 Modular.to.pop();
               },
+              child: const Text("Close"),
             ),
           ],
           content: SizedBox(
             height: MediaQuery.of(context).size.height * .80,
             width: MediaQuery.of(context).size.width * .80,
             child: Scrollbar(
-              controller: _scrollController,
+              controller: scrollController,
               // isAlwaysShown: true,
               thumbVisibility: true,
               child: ListView(
                 shrinkWrap: true,
-                controller: _scrollController,
+                controller: scrollController,
                 children: [
                   // BUY MATERIALS BUTTON
                   ListTile(
@@ -422,12 +422,12 @@ class Schedule extends ChangeNotifier {
   }
 
   void copyRowToClipboard(row) {
-    final _feesFlat = (row as Map)["FF"];
-    final _feesCredit = row["FC"];
-    var _feesTotal = "0.00";
+    final feesFlat = (row as Map)["FF"];
+    final feesCredit = row["FC"];
+    var feesTotal = "0.00";
     try {
-      _feesTotal = ((double.tryParse(_feesFlat) ?? 0.00) +
-              (double.tryParse(_feesCredit) ?? 0.00))
+      feesTotal = ((double.tryParse(feesFlat) ?? 0.00) +
+              (double.tryParse(feesCredit) ?? 0.00))
           .toStringAsFixed(2);
     } catch (e) {
       log.error(e.toString());
@@ -447,9 +447,9 @@ Time: ${row["TB"]} - ${row["TE"]}
 Credit Hours: ${row["CH"]}
 
 Additional Fees:
-Flat: $_feesFlat
-Credit: $_feesCredit
-Total: $_feesTotal
+Flat: $feesFlat
+Credit: $feesCredit
+Total: $feesTotal
 
 Description:
 ${row["N"]}
@@ -489,7 +489,7 @@ class ScheduleTermsMenu extends ChangeNotifier {
     final rng = Random().nextInt(9999999).toString();
     Map<String, dynamic> queryParameters = {"v": rng};
 
-    final _uri = Uri.https(
+    final uri = Uri.https(
         jsonProviderBaseUri, jsonProviderTermMenuPath, queryParameters);
 
     _errorMessage = "";
@@ -498,7 +498,7 @@ class ScheduleTermsMenu extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await http.get(_uri);
+      final response = await http.get(uri);
       if (response.statusCode == 200) {
         // response.body is already a JSON formatted string
         // because of how the Python CGI page is coded.
@@ -564,9 +564,9 @@ class ScheduleCampusMenu extends ChangeNotifier {
     notifyListeners();
 
     _campusList = [];
-    final _scheduleData = Modular.get<Schedule>().data;
+    final scheduleData = Modular.get<Schedule>().data;
 
-    for (var element in _scheduleData) {
+    for (var element in scheduleData) {
       _campusList.add(element["C"]);
     }
 

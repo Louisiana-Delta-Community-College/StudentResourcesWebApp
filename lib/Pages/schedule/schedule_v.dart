@@ -37,10 +37,10 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleCampusMenuProvider = context.watch<ScheduleCampusMenu>();
     final themeProvider = context.watch<AppTheme>();
 
-    final _groupButtonCampusMenuController =
+    final groupButtonCampusMenuController =
         scheduleCampusMenuProvider.groupButtonCampusMenuController;
 
-    final _groupButtonTermMenuController =
+    final groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
     return Scaffold(
@@ -142,7 +142,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 scheduleCampusMenuProvider.errorMessage),
                           )
                         : GroupButton(
-                            controller: _groupButtonCampusMenuController,
+                            controller: groupButtonCampusMenuController,
                             buttons: scheduleCampusMenuProvider.campusList,
                             isRadio: true,
                             onSelected: (selected, index, ___) {
@@ -238,7 +238,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                 scheduleTermsMenuProvider.errorMessage),
                           )
                         : GroupButton(
-                            controller: _groupButtonTermMenuController,
+                            controller: groupButtonTermMenuController,
                             buttons: scheduleTermsMenuProvider.termsList,
                             isRadio: true,
                             onSelected: (selectedTermDesc, index, ___) {
@@ -346,7 +346,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                       itemCount:
                                           scheduleProvider.filteredData.length,
                                       itemBuilder: (context, index) {
-                                        final _course = scheduleProvider
+                                        final course = scheduleProvider
                                             .filteredData[index];
                                         return Padding(
                                           padding: const EdgeInsets.only(
@@ -356,11 +356,11 @@ class _SchedulePageState extends State<SchedulePage> {
                                             visualDensity:
                                                 VisualDensity.compact,
                                             title: CourseCard(
-                                              course: _course,
+                                              course: course,
                                             ),
                                             onTap: () => scheduleProvider
                                                 .showMoreInfoDialog(
-                                                    context, _course),
+                                                    context, course),
                                           ),
                                         );
                                       },
@@ -399,12 +399,12 @@ class _SchedulePageState extends State<SchedulePage> {
                   scheduleProvider.getScheduleData();
                 },
                 tooltip: 'Refresh',
-                child: const Icon(Icons.refresh),
                 heroTag: "btnRefresh",
                 backgroundColor:
                     themeProvider.floatingActionButtonBackgroundColor,
                 foregroundColor:
                     themeProvider.floatingActionButtonForegroundColor,
+                child: const Icon(Icons.refresh),
               ),
             ),
           ],
@@ -421,7 +421,7 @@ class ScheduleEasyTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
     final themeProvider = context.watch<AppTheme>();
-    final _rows = scheduleProvider.filteredData;
+    final rows = scheduleProvider.filteredData;
 
     return Center(
       child: EasyTableTheme(
@@ -449,7 +449,7 @@ class ScheduleEasyTable extends StatelessWidget {
         ),
         child: EasyTable(
           EasyTableModel(
-            rows: _rows,
+            rows: rows,
             columns: [
               EasyTableColumn(
                 name: "Controls",
@@ -611,9 +611,9 @@ class CourseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<AppTheme>();
-    final Color _borderColor = themeProvider.mobileCardBorderColor;
-    final Color _borderTextColor = themeProvider.mobileCardBorderTextColor;
-    final Color _textColor = Theme.of(context).colorScheme.onBackground;
+    final Color borderColor = themeProvider.mobileCardBorderColor;
+    final Color borderTextColor = themeProvider.mobileCardBorderTextColor;
+    final Color textColor = Theme.of(context).colorScheme.onBackground;
 
     final subjectCode = course["SC"].toString().trim();
     final courseNumber = course["CN"].toString().trim();
@@ -646,18 +646,10 @@ class CourseCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              friendlyName,
-              style: TextStyle(
-                color: _borderTextColor,
-                fontSize: 14,
-                // fontWeight: FontWeight.w600,
-              ),
-            ),
             height: 30,
             // width: 300,
             decoration: BoxDecoration(
-              color: _borderColor,
+              color: borderColor,
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(10),
               ),
@@ -672,6 +664,14 @@ class CourseCard extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+            child: Text(
+              friendlyName,
+              style: TextStyle(
+                color: borderTextColor,
+                fontSize: 14,
+                // fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -690,7 +690,7 @@ class CourseCard extends StatelessWidget {
                 ),
               )
             ],
-            color: _borderColor,
+            color: borderColor,
             // borderRadius: const BorderRadius.all(Radius.circular(20)),
             borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(20),
@@ -715,14 +715,14 @@ class CourseCard extends StatelessWidget {
                     Icon(
                       Icons.meeting_room,
                       size: 35,
-                      color: _textColor,
+                      color: textColor,
                     ),
                     const SizedBox(width: 10),
                     Text(
                       buildingAndRoom,
                       style: TextStyle(
                         fontSize: 14,
-                        color: _textColor,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -730,13 +730,13 @@ class CourseCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.calendar_month_outlined,
-                        size: 35, color: _textColor),
+                        size: 35, color: textColor),
                     const SizedBox(width: 10),
                     Text(
                       days,
                       style: TextStyle(
                         fontSize: 14,
-                        color: _textColor,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -744,13 +744,13 @@ class CourseCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.watch_later_outlined,
-                        size: 35, color: _textColor),
+                        size: 35, color: textColor),
                     const SizedBox(width: 10),
                     Text(
                       meetingTimes,
                       style: TextStyle(
                         fontSize: 14,
-                        color: _textColor,
+                        color: textColor,
                       ),
                     ),
                   ],

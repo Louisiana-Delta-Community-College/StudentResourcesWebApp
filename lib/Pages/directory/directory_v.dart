@@ -144,7 +144,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                       itemCount:
                                           directoryProvider.filteredData.length,
                                       itemBuilder: (context, index) {
-                                        final _contact = directoryProvider
+                                        final contact = directoryProvider
                                             .filteredData[index];
                                         return Padding(
                                           padding: const EdgeInsets.only(
@@ -154,7 +154,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                             visualDensity:
                                                 VisualDensity.compact,
                                             title: ContactsCard(
-                                              contact: _contact,
+                                              contact: contact,
                                             ),
                                           ),
                                         );
@@ -194,12 +194,12 @@ class _DirectoryPageState extends State<DirectoryPage> {
                   directoryProvider.getDirectoryData();
                 },
                 tooltip: 'Refresh',
-                child: const Icon(Icons.refresh),
                 heroTag: "btnRefresh",
                 backgroundColor:
                     themeProvider.floatingActionButtonBackgroundColor,
                 foregroundColor:
                     themeProvider.floatingActionButtonForegroundColor,
+                child: const Icon(Icons.refresh),
               ),
             ),
           ],
@@ -216,7 +216,7 @@ class ContactsEasyTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
-    final _rows = directoryProvider.filteredData;
+    final rows = directoryProvider.filteredData;
 
     return Center(
       child: EasyTableTheme(
@@ -244,7 +244,7 @@ class ContactsEasyTable extends StatelessWidget {
         ),
         child: EasyTable(
           EasyTableModel(
-            rows: _rows,
+            rows: rows,
             columns: [
               EasyTableColumn(
                 // padding: const EdgeInsets.all(5),
@@ -340,13 +340,11 @@ class ContactsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<AppTheme>();
-    final Color _borderColor = themeProvider.mobileCardBorderColor;
-    final Color _borderTextColor = themeProvider.mobileCardBorderTextColor;
-    final Color _textColor = Theme.of(context).colorScheme.onBackground;
+    final Color borderColor = themeProvider.mobileCardBorderColor;
+    final Color borderTextColor = themeProvider.mobileCardBorderTextColor;
+    final Color textColor = Theme.of(context).colorScheme.onBackground;
 
-    final name = contact["LastName"].toString().trim() +
-        ", " +
-        contact["FirstName"].toString().trim();
+    final name = "${contact["LastName"].toString().trim()}, ${contact["FirstName"].toString().trim()}";
     final phoneNumber = contact["PhoneNumber"].toString().trim();
     final title = contact["JobTitle"].toString().trim();
 
@@ -369,18 +367,10 @@ class ContactsCard extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              name,
-              style: TextStyle(
-                color: _borderTextColor,
-                fontSize: 14,
-                // fontWeight: FontWeight.w600,
-              ),
-            ),
             height: 30,
             // width: 300,
             decoration: BoxDecoration(
-              color: _borderColor,
+              color: borderColor,
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(10),
               ),
@@ -395,6 +385,14 @@ class ContactsCard extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+            child: Text(
+              name,
+              style: TextStyle(
+                color: borderTextColor,
+                fontSize: 14,
+                // fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -413,7 +411,7 @@ class ContactsCard extends StatelessWidget {
                 ),
               )
             ],
-            color: _borderColor,
+            color: borderColor,
             // borderRadius: const BorderRadius.all(Radius.circular(20)),
             borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(20),
@@ -440,14 +438,14 @@ class ContactsCard extends StatelessWidget {
                       Icon(
                         Icons.phone,
                         size: 35,
-                        color: _textColor,
+                        color: textColor,
                       ),
                       const SizedBox(width: 10),
                       Text(
                         phoneNumber,
                         style: TextStyle(
                           fontSize: 14,
-                          color: _textColor,
+                          color: textColor,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -457,13 +455,13 @@ class ContactsCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.turned_in_outlined, size: 35, color: _textColor),
+                    Icon(Icons.turned_in_outlined, size: 35, color: textColor),
                     const SizedBox(width: 10),
                     Text(
                       title,
                       style: TextStyle(
                         fontSize: 14,
-                        color: _textColor,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -471,13 +469,13 @@ class ContactsCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.holiday_village_sharp,
-                        size: 35, color: _textColor),
+                        size: 35, color: textColor),
                     const SizedBox(width: 10),
                     Text(
                       department,
                       style: TextStyle(
                         fontSize: 14,
-                        color: _textColor,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -486,13 +484,13 @@ class ContactsCard extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.email_sharp, size: 35, color: _textColor),
+                      Icon(Icons.email_sharp, size: 35, color: textColor),
                       const SizedBox(width: 10),
                       Text(
                         email,
                         style: TextStyle(
                           fontSize: 14,
-                          color: _textColor,
+                          color: textColor,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -502,13 +500,13 @@ class ContactsCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.meeting_room, size: 35, color: _textColor),
+                    Icon(Icons.meeting_room, size: 35, color: textColor),
                     const SizedBox(width: 10),
                     Text(
                       "$campus - ${office.isEmpty ? "Room N/A" : office}",
                       style: TextStyle(
                         fontSize: 14,
-                        color: _textColor,
+                        color: textColor,
                       ),
                     ),
                   ],
