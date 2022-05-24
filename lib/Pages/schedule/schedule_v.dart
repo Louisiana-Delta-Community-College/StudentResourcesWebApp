@@ -443,7 +443,7 @@ class ScheduleEasyTable extends StatelessWidget {
           ),
           cell: CellThemeData(
             textStyle: TextStyle(
-              color: themeProvider.text,
+              color: themeProvider.easyTableText,
             ),
           ),
         ),

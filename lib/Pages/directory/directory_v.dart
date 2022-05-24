@@ -238,7 +238,7 @@ class ContactsEasyTable extends StatelessWidget {
           ),
           cell: CellThemeData(
             textStyle: TextStyle(
-              color: themeProvider.text,
+              color: themeProvider.easyTableText,
             ),
           ),
         ),
@@ -344,7 +344,8 @@ class ContactsCard extends StatelessWidget {
     final Color borderTextColor = themeProvider.mobileCardBorderTextColor;
     final Color textColor = Theme.of(context).colorScheme.onBackground;
 
-    final name = "${contact["LastName"].toString().trim()}, ${contact["FirstName"].toString().trim()}";
+    final name =
+        "${contact["LastName"].toString().trim()}, ${contact["FirstName"].toString().trim()}";
     final phoneNumber = contact["PhoneNumber"].toString().trim();
     final title = contact["JobTitle"].toString().trim();
 
