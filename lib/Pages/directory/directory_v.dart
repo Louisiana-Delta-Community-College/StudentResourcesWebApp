@@ -232,7 +232,7 @@ class ContactsEasyTable extends StatelessWidget {
                 : themeProvider.rowColorNormal,
           ),
           scrollbar: const TableScrollbarThemeData(
-            thickness: 7,
+            thickness: 10,
             thumbColor: AppTheme.primary,
             radius: Radius.circular(10),
           ),
