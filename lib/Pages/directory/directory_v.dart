@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:schedule/common/common.dart';
 
 import 'package:easy_table/easy_table.dart';
@@ -42,7 +43,10 @@ class _DirectoryPageState extends State<DirectoryPage> {
     final themeProvider = context.watch<AppTheme>();
 
     return Scaffold(
-      drawer: const NavBar(),
+      drawer: Semantics(
+          value: "navigation menu",
+          sortKey: const OrdinalSortKey(1),
+          child: const NavBar()),
       appBar: EasySearchBar(
         title: Stack(
           children: [
@@ -84,18 +88,21 @@ class _DirectoryPageState extends State<DirectoryPage> {
         ),
         // centerTitle: true,
         actions: [
-          FadeInDown(
-            preferences: const AnimationPreferences(
-              autoPlay: AnimationPlayStates.Forward,
-              duration: Duration(
-                milliseconds: 500,
+          Semantics(
+            value: "brightness mode",
+            child: FadeInDown(
+              preferences: const AnimationPreferences(
+                autoPlay: AnimationPlayStates.Forward,
+                duration: Duration(
+                  milliseconds: 500,
+                ),
               ),
+              child: IconButton(
+                  onPressed: () {
+                    themeProvider.toggle();
+                  },
+                  icon: themeProvider.icon),
             ),
-            child: IconButton(
-                onPressed: () {
-                  themeProvider.toggle();
-                },
-                icon: themeProvider.icon),
           ),
         ],
         onSearch: (value) {

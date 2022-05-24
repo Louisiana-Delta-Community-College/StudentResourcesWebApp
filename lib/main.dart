@@ -14,7 +14,7 @@ void main() async {
       ),
     ),
   );
-  RendererBinding.instance!.setSemanticsEnabled(true);
+  RendererBinding.instance.setSemanticsEnabled(true);
 }
 
 class ModularConfig extends Module {

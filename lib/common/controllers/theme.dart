@@ -68,7 +68,8 @@ class AppTheme extends ChangeNotifier {
     ),
     primaryTextTheme: Typography().black,
     scrollbarTheme: ScrollbarThemeData(
-      isAlwaysShown: true,
+      // isAlwaysShown: true,
+      thumbVisibility: MaterialStateProperty.all(true),
       thickness: MaterialStateProperty.all(7),
       thumbColor: MaterialStateProperty.all(primary70),
       radius: const Radius.circular(10),
@@ -100,7 +101,9 @@ class AppTheme extends ChangeNotifier {
     ),
     primaryTextTheme: Typography().white,
     scrollbarTheme: ScrollbarThemeData(
-      isAlwaysShown: true,
+      // isAlwaysShown: true,
+      thumbVisibility: MaterialStateProperty.all(true),
+
       thickness: MaterialStateProperty.all(7),
       thumbColor: MaterialStateProperty.all(tertiary50),
       radius: const Radius.circular(10),

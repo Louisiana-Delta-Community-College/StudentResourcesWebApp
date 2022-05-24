@@ -234,7 +234,8 @@ class Schedule extends ChangeNotifier {
             width: MediaQuery.of(context).size.width * .80,
             child: Scrollbar(
               controller: _scrollController,
-              isAlwaysShown: true,
+              // isAlwaysShown: true,
+              thumbVisibility: true,
               child: ListView(
                 shrinkWrap: true,
                 controller: _scrollController,
