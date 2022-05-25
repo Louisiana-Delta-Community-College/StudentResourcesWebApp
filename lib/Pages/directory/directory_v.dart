@@ -257,7 +257,7 @@ class ContactsEasyTable extends StatelessWidget {
               EasyTableColumn(
                 // padding: const EdgeInsets.all(5),
                 name: "Phone Number",
-                cellBuilder: (context, row) => InkWell(
+                cellBuilder: (context, row, _) => InkWell(
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
@@ -292,7 +292,7 @@ class ContactsEasyTable extends StatelessWidget {
               EasyTableColumn(
                 // padding: const EdgeInsets.all(5),
                 name: "Email",
-                cellBuilder: (context, row) => InkWell(
+                cellBuilder: (context, row, _) => InkWell(
                   child: Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(

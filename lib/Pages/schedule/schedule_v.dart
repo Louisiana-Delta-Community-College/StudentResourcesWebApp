@@ -455,7 +455,7 @@ class ScheduleEasyTable extends StatelessWidget {
                 name: "Controls",
                 width: 140,
                 // pinned: true,
-                cellBuilder: (context, row) => Row(
+                cellBuilder: (context, row, _) => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // MORE INFO ICON
