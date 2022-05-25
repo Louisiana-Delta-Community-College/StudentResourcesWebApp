@@ -116,7 +116,6 @@ class Directory extends ChangeNotifier {
           //   jsonDecode(
           //       '{"success": false, "message": "Error connecting to the database."}')
           // ] as List<Map<String, dynamic>>;
-          log.d(_data.runtimeType.toString());
         } catch (e) {
           _error("Resource temporarily offline.\nPlease try again later.");
           // _error(e.toString());
@@ -146,7 +145,6 @@ class Directory extends ChangeNotifier {
   directoryTableStringSorter(Object? a, Object? b, String field) {
     String? v1 = (a as Map)[field].toString();
     String? v2 = (b as Map)[field].toString();
-    log.d("test");
     if (v1.isEmpty && v2.isEmpty) {
       return 0;
     }

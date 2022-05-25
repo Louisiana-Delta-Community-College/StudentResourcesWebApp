@@ -114,7 +114,6 @@ class Schedule extends ChangeNotifier {
           // response.body is already a JSON formatted string
           // because of how the Python CGI page is coded.
           _data = jsonDecode(response.body) as List<dynamic>;
-          log.d(_data.runtimeType.toString());
           if (_data.isEmpty) {
             _error("No data.");
           } else {
@@ -147,7 +146,6 @@ class Schedule extends ChangeNotifier {
           //   jsonDecode(
           //       '{"success": false, "message": "Error connecting to the database."}')
           // ] as List<Map<String, dynamic>>;
-          log.d(_data.runtimeType.toString());
         } catch (e) {
           _error(e.toString());
         }

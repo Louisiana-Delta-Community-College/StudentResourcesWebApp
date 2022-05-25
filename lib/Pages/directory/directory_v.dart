@@ -29,7 +29,6 @@ class _DirectoryPageState extends State<DirectoryPage> {
           " - ${widget.selectedCampus.toString().replaceAll("%20", " ").titleCase}";
     }
     Future.delayed(const Duration(seconds: 1)).then((r) {
-      log.d("setting title");
       Modular.get<Directory>().selectedCampus =
           Uri.decodeComponent(widget.selectedCampus);
       Modular.get<AppTitle>().title = "Directory$titleAppendedCampus";
@@ -107,7 +106,6 @@ class _DirectoryPageState extends State<DirectoryPage> {
         ],
         onSearch: (value) {
           directoryProvider.searchString = value;
-          log.d("Searching for: $value");
         },
       ),
       body: Center(
