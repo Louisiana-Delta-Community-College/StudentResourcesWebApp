@@ -116,7 +116,7 @@ class Directory extends ChangeNotifier {
           //   jsonDecode(
           //       '{"success": false, "message": "Error connecting to the database."}')
           // ] as List<Map<String, dynamic>>;
-          // log.info(_data.runtimeType.toString());
+          log.d(_data.runtimeType.toString());
         } catch (e) {
           _error("Resource temporarily offline.\nPlease try again later.");
           // _error(e.toString());

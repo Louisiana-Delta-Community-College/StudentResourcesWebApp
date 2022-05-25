@@ -108,7 +108,7 @@ class _SchedulePageState extends State<SchedulePage> {
         ],
         onSearch: (value) {
           scheduleProvider.searchString = value;
-          // log.verbose("Searching for: $value");
+          log.v("Searching for: $value");
         },
       ),
       body: Center(
@@ -245,7 +245,7 @@ class _SchedulePageState extends State<SchedulePage> {
                             onSelected: (Object? selectedTermDesc, int index,
                                 bool ___) async {
                               if (!scheduleProvider.isLoading) {
-                                // log.info(selectedTermDesc.toString());
+                                log.d(selectedTermDesc.toString());
                                 // final selectedTermData =
                                 //     scheduleTermsMenuProvider
                                 //         .data
@@ -263,8 +263,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                         .toString();
                                 scheduleTermsMenuProvider.selectedTermDesc =
                                     selectedTermDesc.toString();
-                                // log.info(
-                                //     "${scheduleProvider.term} / ${scheduleProvider.termType}");
+                                log.d(
+                                    "${scheduleProvider.term} / ${scheduleProvider.termType}");
                                 scheduleProvider.getScheduleData();
                               }
                             },

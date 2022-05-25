@@ -1,8 +1,9 @@
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 
-import 'package:talker/talker.dart';
+import 'package:logger/logger.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:rive/rive.dart' hide LinearGradient, RadialGradient;
 import 'package:flutter_modular/flutter_modular.dart';
@@ -34,8 +35,43 @@ export 'package:schedule/Pages/schedule/schedule_c.dart';
 export 'package:schedule/Pages/directory/directory_c.dart';
 
 late BuildContext globalContext;
+late Logger log;
 
-final log = Talker();
+class MyLogFilter extends LogFilter {
+  @override
+  bool shouldLog(LogEvent event) {
+    var shouldLog = false;
+    if (event.level.index >= level!.index) {
+      shouldLog = true;
+    }
+    return shouldLog;
+  }
+}
+
+void initLog() {
+  Level logLevel = Level.info;
+  if (kProfileMode) {
+    logLevel = Level.verbose;
+  }
+
+  if (kDebugMode) {
+    logLevel = Level.debug;
+  }
+
+  if (kReleaseMode) {
+    logLevel = Level.info;
+  }
+
+  print("Setting log level to $logLevel");
+
+  log = Logger(
+    level: logLevel,
+    filter: MyLogFilter(),
+    printer: PrettyPrinter(),
+    output: ConsoleOutput(),
+  );
+}
+
 // final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
 String? encodeQueryParameters(Map<String, String> params) {

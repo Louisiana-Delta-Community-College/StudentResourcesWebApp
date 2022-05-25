@@ -7,7 +7,7 @@ class Persistence extends ChangeNotifier {
   init() {
     _isDark = _box.read("isDark") ?? false;
     notifyListeners();
-    // log.verbose(_isDark.toString());
+    log.v(_isDark.toString());
   }
 
   bool get isDark => _isDark;

@@ -114,7 +114,7 @@ class Schedule extends ChangeNotifier {
           // response.body is already a JSON formatted string
           // because of how the Python CGI page is coded.
           _data = jsonDecode(response.body) as List<dynamic>;
-          // log.info(_data.runtimeType.toString());
+          log.d(_data.runtimeType.toString());
           if (_data.isEmpty) {
             _error("No data.");
           } else {
@@ -147,7 +147,7 @@ class Schedule extends ChangeNotifier {
           //   jsonDecode(
           //       '{"success": false, "message": "Error connecting to the database."}')
           // ] as List<Map<String, dynamic>>;
-          // log.info(_data.runtimeType.toString());
+          log.d(_data.runtimeType.toString());
         } catch (e) {
           _error(e.toString());
         }
@@ -208,7 +208,7 @@ class Schedule extends ChangeNotifier {
                   (double.tryParse(feesCredit) ?? 0.00))
               .toStringAsFixed(2);
         } catch (e) {
-          log.error(e.toString());
+          log.e(e.toString());
         }
         return AlertDialog(
           title: Text("${row["SC"]} ${row["CN"]} - ${row["CT"]}"),
@@ -430,7 +430,7 @@ class Schedule extends ChangeNotifier {
               (double.tryParse(feesCredit) ?? 0.00))
           .toStringAsFixed(2);
     } catch (e) {
-      log.error(e.toString());
+      log.e(e.toString());
     }
     FlutterClipboard.copy("""
 Course: ${row["SC"]} ${row["CN"]}
