@@ -62,14 +62,14 @@ void initLog() {
     logLevel = Level.info;
   }
 
-  print("Setting log level to $logLevel");
-
   log = Logger(
     level: logLevel,
     filter: MyLogFilter(),
     printer: PrettyPrinter(),
     output: ConsoleOutput(),
   );
+
+  log.d("Log level set to: $logLevel");
 }
 
 // final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
