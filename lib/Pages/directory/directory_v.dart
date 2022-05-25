@@ -247,29 +247,38 @@ class ContactsEasyTable extends StatelessWidget {
             rows: rows,
             columns: [
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Name",
-                stringValue: (row) =>
-                    "${(row as Map)["LastName"]}, ${row["FirstName"]}",
+                // stringValue: (row) =>
+                //     "${(row as Map)["LastName"]}, ${row["FirstName"]}",
+                cellBuilder: (context, row, index) {
+                  final name =
+                      "${(row as Map)["LastName"]}, ${row["FirstName"]}";
+                  return Text(
+                    name,
+                    semanticsLabel: "Name: $name",
+                  );
+                },
                 width: 200,
-                pinned: true,
               ),
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Phone Number",
-                cellBuilder: (context, row, _) => InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(
-                      (row as Map)["PhoneNumber"],
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                cellBuilder: (context, row, _) {
+                  final phoneNumber = (row as Map)["PhoneNumber"];
+                  return InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        phoneNumber,
+                        semanticsLabel: "Phone Number: $phoneNumber",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
-                  ),
-                  onTap: () =>
-                      launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
-                ),
+                    onTap: () =>
+                        launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
+                  );
+                },
                 sort: (a, b) {
                   return (a as Map)["PhoneNumber"]
                       .toString()
@@ -278,45 +287,68 @@ class ContactsEasyTable extends StatelessWidget {
                 width: 130,
               ),
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Title",
-                stringValue: (row) => (row as Map)["JobTitle"],
+                cellBuilder: (context, row, index) {
+                  final jobTitle = (row as Map)["JobTitle"];
+                  return Text(
+                    jobTitle,
+                    semanticsLabel: "Job Title: $jobTitle",
+                  );
+                },
                 width: 200,
               ),
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Department",
-                stringValue: (row) => (row as Map)["Department"],
+                cellBuilder: (context, row, _) {
+                  final department = (row as Map)["Department"];
+                  return Text(
+                    department,
+                    semanticsLabel: "Department: $department",
+                  );
+                },
                 width: 260,
               ),
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Email",
-                cellBuilder: (context, row, _) => InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Text(
-                      (row as Map)["EmailAddress"],
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
+                cellBuilder: (context, row, _) {
+                  final emailAddress = (row as Map)["EmailAddress"];
+                  return InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        emailAddress,
+                        semanticsLabel: "Email Address: $emailAddress",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
-                  ),
-                  onTap: () =>
-                      launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
-                ),
+                    onTap: () =>
+                        launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
+                  );
+                },
                 width: 230,
               ),
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Campus",
-                stringValue: (row) => (row as Map)["Campus"],
+                cellBuilder: (context, row, index) {
+                  final campus = (row as Map)["Campus"];
+                  return Text(
+                    campus,
+                    semanticsLabel: "Campus: $campus",
+                  );
+                },
                 width: 130,
               ),
               EasyTableColumn(
-                // padding: const EdgeInsets.all(5),
                 name: "Office",
-                stringValue: (row) => (row as Map)["Office"],
+                cellBuilder: (context, row, index) {
+                  final office = (row as Map)["Office"];
+                  return Text(
+                    office,
+                    semanticsLabel: "Office: $office",
+                  );
+                },
                 width: 100,
               ),
             ],
