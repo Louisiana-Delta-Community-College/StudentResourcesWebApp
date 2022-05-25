@@ -258,12 +258,26 @@ class ContactsEasyTable extends StatelessWidget {
                     semanticsLabel: "Name: $name",
                   );
                 },
+                sort: (a, b) {
+                  String v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}";
+                  String v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 200,
               ),
               EasyTableColumn(
                 name: "Phone Number",
                 cellBuilder: (context, row, _) {
-                  final phoneNumber = (row as Map)["PhoneNumber"];
+                  final phoneNumber = "${(row as Map)["PhoneNumber"]}";
                   return InkWell(
                     child: Padding(
                       padding: const EdgeInsets.all(5),
@@ -280,38 +294,45 @@ class ContactsEasyTable extends StatelessWidget {
                   );
                 },
                 sort: (a, b) {
-                  return (a as Map)["PhoneNumber"]
-                      .toString()
-                      .compareTo((b as Map)["PhoneNumber"].toString());
+                  return directoryProvider.directoryTableStringSorter(
+                      a, b, "PhoneNumber");
                 },
                 width: 130,
               ),
               EasyTableColumn(
                 name: "Title",
                 cellBuilder: (context, row, index) {
-                  final jobTitle = (row as Map)["JobTitle"];
+                  final jobTitle = "${(row as Map)["JobTitle"]}";
                   return Text(
                     jobTitle,
                     semanticsLabel: "Job Title: $jobTitle",
                   );
+                },
+                sort: (a, b) {
+                  return directoryProvider.directoryTableStringSorter(
+                      a, b, "JobTitle");
                 },
                 width: 200,
               ),
               EasyTableColumn(
                 name: "Department",
                 cellBuilder: (context, row, _) {
-                  final department = (row as Map)["Department"];
+                  final department = "${(row as Map)["Department"]}";
                   return Text(
                     department,
                     semanticsLabel: "Department: $department",
                   );
+                },
+                sort: (a, b) {
+                  return directoryProvider.directoryTableStringSorter(
+                      a, b, "Department");
                 },
                 width: 260,
               ),
               EasyTableColumn(
                 name: "Email",
                 cellBuilder: (context, row, _) {
-                  final emailAddress = (row as Map)["EmailAddress"];
+                  final emailAddress = "${(row as Map)["EmailAddress"]}";
                   return InkWell(
                     child: Padding(
                       padding: const EdgeInsets.all(5),
@@ -327,27 +348,39 @@ class ContactsEasyTable extends StatelessWidget {
                         launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
                   );
                 },
+                sort: (a, b) {
+                  return directoryProvider.directoryTableStringSorter(
+                      a, b, "EmailAddress");
+                },
                 width: 230,
               ),
               EasyTableColumn(
                 name: "Campus",
                 cellBuilder: (context, row, index) {
-                  final campus = (row as Map)["Campus"];
+                  final campus = "${(row as Map)["Campus"]}";
                   return Text(
                     campus,
                     semanticsLabel: "Campus: $campus",
                   );
+                },
+                sort: (a, b) {
+                  return directoryProvider.directoryTableStringSorter(
+                      a, b, "Campus");
                 },
                 width: 130,
               ),
               EasyTableColumn(
                 name: "Office",
                 cellBuilder: (context, row, index) {
-                  final office = (row as Map)["Office"];
+                  final office = "${(row as Map)["Office"]}";
                   return Text(
                     office,
                     semanticsLabel: "Office: $office",
                   );
+                },
+                sort: (a, b) {
+                  return directoryProvider.directoryTableStringSorter(
+                      a, b, "Office");
                 },
                 width: 100,
               ),

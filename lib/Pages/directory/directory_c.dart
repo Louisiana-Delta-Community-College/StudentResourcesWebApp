@@ -142,4 +142,20 @@ class Directory extends ChangeNotifier {
     _errorMessage = message;
     notifyListeners();
   }
+
+  directoryTableStringSorter(Object? a, Object? b, String field) {
+    String? v1 = (a as Map)[field].toString();
+    String? v2 = (b as Map)[field].toString();
+    log.d("test");
+    if (v1.isEmpty && v2.isEmpty) {
+      return 0;
+    }
+    if (v1.isEmpty) {
+      return -1;
+    }
+    if (v2.isEmpty) {
+      return 1;
+    }
+    return v1.compareTo(v2);
+  }
 }
