@@ -145,7 +145,8 @@ class _SchedulePageState extends State<SchedulePage> {
                             controller: groupButtonCampusMenuController,
                             buttons: scheduleCampusMenuProvider.campusList,
                             isRadio: true,
-                            onSelected: (selected, index, ___) {
+                            onSelected:
+                                (Object? selected, int index, bool ___) async {
                               if (!scheduleProvider.isLoading) {
                                 scheduleProvider.campus = selected.toString();
                               }
@@ -241,7 +242,8 @@ class _SchedulePageState extends State<SchedulePage> {
                             controller: groupButtonTermMenuController,
                             buttons: scheduleTermsMenuProvider.termsList,
                             isRadio: true,
-                            onSelected: (selectedTermDesc, index, ___) {
+                            onSelected: (Object? selectedTermDesc, int index,
+                                bool ___) async {
                               if (!scheduleProvider.isLoading) {
                                 // log.info(selectedTermDesc.toString());
                                 // final selectedTermData =
