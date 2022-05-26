@@ -304,11 +304,11 @@ class ContactsEasyTable extends StatelessWidget {
                     final phoneNumber = "${(row as Map)["PhoneNumber"]}";
                     return Focus(
                       child: Semantics(
-                        label: ", , Phone Number: $phoneNumber",
+                        label: "Phone Number: $phoneNumber",
                         onTap: () =>
                             launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                         excludeSemantics: true,
-                        link: true,
+                        button: true,
                         child: InkWell(
                           child: Text(
                             phoneNumber,
@@ -334,7 +334,7 @@ class ContactsEasyTable extends StatelessWidget {
                     final jobTitle = "${(row as Map)["JobTitle"]}";
                     return Focus(
                       child: Semantics(
-                        label: ", , Job Title: $jobTitle",
+                        label: "Job Title: $jobTitle",
                         excludeSemantics: true,
                         child: Text(
                           jobTitle,
@@ -355,7 +355,7 @@ class ContactsEasyTable extends StatelessWidget {
                     return Focus(
                       child: Text(
                         department,
-                        semanticsLabel: ", , Department: $department",
+                        semanticsLabel: "Department: $department",
                       ),
                     );
                   },
@@ -371,9 +371,9 @@ class ContactsEasyTable extends StatelessWidget {
                     final emailAddress = "${(row as Map)["EmailAddress"]}";
                     return Focus(
                       child: Semantics(
-                        label: ", , Email Address: $emailAddress",
+                        label: "Email Address: $emailAddress",
                         excludeSemantics: true,
-                        link: true,
+                        button: true,
                         onTap: () => launchUrl(
                             Uri.parse("mailto:${row["EmailAddress"]}")),
                         child: InkWell(
@@ -401,7 +401,7 @@ class ContactsEasyTable extends StatelessWidget {
                     final campus = "${(row as Map)["Campus"]}";
                     return Focus(
                       child: Semantics(
-                        label: ", , Campus: $campus",
+                        label: "Campus: $campus",
                         excludeSemantics: true,
                         child: Text(
                           campus,
@@ -421,7 +421,7 @@ class ContactsEasyTable extends StatelessWidget {
                     final office = "${(row as Map)["Office"]}";
                     return Focus(
                       child: Semantics(
-                        label: ", , Office: $office",
+                        label: "Office: $office",
                         excludeSemantics: true,
                         child: Text(
                           office,
