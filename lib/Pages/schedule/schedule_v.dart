@@ -70,15 +70,17 @@ class _SchedulePageState extends State<SchedulePage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                InkWell(
-                  // onTap: () {
-                  //   globalKey.currentState!.openDrawer();
-                  // },
-                  child: Image.asset(
-                      isSmallFormFactor(context)
-                          ? "assets/images/mark.png"
-                          : "assets/images/logo.png",
-                      fit: BoxFit.fitHeight),
+                Focus(
+                  child: Semantics(
+                    image: true,
+                    label: "LDCC Logo",
+                    excludeSemantics: true,
+                    child: Image.asset(
+                        isSmallFormFactor(context)
+                            ? "assets/images/mark.png"
+                            : "assets/images/logo.png",
+                        fit: BoxFit.fitHeight),
+                  ),
                 )
               ],
             )
@@ -92,18 +94,23 @@ class _SchedulePageState extends State<SchedulePage> {
         ),
         // centerTitle: true,
         actions: [
-          FadeInDown(
-            preferences: const AnimationPreferences(
-              autoPlay: AnimationPlayStates.Forward,
-              duration: Duration(
-                milliseconds: 500,
+          Semantics(
+            button: true,
+            value: "toggle brightness mode",
+            child: FadeInDown(
+              preferences: const AnimationPreferences(
+                autoPlay: AnimationPlayStates.Forward,
+                duration: Duration(
+                  milliseconds: 500,
+                ),
               ),
+              child: IconButton(
+                  tooltip: "Toggle Brightness Mode",
+                  onPressed: () {
+                    themeProvider.toggle();
+                  },
+                  icon: themeProvider.icon),
             ),
-            child: IconButton(
-                onPressed: () {
-                  themeProvider.toggle();
-                },
-                icon: themeProvider.icon),
           ),
         ],
         onSearch: (value) {
@@ -379,33 +386,39 @@ class _SchedulePageState extends State<SchedulePage> {
           ],
         ),
       ),
-      floatingActionButton: FadeInUp(
-        preferences: const AnimationPreferences(
-          duration: Duration(
-            milliseconds: 500,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                mini: true,
-                onPressed: () {
-                  // Modular.to.pushNamed('/other');
-                  scheduleProvider.getScheduleData();
-                },
-                tooltip: 'Refresh',
-                heroTag: "btnRefresh",
-                backgroundColor:
-                    themeProvider.floatingActionButtonBackgroundColor,
-                foregroundColor:
-                    themeProvider.floatingActionButtonForegroundColor,
-                child: const Icon(Icons.refresh),
+      floatingActionButton: Focus(
+        child: Semantics(
+          button: true,
+          label: "Refresh Table Data",
+          child: FadeInUp(
+            preferences: const AnimationPreferences(
+              duration: Duration(
+                milliseconds: 500,
               ),
             ),
-          ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  child: FloatingActionButton(
+                    mini: true,
+                    onPressed: () {
+                      // Modular.to.pushNamed('/other');
+                      scheduleProvider.getScheduleData();
+                    },
+                    tooltip: 'Refresh',
+                    heroTag: "btnRefresh",
+                    backgroundColor:
+                        themeProvider.floatingActionButtonBackgroundColor,
+                    foregroundColor:
+                        themeProvider.floatingActionButtonForegroundColor,
+                    child: const Icon(Icons.refresh),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -58,10 +58,16 @@ class _DirectoryPageState extends State<DirectoryPage> {
                   Icons.dark_mode_sharp,
                   color: AppColor.primary,
                 ),
-                Center(
-                  child: Text(
-                    "Directory$titleAppendedCampus",
-                    textAlign: TextAlign.center,
+                Focus(
+                  child: Semantics(
+                    label: "Page Title: Directory$titleAppendedCampus",
+                    excludeSemantics: true,
+                    child: Center(
+                      child: Text(
+                        "Directory$titleAppendedCampus",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -70,11 +76,18 @@ class _DirectoryPageState extends State<DirectoryPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(
-                    isSmallFormFactor(context)
-                        ? "assets/images/mark.png"
-                        : "assets/images/logo.png",
-                    fit: BoxFit.fitHeight)
+                Focus(
+                  child: Semantics(
+                    image: true,
+                    label: "LDCC Logo",
+                    excludeSemantics: true,
+                    child: Image.asset(
+                        isSmallFormFactor(context)
+                            ? "assets/images/mark.png"
+                            : "assets/images/logo.png",
+                        fit: BoxFit.fitHeight),
+                  ),
+                )
               ],
             )
           ],
@@ -88,7 +101,8 @@ class _DirectoryPageState extends State<DirectoryPage> {
         // centerTitle: true,
         actions: [
           Semantics(
-            value: "brightness mode",
+            button: true,
+            value: "toggle brightness mode",
             child: FadeInDown(
               preferences: const AnimationPreferences(
                 autoPlay: AnimationPlayStates.Forward,
@@ -97,6 +111,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                 ),
               ),
               child: IconButton(
+                  tooltip: "Toggle Brightness Mode",
                   onPressed: () {
                     themeProvider.toggle();
                   },
@@ -174,33 +189,39 @@ class _DirectoryPageState extends State<DirectoryPage> {
           ],
         ),
       ),
-      floatingActionButton: FadeInUp(
-        preferences: const AnimationPreferences(
-          duration: Duration(
-            milliseconds: 500,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              child: FloatingActionButton(
-                mini: true,
-                onPressed: () {
-                  // Modular.to.pushNamed('/other');
-                  directoryProvider.getDirectoryData();
-                },
-                tooltip: 'Refresh',
-                heroTag: "btnRefresh",
-                backgroundColor:
-                    themeProvider.floatingActionButtonBackgroundColor,
-                foregroundColor:
-                    themeProvider.floatingActionButtonForegroundColor,
-                child: const Icon(Icons.refresh),
+      floatingActionButton: Focus(
+        child: Semantics(
+          button: true,
+          label: "Refresh Table Data",
+          child: FadeInUp(
+            preferences: const AnimationPreferences(
+              duration: Duration(
+                milliseconds: 500,
               ),
             ),
-          ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  child: FloatingActionButton(
+                    mini: true,
+                    onPressed: () {
+                      // Modular.to.pushNamed('/other');
+                      directoryProvider.getDirectoryData();
+                    },
+                    tooltip: 'Refresh Table Data',
+                    heroTag: "btnRefresh",
+                    backgroundColor:
+                        themeProvider.floatingActionButtonBackgroundColor,
+                    foregroundColor:
+                        themeProvider.floatingActionButtonForegroundColor,
+                    child: const Icon(Icons.refresh),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -240,152 +261,182 @@ class ContactsEasyTable extends StatelessWidget {
             ),
           ),
         ),
-        child: EasyTable(
-          EasyTableModel(
-            rows: rows,
-            columns: [
-              EasyTableColumn(
-                name: "Name",
-                // stringValue: (row) =>
-                //     "${(row as Map)["LastName"]}, ${row["FirstName"]}",
-                cellBuilder: (context, row, index) {
-                  final name =
-                      "${(row as Map)["LastName"]}, ${row["FirstName"]}";
-                  return Text(
-                    name,
-                    semanticsLabel: "Name: $name",
-                  );
-                },
-                sort: (a, b) {
-                  String v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}";
-                  String v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}";
-                  if (v1.isEmpty || v2.isEmpty) {
-                    return 0;
-                  }
-                  if (v1.isEmpty) {
-                    return 0;
-                  }
-                  if (v2.isEmpty) {
-                    return 1;
-                  }
-                  return v1.compareTo(v2);
-                },
-                width: 200,
-              ),
-              EasyTableColumn(
-                name: "Phone Number",
-                cellBuilder: (context, row, _) {
-                  final phoneNumber = "${(row as Map)["PhoneNumber"]}";
-                  return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Text(
-                        phoneNumber,
-                        semanticsLabel: "Phone Number: $phoneNumber",
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
+        child: Semantics(
+          child: EasyTable(
+            EasyTableModel(
+              rows: rows,
+              columns: [
+                EasyTableColumn(
+                  name: "Name",
+                  cellBuilder: (context, row, index) {
+                    final name =
+                        "${(row as Map)["LastName"]}, ${row["FirstName"]}";
+                    return Focus(
+                      child: Semantics(
+                        label: "Name: $name",
+                        excludeSemantics: true,
+                        child: Text(name),
+                      ),
+                    );
+                  },
+                  sort: (a, b) {
+                    String v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}";
+                    String v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}";
+                    if (v1.isEmpty || v2.isEmpty) {
+                      return 0;
+                    }
+                    if (v1.isEmpty) {
+                      return 0;
+                    }
+                    if (v2.isEmpty) {
+                      return 1;
+                    }
+                    return v1.compareTo(v2);
+                  },
+                  width: 200,
+                ),
+                EasyTableColumn(
+                  name: "Phone Number",
+                  cellBuilder: (context, row, index) {
+                    final phoneNumber = "${(row as Map)["PhoneNumber"]}";
+                    return Focus(
+                      child: Semantics(
+                        label: ", , Phone Number: $phoneNumber",
+                        onTap: () =>
+                            launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
+                        excludeSemantics: true,
+                        link: true,
+                        child: InkWell(
+                          child: Text(
+                            phoneNumber,
+                            style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          onTap: () =>
+                              launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
                         ),
                       ),
-                    ),
-                    onTap: () =>
-                        launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
-                  );
-                },
-                sort: (a, b) {
-                  return directoryProvider.directoryTableStringSorter(
-                      a, b, "PhoneNumber");
-                },
-                width: 130,
-              ),
-              EasyTableColumn(
-                name: "Title",
-                cellBuilder: (context, row, index) {
-                  final jobTitle = "${(row as Map)["JobTitle"]}";
-                  return Text(
-                    jobTitle,
-                    semanticsLabel: "Job Title: $jobTitle",
-                  );
-                },
-                sort: (a, b) {
-                  return directoryProvider.directoryTableStringSorter(
-                      a, b, "JobTitle");
-                },
-                width: 200,
-              ),
-              EasyTableColumn(
-                name: "Department",
-                cellBuilder: (context, row, _) {
-                  final department = "${(row as Map)["Department"]}";
-                  return Text(
-                    department,
-                    semanticsLabel: "Department: $department",
-                  );
-                },
-                sort: (a, b) {
-                  return directoryProvider.directoryTableStringSorter(
-                      a, b, "Department");
-                },
-                width: 260,
-              ),
-              EasyTableColumn(
-                name: "Email",
-                cellBuilder: (context, row, _) {
-                  final emailAddress = "${(row as Map)["EmailAddress"]}";
-                  return InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Text(
-                        emailAddress,
-                        semanticsLabel: "Email Address: $emailAddress",
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
+                    );
+                  },
+                  sort: (a, b) {
+                    return directoryProvider.directoryTableStringSorter(
+                        a, b, "PhoneNumber");
+                  },
+                  width: 130,
+                ),
+                EasyTableColumn(
+                  name: "Title",
+                  cellBuilder: (context, row, index) {
+                    final jobTitle = "${(row as Map)["JobTitle"]}";
+                    return Focus(
+                      child: Semantics(
+                        label: ", , Job Title: $jobTitle",
+                        excludeSemantics: true,
+                        child: Text(
+                          jobTitle,
                         ),
                       ),
-                    ),
-                    onTap: () =>
-                        launchUrl(Uri.parse("mailto:${row["EmailAddress"]}")),
-                  );
-                },
-                sort: (a, b) {
-                  return directoryProvider.directoryTableStringSorter(
-                      a, b, "EmailAddress");
-                },
-                width: 230,
-              ),
-              EasyTableColumn(
-                name: "Campus",
-                cellBuilder: (context, row, index) {
-                  final campus = "${(row as Map)["Campus"]}";
-                  return Text(
-                    campus,
-                    semanticsLabel: "Campus: $campus",
-                  );
-                },
-                sort: (a, b) {
-                  return directoryProvider.directoryTableStringSorter(
-                      a, b, "Campus");
-                },
-                width: 130,
-              ),
-              EasyTableColumn(
-                name: "Office",
-                cellBuilder: (context, row, index) {
-                  final office = "${(row as Map)["Office"]}";
-                  return Text(
-                    office,
-                    semanticsLabel: "Office: $office",
-                  );
-                },
-                sort: (a, b) {
-                  return directoryProvider.directoryTableStringSorter(
-                      a, b, "Office");
-                },
-                width: 100,
-              ),
-            ],
+                    );
+                  },
+                  sort: (a, b) {
+                    return directoryProvider.directoryTableStringSorter(
+                        a, b, "JobTitle");
+                  },
+                  width: 200,
+                ),
+                EasyTableColumn(
+                  name: "Department",
+                  cellBuilder: (context, row, _) {
+                    final department = "${(row as Map)["Department"]}";
+                    return Focus(
+                      child: Text(
+                        department,
+                        semanticsLabel: ", , Department: $department",
+                      ),
+                    );
+                  },
+                  sort: (a, b) {
+                    return directoryProvider.directoryTableStringSorter(
+                        a, b, "Department");
+                  },
+                  width: 260,
+                ),
+                EasyTableColumn(
+                  name: "Email",
+                  cellBuilder: (context, row, _) {
+                    final emailAddress = "${(row as Map)["EmailAddress"]}";
+                    return Focus(
+                      child: Semantics(
+                        label: ", , Email Address: $emailAddress",
+                        excludeSemantics: true,
+                        link: true,
+                        onTap: () => launchUrl(
+                            Uri.parse("mailto:${row["EmailAddress"]}")),
+                        child: InkWell(
+                          child: Text(
+                            emailAddress,
+                            style: const TextStyle(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          onTap: () => launchUrl(
+                              Uri.parse("mailto:${row["EmailAddress"]}")),
+                        ),
+                      ),
+                    );
+                  },
+                  sort: (a, b) {
+                    return directoryProvider.directoryTableStringSorter(
+                        a, b, "EmailAddress");
+                  },
+                  width: 230,
+                ),
+                EasyTableColumn(
+                  name: "Campus",
+                  cellBuilder: (context, row, index) {
+                    final campus = "${(row as Map)["Campus"]}";
+                    return Focus(
+                      child: Semantics(
+                        label: ", , Campus: $campus",
+                        excludeSemantics: true,
+                        child: Text(
+                          campus,
+                        ),
+                      ),
+                    );
+                  },
+                  sort: (a, b) {
+                    return directoryProvider.directoryTableStringSorter(
+                        a, b, "Campus");
+                  },
+                  width: 130,
+                ),
+                EasyTableColumn(
+                  name: "Office",
+                  cellBuilder: (context, row, index) {
+                    final office = "${(row as Map)["Office"]}";
+                    return Focus(
+                      child: Semantics(
+                        label: ", , Office: $office",
+                        excludeSemantics: true,
+                        child: Text(
+                          office,
+                        ),
+                      ),
+                    );
+                  },
+                  sort: (a, b) {
+                    return directoryProvider.directoryTableStringSorter(
+                        a, b, "Office");
+                  },
+                  width: 100,
+                ),
+              ],
+            ),
+            columnsFit: viewPortWidth(context) >= 1300 ? true : false,
+            // visibleRowsCount: 20,
           ),
-          columnsFit: viewPortWidth(context) >= 1300 ? true : false,
-          // visibleRowsCount: 20,
         ),
       ),
     );
