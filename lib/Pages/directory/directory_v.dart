@@ -262,6 +262,9 @@ class ContactsEasyTable extends StatelessWidget {
           ),
         ),
         child: Semantics(
+          label: "Employee Directory Table",
+          explicitChildNodes: true,
+          // excludeSemantics: true,
           child: EasyTable(
             EasyTableModel(
               rows: rows,
