@@ -256,7 +256,8 @@ async def get_fresh_data():
           THEN 'TBA'
           ELSE DerAssignSpriden.INST
           END AS TeacherName,
-          SSBSECT.SSBSECT_SEATS_AVAIL,
+          /* SSBSECT.SSBSECT_SEATS_AVAIL, */
+          case when sign(SSBSECT.SSBSECT_SEATS_AVAIL) < 0 then (ssbsect.ssbsect_seats_avail + ssbsect.ssbsect_enrl) else ssbsect.ssbsect_seats_avail end as seats_avail,
           SSBSECT.SSBSECT_INSM_CODE,
           CASE
           WHEN SSBSECT.SSBSECT_PTRM_CODE = 'JDE'
@@ -323,7 +324,9 @@ async def get_fresh_data():
           ELSE SSBSECT.SSBSECT_PTRM_CODE
           END SSBSECT_PTRM_CODE,
           stvbldg.stvbldg_desc building,
-          SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats
+          /* SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats */
+          SSBSECT.SSBSECT_ENRL + (case when sign(SSBSECT.SSBSECT_SEATS_AVAIL) < 0 then (ssbsect.ssbsect_seats_avail + ssbsect.ssbsect_enrl) else ssbsect.ssbsect_seats_avail end) as max_seats
+
         FROM SCBCRSE
         INNER JOIN SSBSECT
         ON SCBCRSE.SCBCRSE_SUBJ_CODE  = SSBSECT.SSBSECT_SUBJ_CODE
