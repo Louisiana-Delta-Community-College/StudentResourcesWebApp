@@ -14,6 +14,8 @@ class Schedule extends ChangeNotifier {
   bool _hasError = false;
   String _errorMessage = "";
 
+  List _matchCounts = [];
+
   String term = "";
   String termType = "";
   String _campus = "MONROE CAMPUS";
@@ -26,6 +28,7 @@ class Schedule extends ChangeNotifier {
   bool get hasError => _hasError;
   String get errorMessage => _errorMessage;
   String get campus => _campus;
+  List get matchCounts => _matchCounts;
 
   String get searchString => _searchString;
   set searchString(String s) {
@@ -34,6 +37,19 @@ class Schedule extends ChangeNotifier {
         .replaceAll("(", "\\(")
         .replaceAll(")", "\\)")
         .replaceAll(RegExp(r'\s+'), ".+");
+    notifyListeners();
+  }
+
+  void updateMatchCounts() {
+    final List campus = Modular.get<ScheduleCampusMenu>()._campusList;
+    _matchCounts = campus.map(((e) {
+      if (searchString.isNotEmpty) {
+        return filteredData.where((course) => course["C"] == e).toList().length;
+      } else {
+        return 0;
+      }
+    })).toList();
+    log.i(_matchCounts);
     notifyListeners();
   }
 
@@ -48,7 +64,6 @@ class Schedule extends ChangeNotifier {
 
   List<dynamic> get filteredData {
     return _data
-        .where((course) => course["C"] == _campus)
         .where((course) =>
             (course as Map)
                 .values
@@ -66,6 +81,10 @@ class Schedule extends ChangeNotifier {
                 // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
                 .contains(RegExp(_searchString, caseSensitive: false)))
         .toList();
+  }
+
+  List<dynamic> get currentlySelectedCampusFilteredData {
+    return filteredData.where((course) => course["C"] == _campus).toList();
   }
 
   set campus(String c) {

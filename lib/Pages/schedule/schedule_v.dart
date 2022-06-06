@@ -43,6 +43,8 @@ class _SchedulePageState extends State<SchedulePage> {
     final groupButtonTermMenuController =
         scheduleTermsMenuProvider.groupButtonTermMenuController;
 
+    final matchCounts = scheduleProvider.matchCounts;
+
     return Scaffold(
       // key: globalKey,
       drawer: const NavBar(),
@@ -115,6 +117,7 @@ class _SchedulePageState extends State<SchedulePage> {
         ],
         onSearch: (value) {
           scheduleProvider.searchString = value;
+          scheduleProvider.updateMatchCounts();
         },
       ),
       body: Center(
@@ -171,6 +174,23 @@ class _SchedulePageState extends State<SchedulePage> {
                               //     BorderRadius.all(Radius.circular(10)),
                             ),
                             buttonIndexedBuilder: (isSelected, index, context) {
+                              var matchCount = 0;
+                              var matchCountString = "";
+                              final campusDisplayName =
+                                  scheduleCampusMenuProvider.campusList[index]
+                                      .toString()
+                                      .replaceAll("LDCC", "")
+                                      .replaceAll("CAMPUS", "")
+                                      .titleCase
+                                      .trim();
+                              if (matchCounts.isNotEmpty) {
+                                matchCount =
+                                    scheduleProvider.matchCounts[index];
+                                if (scheduleProvider.searchString.isNotEmpty) {
+                                  matchCountString = " ($matchCount)";
+                                }
+                              }
+
                               return Container(
                                 margin: const EdgeInsets.all(0),
                                 padding: const EdgeInsets.only(
@@ -199,12 +219,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                   //         : null,
                                 ),
                                 child: Text(
-                                  scheduleCampusMenuProvider.campusList[index]
-                                      .toString()
-                                      .replaceAll("LDCC", "")
-                                      .replaceAll("CAMPUS", "")
-                                      .titleCase
-                                      .trim(),
+                                  "$campusDisplayName$matchCountString",
                                   style: TextStyle(
                                     color: isSelected
                                         ? AppColor.primary
@@ -341,18 +356,21 @@ class _SchedulePageState extends State<SchedulePage> {
                             child:
                                 SelectableText(scheduleProvider.errorMessage))
                         // : SelectableText(scheduleProvider.data[0].toString()),
-                        : scheduleProvider.filteredData.isNotEmpty
+                        : scheduleProvider
+                                .currentlySelectedCampusFilteredData.isNotEmpty
                             ? isSmallFormFactor(context)
                                 // MOBILE STYLE CARDS
                                 ? GlowingOverscrollIndicator(
                                     axisDirection: AxisDirection.down,
                                     color: AppColor.secondary,
                                     child: ListView.builder(
-                                      itemCount:
-                                          scheduleProvider.filteredData.length,
+                                      itemCount: scheduleProvider
+                                          .currentlySelectedCampusFilteredData
+                                          .length,
                                       itemBuilder: (context, index) {
                                         final course = scheduleProvider
-                                            .filteredData[index];
+                                                .currentlySelectedCampusFilteredData[
+                                            index];
                                         return Padding(
                                           padding: const EdgeInsets.only(
                                               top: 4, bottom: 4),
@@ -432,7 +450,7 @@ class ScheduleEasyTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheduleProvider = context.watch<Schedule>();
     final themeProvider = context.watch<AppTheme>();
-    final rows = scheduleProvider.filteredData;
+    final rows = scheduleProvider.currentlySelectedCampusFilteredData;
 
     return Center(
       child: EasyTableTheme(
