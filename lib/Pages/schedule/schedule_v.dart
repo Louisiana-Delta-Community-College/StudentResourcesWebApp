@@ -188,7 +188,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     scheduleProvider.matchCounts[index];
                                 if (scheduleProvider.searchString.isNotEmpty &&
                                     matchCount > 0) {
-                                  matchCountString = " ($matchCount)";
+                                  matchCountString = "$matchCount";
                                 }
                               }
 
@@ -219,14 +219,53 @@ class _SchedulePageState extends State<SchedulePage> {
                                   //             bottomRight: Radius.circular(10))
                                   //         : null,
                                 ),
-                                child: Text(
-                                  "$campusDisplayName$matchCountString",
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? AppColor.primary
-                                        : AppColor.white,
-                                    fontSize: 13,
-                                  ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      campusDisplayName,
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? AppColor.primary
+                                            : AppColor.white,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    matchCount > 0
+                                        // ? Padding(
+                                        //     padding: const EdgeInsets.only(
+                                        //         left: 4.0),
+                                        //     child: Chip(side: ,
+                                        //       labelStyle: TextStyle(
+                                        //         color: Colors.white,
+                                        //         fontSize: 13,
+                                        //       ),
+                                        //       backgroundColor:
+                                        //           AppTheme.quaternary,
+                                        //       padding: EdgeInsets.only(
+                                        //         left: 2.0,
+                                        //         right: 2.0,
+                                        //         top: 0.0,
+                                        //         bottom: 0.0,
+                                        //       ),
+                                        //       labelPadding: EdgeInsets.only(
+                                        //         left: 1.0,
+                                        //         right: 1.0,
+                                        //         top: 0.0,
+                                        //         bottom: 0.0,
+                                        //       ),
+                                        //       label: Text(
+                                        //         matchCountString,
+                                        //         style: TextStyle(
+                                        //           color: Colors.white,
+                                        //           fontSize: 13,
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   )
+                                        ? MatchCountChip(matchCountString)
+                                        : Container(),
+                                  ],
                                 ),
                               );
                             },
@@ -437,6 +476,41 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MatchCountChip extends StatelessWidget {
+  final String countString;
+  const MatchCountChip(
+    this.countString, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4.0),
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 3.0,
+          right: 3.0,
+          // top: 2.0,
+          // bottom: 2.0,
+        ),
+        decoration: BoxDecoration(
+          color: AppTheme.quaternary,
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          border: Border.all(color: AppTheme.quaternary),
+        ),
+        child: Text(
+          countString,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 13,
           ),
         ),
       ),
