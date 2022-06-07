@@ -186,7 +186,8 @@ class _SchedulePageState extends State<SchedulePage> {
                               if (matchCounts.isNotEmpty) {
                                 matchCount =
                                     scheduleProvider.matchCounts[index];
-                                if (scheduleProvider.searchString.isNotEmpty) {
+                                if (scheduleProvider.searchString.isNotEmpty &&
+                                    matchCount > 0) {
                                   matchCountString = " ($matchCount)";
                                 }
                               }
