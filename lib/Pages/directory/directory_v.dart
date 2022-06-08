@@ -438,6 +438,7 @@ class ContactsEasyTable extends StatelessWidget {
               ],
             ),
             columnsFit: viewPortWidth(context) >= 1300 ? true : false,
+            multiSortEnabled: true,
             // visibleRowsCount: 20,
           ),
         ),

@@ -698,6 +698,7 @@ class ScheduleEasyTable extends StatelessWidget {
             ],
           ),
           visibleRowsCount: 20,
+          multiSortEnabled: true,
         ),
       ),
     );
