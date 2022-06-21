@@ -49,7 +49,6 @@ class Schedule extends ChangeNotifier {
         return 0;
       }
     })).toList();
-    log.i(_matchCounts);
     notifyListeners();
   }
 
