@@ -81,15 +81,7 @@ async def get_fresh_data():
           end
         ELSE replace(phone.num, '-', '')
       END PhoneNumber,
-      CASE
-        WHEN trim(BOTH ' '
-        FROM (trim(BOTH '-'
-        FROM (SUBSTR(pop.nbrjobs_desc, 8))))) = 'STUDENT'
-        THEN 'STUDENT WORKER'
-        ELSE trim(BOTH ' '
-        FROM (trim(BOTH '-'
-        FROM (SUBSTR(pop.nbrjobs_desc, 8)))))
-      END JobTitle,
+      pop.nbrjobs_desc JobTitle,
       title.ftvorgn_title Department,
       case
         when work_eml.work_email is not null then work_eml.work_email 
@@ -256,7 +248,9 @@ async def get_fresh_data():
           PhoneNumber = ''
       else:
           PhoneNumber = str('(' + PhoneNumber[0:3] +') ' + PhoneNumber[3:6] + '-' + PhoneNumber[6:])
-      JobTitle = i[3]
+      JobTitle = i[3].split("-")[-1]
+      if "STUDENT" in JobTitle.upper():
+        JobTitle = "STUDENT WORKER"
       Department = i[4]
       if Department == None:
           Department = ''
