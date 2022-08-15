@@ -324,8 +324,7 @@ async def get_fresh_data():
           ELSE SSBSECT.SSBSECT_PTRM_CODE
           END SSBSECT_PTRM_CODE,
           stvbldg.stvbldg_desc building,
-          /* SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats */
-          SSBSECT.SSBSECT_ENRL + (case when sign(SSBSECT.SSBSECT_SEATS_AVAIL) < 0 then (ssbsect.ssbsect_seats_avail + ssbsect.ssbsect_enrl) else ssbsect.ssbsect_seats_avail end) as max_seats
+          SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats
 
         FROM SCBCRSE
         INNER JOIN SSBSECT
