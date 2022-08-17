@@ -4,8 +4,10 @@ import 'package:schedule/common/common.dart';
 import 'package:easy_table/easy_table.dart';
 
 class SchedulePage extends StatefulWidget {
-  final String isStaff;
-  const SchedulePage({Key? key, this.isStaff = ""}) : super(key: key);
+  final String year;
+  final String season;
+  const SchedulePage({Key? key, this.season = "", this.year = ""})
+      : super(key: key);
 
   @override
   State<SchedulePage> createState() => _SchedulePageState();
@@ -20,6 +22,55 @@ class _SchedulePageState extends State<SchedulePage> {
     // This is due to Modular's notifyListeners() method which is used to update
     // isLoading status at the beginning of Schedule.getScheduleData()
     // Modular.get<Schedule>().init();
+
+    // If parameters `season` and `year` are populated check their values and
+    // set ScheduleTermsMenu.termDesc if necessary
+    final season = widget.season.toString().toLowerCase();
+    final year = widget.year.toString();
+    String termCode = "";
+    String termTy = "";
+    Map passedInTerm = {};
+    if (season.isNotEmpty && year.isNotEmpty && year.length == 4) {
+      // is year 4 characters long and is it a number?
+      int? intYear = int.tryParse(widget.year);
+      if (intYear != null) {
+        log.d("got a year which meets requirements");
+        if (["spring", "summer", "fall", "winter"]
+            .any((element) => element.contains(season))) {
+          log.d("Season recognized");
+          // Build term code
+          if (season == "spring") {
+            termCode = "${intYear}20";
+            termTy = "";
+          }
+          if (season == "summer") {
+            termCode = "${intYear}30";
+            termTy = "";
+          }
+          if (season == "fall") {
+            intYear = intYear + 1;
+            termCode = "${intYear}10";
+            termTy = "";
+          }
+          if (season == "winter") {
+            termCode = "${intYear}20";
+            termTy = "JWN";
+          }
+          if (termCode.isNotEmpty) {
+            passedInTerm = {
+              "Term": termCode,
+              "Desc": "${season.titleCase} $year",
+              "TermTy": termTy,
+              "default": true
+            };
+            log.d(passedInTerm);
+          }
+        } else {
+          log.d("Season not recognized.");
+        }
+      }
+    }
+
     Modular.get<Schedule>().getScheduleData();
     Modular.get<ScheduleTermsMenu>().getMenuData();
     // Schedule app title to run in the future to allow `MyApp.build()`

@@ -44,14 +44,20 @@ class ModularConfig extends Module {
           child: (context, args) => const HomePage(),
         ),
         ChildRoute(
+          '/schedule/',
+          child: (context, args) => const SchedulePage(),
+          transition: TransitionType.fadeIn,
+        ),
+        ChildRoute(
           '/schedule',
           child: (context, args) => const SchedulePage(),
           transition: TransitionType.fadeIn,
         ),
         ChildRoute(
-          '/schedule/:isStaff',
+          '/schedule/:season/:year',
           child: (context, args) => SchedulePage(
-            isStaff: args.params["isStaff"],
+            season: args.params["season"],
+            year: args.params["year"],
           ),
           transition: TransitionType.fadeIn,
         ),
