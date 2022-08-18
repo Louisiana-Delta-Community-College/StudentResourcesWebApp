@@ -542,8 +542,8 @@ class ScheduleTermsMenu extends ChangeNotifier {
         if (_data.toString() == "[]") {
           _error("No data.");
         } else {
+          _isLoading = false;
           if (passedInTerm.isNotEmpty) {
-            // already present???
             _data.removeWhere((element) =>
                 element["Term"] == passedInTerm["Term"] &&
                 element["TermTy"] == passedInTerm["TermTy"]);
@@ -552,12 +552,13 @@ class ScheduleTermsMenu extends ChangeNotifier {
             }
             _data.add(passedInTerm);
             selectedTermDesc = passedInTerm["Desc"];
-            log.d(_data);
           }
+          _data.sort(
+              (a, b) => int.parse(a["Term"]).compareTo(int.parse(b["Term"])));
           _termsList = [
             for (final item in _data) item["Desc"].toString(),
           ];
-          _isLoading = false;
+
           notifyListeners();
         }
       } else {

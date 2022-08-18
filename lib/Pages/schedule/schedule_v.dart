@@ -37,10 +37,8 @@ class _SchedulePageState extends State<SchedulePage> {
       // is year 4 characters long and is it a number?
       int? intYear = int.tryParse(widget.year);
       if (intYear != null) {
-        log.d("got a year which meets requirements");
         if (["spring", "summer", "fall", "winter"]
             .any((element) => element.contains(season))) {
-          log.d("Season recognized");
           // Build term code
           if (season == "spring") {
             termCode = "${intYear}20";
@@ -69,7 +67,6 @@ class _SchedulePageState extends State<SchedulePage> {
             scheduleTermsMenu.passedInTerm = passedInTerm;
             Modular.get<Schedule>().term = termCode;
             Modular.get<Schedule>().termType = termTy;
-            log.d(passedInTerm);
           }
         } else {
           log.d("Season not recognized.");
