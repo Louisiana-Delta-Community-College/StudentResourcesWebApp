@@ -16,10 +16,23 @@ class Schedule extends ChangeNotifier {
 
   List _matchCounts = [];
 
-  String term = "";
-  String termType = "";
+  String _term = "";
+  String _termType = "";
   String _campus = "MONROE CAMPUS";
   String isStaff = "";
+
+  String get term => _term;
+  String get termType => _termType;
+
+  set term(String s) {
+    _term = s;
+    notifyListeners();
+  }
+
+  set termType(String s) {
+    _termType = s;
+    notifyListeners();
+  }
 
   String _searchString = "";
 
@@ -95,12 +108,12 @@ class Schedule extends ChangeNotifier {
   Future getScheduleData() async {
     Map<String, dynamic> queryParameters = {};
 
-    if (term.isNotEmpty) {
-      queryParameters["term"] = term;
+    if (_term.isNotEmpty) {
+      queryParameters["term"] = _term;
     }
 
-    if (termType.isNotEmpty) {
-      queryParameters["termty"] = termType;
+    if (_termType.isNotEmpty) {
+      queryParameters["termty"] = _termType;
     }
 
     final uri = Uri.https(
@@ -479,6 +492,13 @@ class ScheduleTermsMenu extends ChangeNotifier {
   bool _isLoading = true;
   List _termsList = [];
 
+  Map<String, dynamic> _passedInTerm = {};
+  Map<String, dynamic> get passedInTerm => _passedInTerm;
+  set passedInTerm(Map<String, dynamic> p) {
+    _passedInTerm = p;
+    notifyListeners();
+  }
+
   String _selectedTermDesc = "";
 
   bool _hasError = false;
@@ -522,10 +542,22 @@ class ScheduleTermsMenu extends ChangeNotifier {
         if (_data.toString() == "[]") {
           _error("No data.");
         } else {
-          _isLoading = false;
+          if (passedInTerm.isNotEmpty) {
+            // already present???
+            _data.removeWhere((element) =>
+                element["Term"] == passedInTerm["Term"] &&
+                element["TermTy"] == passedInTerm["TermTy"]);
+            for (final item in _data) {
+              item["default"] = false;
+            }
+            _data.add(passedInTerm);
+            selectedTermDesc = passedInTerm["Desc"];
+            log.d(_data);
+          }
           _termsList = [
             for (final item in _data) item["Desc"].toString(),
           ];
+          _isLoading = false;
           notifyListeners();
         }
       } else {

@@ -27,9 +27,12 @@ class _SchedulePageState extends State<SchedulePage> {
     // set ScheduleTermsMenu.termDesc if necessary
     final season = widget.season.toString().toLowerCase();
     final year = widget.year.toString();
+
+    ScheduleTermsMenu scheduleTermsMenu = Modular.get<ScheduleTermsMenu>();
+
     String termCode = "";
     String termTy = "";
-    Map passedInTerm = {};
+    Map<String, dynamic> passedInTerm = {};
     if (season.isNotEmpty && year.isNotEmpty && year.length == 4) {
       // is year 4 characters long and is it a number?
       int? intYear = int.tryParse(widget.year);
@@ -63,6 +66,9 @@ class _SchedulePageState extends State<SchedulePage> {
               "TermTy": termTy,
               "default": true
             };
+            scheduleTermsMenu.passedInTerm = passedInTerm;
+            Modular.get<Schedule>().term = termCode;
+            Modular.get<Schedule>().termType = termTy;
             log.d(passedInTerm);
           }
         } else {
@@ -72,7 +78,7 @@ class _SchedulePageState extends State<SchedulePage> {
     }
 
     Modular.get<Schedule>().getScheduleData();
-    Modular.get<ScheduleTermsMenu>().getMenuData();
+    scheduleTermsMenu.getMenuData();
     // Schedule app title to run in the future to allow `MyApp.build()`
     // to finish before updating.
     Future.delayed(const Duration(seconds: 1)).then((r) {
