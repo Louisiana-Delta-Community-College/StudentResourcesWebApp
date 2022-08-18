@@ -62,6 +62,15 @@ class ModularConfig extends Module {
           transition: TransitionType.fadeIn,
         ),
         ChildRoute(
+          '/schedule/:season/:year/:current',
+          child: (context, args) => SchedulePage(
+            season: args.params["season"],
+            year: args.params["year"],
+            current: args.params["current"],
+          ),
+          transition: TransitionType.fadeIn,
+        ),
+        ChildRoute(
           '/directory',
           child: (context, args) => const DirectoryPage(),
           transition: TransitionType.fadeIn,

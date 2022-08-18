@@ -6,7 +6,9 @@ import 'package:easy_table/easy_table.dart';
 class SchedulePage extends StatefulWidget {
   final String year;
   final String season;
-  const SchedulePage({Key? key, this.season = "", this.year = ""})
+  final String current;
+  const SchedulePage(
+      {Key? key, this.season = "", this.year = "", this.current = ""})
       : super(key: key);
 
   @override
@@ -29,6 +31,10 @@ class _SchedulePageState extends State<SchedulePage> {
     final year = widget.year.toString();
 
     ScheduleTermsMenu scheduleTermsMenu = Modular.get<ScheduleTermsMenu>();
+
+    bool fetchCurrent =
+        (widget.current.isNotEmpty && widget.current == "current");
+    Modular.get<Schedule>().fetchCurrent = fetchCurrent;
 
     String termCode = "";
     String termTy = "";

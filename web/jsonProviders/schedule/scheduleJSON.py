@@ -18,6 +18,7 @@ except:
   from banner_prod_con import *
 
 withDebug = False
+fetchCurrent = False
 
 if withDebug:
   import cgitb; cgitb.enable()
@@ -161,7 +162,11 @@ def setUseCachedFile():
   else:
     return False
 
+if form.getvalue("fetchCurrent"):
+  fetchCurrent = True
+
 useCached = setUseCachedFile()
+if fetchCurrent: useCached = False
 
 if cachedFileName != "" and useCached:
   # print(cachedFileName)

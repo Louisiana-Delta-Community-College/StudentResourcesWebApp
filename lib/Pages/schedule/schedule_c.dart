@@ -18,8 +18,15 @@ class Schedule extends ChangeNotifier {
 
   String _term = "";
   String _termType = "";
+  bool _fetchCurrent = false;
   String _campus = "MONROE CAMPUS";
   String isStaff = "";
+
+  bool get fetchCurrent => _fetchCurrent;
+  set fetchCurrent(bool v) {
+    _fetchCurrent = v;
+    notifyListeners();
+  }
 
   String get term => _term;
   String get termType => _termType;
@@ -115,6 +122,12 @@ class Schedule extends ChangeNotifier {
     if (_termType.isNotEmpty) {
       queryParameters["termty"] = _termType;
     }
+
+    if (_fetchCurrent) {
+      queryParameters["fetchCurrent"] = _fetchCurrent.toString();
+    }
+
+    log.d(queryParameters);
 
     final uri = Uri.https(
         jsonProviderBaseUri, jsonProviderSchedulePath, queryParameters);
