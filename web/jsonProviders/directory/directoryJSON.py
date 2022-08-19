@@ -9,6 +9,7 @@ sys.path.append('C:\\inetpub\\wwwroot\\includes\\python')
 import cgi
 import asyncio
 import os
+import re
 import string
 from datetime import datetime
 import json
@@ -16,6 +17,8 @@ try:
   from ...includes.python.banner_prod_con import *
 except:
   from banner_prod_con import *
+
+titleExtractor = re.compile(r'([0-9]+\s?-)(.+)')
 
 withDebug = False
 
@@ -248,8 +251,9 @@ async def get_fresh_data():
           PhoneNumber = ''
       else:
           PhoneNumber = str('(' + PhoneNumber[0:3] +') ' + PhoneNumber[3:6] + '-' + PhoneNumber[6:])
-      JobTitle = i[3].split("-")[-1]
-      if "STUDENT" in JobTitle.upper():
+      # JobTitle = i[3].split("-")[-1]
+      JobTitle = titleExtractor.match(i[3]).group(2).replace("EDUCATI", "EDUCATION").replace(" WF ", " WORK FORCE ").replace(" SERV ", " SERVICES ")
+      if JobTitle.upper() == "STUDENT":
         JobTitle = "STUDENT WORKER"
       Department = i[4]
       if Department == None:
