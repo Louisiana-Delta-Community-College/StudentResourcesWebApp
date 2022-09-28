@@ -269,6 +269,36 @@ class ContactsEasyTable extends StatelessWidget {
             EasyTableModel(
               rows: rows,
               columns: [
+                // EasyTableColumn(
+                //   name: "",
+                //   width: 20,
+                //   // pinned: true,
+                //   cellBuilder: (context, row, _) => Row(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       // SHARE CONTACT INFO BUTTON
+                //       IconButton(
+                //         tooltip: "Share Contact Information",
+                //         padding: const EdgeInsets.only(
+                //           left: 1,
+                //           right: 1,
+                //         ),
+                //         icon: const Icon(
+                //           Icons.share,
+                //           size: 20,
+                //         ),
+                //         onPressed: () {
+                //           directoryProvider.copyRowToClipboard(row);
+
+                //           showSnackBar(
+                //             'Contact information copied to clipboard!',
+                //             isSuccess: true,
+                //           );
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 EasyTableColumn(
                   name: "Name",
                   cellBuilder: (context, row, index) {
@@ -278,7 +308,31 @@ class ContactsEasyTable extends StatelessWidget {
                       child: Semantics(
                         label: "Name: $name",
                         excludeSemantics: true,
-                        child: Text(name),
+                        child: // SHARE CONTACT INFO BUTTON
+                            Row(
+                          children: [
+                            IconButton(
+                              tooltip: "Share Contact Information",
+                              padding: const EdgeInsets.only(
+                                left: 1,
+                                right: 1,
+                              ),
+                              icon: const Icon(
+                                Icons.copy_all_sharp,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                directoryProvider.copyRowToClipboard(row);
+
+                                showSnackBar(
+                                  'Contact information copied to clipboard!',
+                                  isSuccess: true,
+                                );
+                              },
+                            ),
+                            Text(name),
+                          ],
+                        ),
                       ),
                     );
                   },

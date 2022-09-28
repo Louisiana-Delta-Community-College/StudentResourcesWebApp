@@ -156,4 +156,20 @@ class Directory extends ChangeNotifier {
     }
     return v1.compareTo(v2);
   }
+
+  void copyRowToClipboard(row) {
+    log.d(row);
+    final office = row["Office"].toString().replaceAll("Rm", "").trim();
+    FlutterClipboard.copy("""
+${row["FirstName"]} ${row["LastName"]}
+${row["JobTitle"]}
+${row["Department"]}
+
+${row["PhoneNumber"]}
+${row["EmailAddress"]}
+${row["Campus"]} Campus
+Room $office
+"""
+        .trim());
+  }
 }
