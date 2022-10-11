@@ -1,4 +1,5 @@
 [
   {"Term": "202230", "Desc": "Summer 2022", "TermTy": "", "default": false},
-  {"Term": "202310", "Desc": "Fall 2022", "TermTy": "", "default": true}
+  {"Term": "202310", "Desc": "Fall 2022", "TermTy": "", "default": true},
+  {"Term": "202320", "Desc": "Spring 2023", "TermTy": "", "default": false}
 ]
