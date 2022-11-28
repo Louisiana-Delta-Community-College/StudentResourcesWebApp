@@ -158,7 +158,7 @@ class Directory extends ChangeNotifier {
   }
 
   void copyRowToClipboard(row) {
-    log.d(row);
+    // log.d(row);
     final office = row["Office"].toString().replaceAll("Rm", "").trim();
     FlutterClipboard.copy("""
 ${row["FirstName"]} ${row["LastName"]}

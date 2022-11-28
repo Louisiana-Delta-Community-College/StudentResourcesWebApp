@@ -127,7 +127,7 @@ class Schedule extends ChangeNotifier {
       queryParameters["fetchCurrent"] = _fetchCurrent.toString();
     }
 
-    log.d(queryParameters);
+    // log.d(queryParameters);
 
     final uri = Uri.https(
         jsonProviderBaseUri, jsonProviderSchedulePath, queryParameters);
