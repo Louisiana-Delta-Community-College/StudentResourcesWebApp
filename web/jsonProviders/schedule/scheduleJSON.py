@@ -29,7 +29,7 @@ def debug(msg):
     print(msg)
 
 cacheDir = 'C:/inetpub/wwwroot/cache/schedule'
-cacheTimeOutInSeconds = 60 * 60 * 1  # 1 hour
+cacheTimeOutInSeconds = 60 * 60 * .25  # 15 minutes
 
 useCached = False
 
