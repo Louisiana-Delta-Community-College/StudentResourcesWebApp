@@ -32,7 +32,7 @@ def debug(msg):
   
 cacheDir = 'C:/inetpub/wwwroot/cache/directory'
 cachedDirectoryPath = os.path.join(cacheDir, "cachedDirectory.json")
-cacheTimeOutInSeconds = 60 * 60 * 6  # 6 hours
+cacheTimeOutInSeconds = 60 * 60 * 2  # 2 hours
 
 form = cgi.FieldStorage()
 
