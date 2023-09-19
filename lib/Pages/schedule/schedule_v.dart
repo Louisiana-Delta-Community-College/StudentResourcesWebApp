@@ -696,6 +696,38 @@ class ScheduleEasyTable extends StatelessWidget {
                 width: 250,
               ),
               EasyTableColumn(
+                name: "Course Duration",
+                width: 120,
+                cellBuilder: (ctx, row, idx) {
+                  final ptrm = (row as Map)["PTRM"].toString();
+                  Text friendlyType;
+                  if (ptrm == "J01") {
+                    friendlyType = const Text("Full 16 Weeks");
+                  } else if (ptrm == "J02") {
+                    friendlyType = const Text("1st 8 Weeks");
+                  } else if (ptrm == "J03") {
+                    friendlyType = const Text("2nd 8 Weeks");
+                  } else {
+                    friendlyType = const Text("See Date Range");
+                  }
+                  return Container(child: friendlyType);
+                },
+                sort: (a, b) {
+                  String v1 = "${(a as Map)["PTRM"]}, ${a["PTRM"]}";
+                  String v2 = "${(b as Map)["PTRM"]}, ${b["PTRM"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
+              ),
+              EasyTableColumn(
                 name: "Hours",
                 stringValue: (row) => (row as Map)["CH"],
                 width: 60,
