@@ -159,15 +159,16 @@ class Directory extends ChangeNotifier {
 
   void copyRowToClipboard(row) {
     // log.d(row);
-    final office = row["Office"].toString().replaceAll("Rm", "").trim();
+    final rowData = (row.data as Map);
+    final office = rowData["Office"].toString().replaceAll("Rm", "").trim();
     FlutterClipboard.copy("""
-${row["FirstName"]} ${row["LastName"]}
-${row["JobTitle"]}
-${row["Department"]}
+${rowData["FirstName"]} ${rowData["LastName"]}
+${rowData["JobTitle"]}
+${rowData["Department"]}
 
-${row["PhoneNumber"]}
-${row["EmailAddress"]}
-${row["Campus"]} Campus
+${rowData["PhoneNumber"]}
+${rowData["EmailAddress"]}
+${rowData["Campus"]} Campus
 Room $office
 """
         .trim());
