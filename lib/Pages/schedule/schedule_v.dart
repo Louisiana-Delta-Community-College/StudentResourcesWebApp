@@ -591,6 +591,10 @@ class ScheduleDavi extends StatelessWidget {
       child: DaviTheme(
         data: DaviThemeData(
           headerCell: HeaderCellThemeData(
+            textStyle: TextStyle(
+              color: themeProvider.text,
+            ),
+            sortPriorityColor: themeProvider.text,
             padding: const EdgeInsets.all(5),
             sortIconColors: SortIconColors.all(themeProvider.text),
           ),
@@ -745,7 +749,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Course Duration",
-                width: 120,
+                width: 140,
                 cellBuilder: (ctx, row) {
                   final ptrm = (row.data as Map)["PTRM"].toString();
                   Text friendlyType;
@@ -973,6 +977,7 @@ class ScheduleDavi extends StatelessWidget {
           ),
           visibleRowsCount: 20,
           tapToSortEnabled: true,
+          columnWidthBehavior: ColumnWidthBehavior.scrollable,
         ),
       ),
     );

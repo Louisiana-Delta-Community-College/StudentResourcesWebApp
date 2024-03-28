@@ -244,9 +244,9 @@ class Schedule extends ChangeNotifier {
       context: context,
       builder: (context) {
         final themeProvider = context.watch<AppTheme>();
-        final theRow = (row.data as Map);
-        final feesFlat = theRow["FF"];
-        final feesCredit = theRow["FC"];
+        final rowData = (row.data as Map);
+        final feesFlat = rowData["FF"];
+        final feesCredit = rowData["FC"];
         var feesTotal = "0.00";
         try {
           feesTotal = ((double.tryParse(feesFlat) ?? 0.00) +
@@ -257,7 +257,7 @@ class Schedule extends ChangeNotifier {
         }
         return AlertDialog(
           title: Text(
-            "${theRow["SC"]} ${theRow["CN"]} - ${theRow["CT"]}",
+            "${rowData["SC"]} ${rowData["CN"]} - ${rowData["CT"]}",
             style: TextStyle(color: themeProvider.text),
           ),
           alignment: Alignment.center,
@@ -341,7 +341,7 @@ class Schedule extends ChangeNotifier {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -356,27 +356,27 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  InfoRow("CRN:", theRow["CRN"].toString().trim()),
+                  InfoRow("CRN:", rowData["CRN"].toString().trim()),
                   InfoRow(
                       "Campus:",
-                      theRow["C"]
+                      rowData["C"]
                           .toString()
                           .replaceAll("LDCC", "")
                           .replaceAll("CAMPUS", "")
                           .titleCase
                           .trim()),
-                  InfoRow("Teacher(s):", theRow["TN"].toString()),
-                  InfoRow("Enrolled:", "${theRow["E"]} / ${theRow["MS"]}"),
-                  InfoRow("Building:", theRow["B"].toString()),
-                  InfoRow("Room:", theRow["R"].toString()),
+                  InfoRow("Teacher(s):", rowData["TN"].toString()),
+                  InfoRow("Enrolled:", "${rowData["E"]} / ${rowData["MS"]}"),
+                  InfoRow("Building:", rowData["B"].toString()),
+                  InfoRow("Room:", rowData["R"].toString()),
                   InfoRow("Dates in Session:",
-                      "${theRow["PTRMDS"]} / ${theRow["PTRMDE"]}"),
-                  InfoRow("Days:", theRow["D"].toString()),
-                  InfoRow("Time:", "${theRow["TB"]} - ${theRow["TE"]}"),
-                  InfoRow("Credit Hours:", theRow["CH"].toString()),
+                      "${rowData["PTRMDS"]} / ${rowData["PTRMDE"]}"),
+                  InfoRow("Days:", rowData["D"].toString()),
+                  InfoRow("Time:", "${rowData["TB"]} - ${rowData["TE"]}"),
+                  InfoRow("Credit Hours:", rowData["CH"].toString()),
                   // ADDITIONAL FEES
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -392,9 +392,9 @@ class Schedule extends ChangeNotifier {
                     ),
                   ),
                   InfoRow("Flat:",
-                      "${(theRow)["FF"] == "" ? "0.00" : (theRow)["FF"]}"),
+                      "${(rowData)["FF"] == "" ? "0.00" : (rowData)["FF"]}"),
                   InfoRow("Credit:",
-                      "${(theRow)["FC"] == "" ? "0.00" : (theRow)["FC"]}"),
+                      "${(rowData)["FC"] == "" ? "0.00" : (rowData)["FC"]}"),
                   Divider(
                     thickness: 1,
                     indent: 16,
@@ -404,7 +404,7 @@ class Schedule extends ChangeNotifier {
                   InfoRow("", feesTotal),
                   // DESCRIPTION
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -422,8 +422,8 @@ class Schedule extends ChangeNotifier {
                   ListTile(
                     dense: true,
                     title: SelectableText(
-                      theRow["N"].toString().trim() != ""
-                          ? parse(theRow["N"].toString())
+                      rowData["N"].toString().trim() != ""
+                          ? parse(rowData["N"].toString())
                               .body!
                               .text
                               .replaceAll("<br/>", "\n")
@@ -475,8 +475,9 @@ class Schedule extends ChangeNotifier {
   }
 
   void copyRowToClipboard(row) {
-    final feesFlat = (row as Map)["FF"];
-    final feesCredit = row["FC"];
+    final rowData = (row.data as Map);
+    final feesFlat = rowData["FF"];
+    final feesCredit = rowData["FC"];
     var feesTotal = "0.00";
     try {
       feesTotal = ((double.tryParse(feesFlat) ?? 0.00) +
@@ -486,18 +487,18 @@ class Schedule extends ChangeNotifier {
       log.e(e.toString());
     }
     FlutterClipboard.copy("""
-Course: ${row["SC"]} ${row["CN"]}
-Title: ${row["CT"]}
-CRN: ${row["CRN"]}
-Campus: ${row["C"]}
-Teacher(s): ${row["TN"]}
-Enrolled: ${row["E"]} / ${row["MS"]} 
-Building: ${row["B"]}
-Room: ${row["R"]}
-Dates in Session: ${row["PTRMDS"]} / ${row["PTRMDE"]}
-Days: ${row["D"]}
-Time: ${row["TB"]} - ${row["TE"]}
-Credit Hours: ${row["CH"]}
+Course: ${rowData["SC"]} ${rowData["CN"]}
+Title: ${rowData["CT"]}
+CRN: ${rowData["CRN"]}
+Campus: ${rowData["C"]}
+Teacher(s): ${rowData["TN"]}
+Enrolled: ${rowData["E"]} / ${rowData["MS"]} 
+Building: ${rowData["B"]}
+Room: ${rowData["R"]}
+Dates in Session: ${rowData["PTRMDS"]} / ${rowData["PTRMDE"]}
+Days: ${rowData["D"]}
+Time: ${rowData["TB"]} - ${rowData["TE"]}
+Credit Hours: ${rowData["CH"]}
 
 Additional Fees:
 Flat: $feesFlat
@@ -505,7 +506,7 @@ Credit: $feesCredit
 Total: $feesTotal
 
 Description:
-${row["N"]}
+${rowData["N"]}
 """
         .trim());
   }
