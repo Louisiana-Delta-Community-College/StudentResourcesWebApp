@@ -334,11 +334,11 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      children: const [
+                      children: [
                         Text(
                           "Course Details",
                           style: TextStyle(
@@ -368,11 +368,11 @@ class Schedule extends ChangeNotifier {
                   InfoRow("Time:", "${row["TB"]} - ${row["TE"]}"),
                   InfoRow("Credit Hours:", row["CH"].toString()),
                   // ADDITIONAL FEES
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      children: const [
+                      children: [
                         Text(
                           "Additional Fees",
                           style: TextStyle(
@@ -395,11 +395,11 @@ class Schedule extends ChangeNotifier {
                   ),
                   InfoRow("", feesTotal),
                   // DESCRIPTION
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      children: const [
+                      children: [
                         Text(
                           "Description",
                           style: TextStyle(

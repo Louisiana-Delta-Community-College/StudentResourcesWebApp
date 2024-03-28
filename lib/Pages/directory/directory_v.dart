@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:schedule/common/common.dart';
 
-import 'package:easy_table/easy_table.dart';
+import 'package:davi/davi.dart';
 
 class DirectoryPage extends StatefulWidget {
   final String selectedCampus;
@@ -175,7 +175,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                     ),
                                   )
                                 // SHOW REGULAR TABLE
-                                : const ContactsEasyTable()
+                                : const ContactsDavi()
                             : Center(
                                 child: Text(
                                   directoryProvider.searchString.isNotEmpty
@@ -228,8 +228,8 @@ class _DirectoryPageState extends State<DirectoryPage> {
   }
 }
 
-class ContactsEasyTable extends StatelessWidget {
-  const ContactsEasyTable({Key? key}) : super(key: key);
+class ContactsDavi extends StatelessWidget {
+  const ContactsDavi({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -238,14 +238,14 @@ class ContactsEasyTable extends StatelessWidget {
     final rows = directoryProvider.filteredData;
 
     return Center(
-      child: EasyTableTheme(
-        data: EasyTableThemeData(
+      child: DaviTheme(
+        data: DaviThemeData(
           headerCell: HeaderCellThemeData(
             padding: const EdgeInsets.all(5),
-            sortIconColor: themeProvider.text,
+            sortIconColors: SortIconColors.all(themeProvider.text),
           ),
           row: RowThemeData(
-            hoveredColor: (index) => themeProvider.rowColorHover,
+            hoverBackground: (index) => themeProvider.rowColorHover,
             color: (index) => index % 2 == 0
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
@@ -256,8 +256,9 @@ class ContactsEasyTable extends StatelessWidget {
             radius: Radius.circular(10),
           ),
           cell: CellThemeData(
+            contentHeight: 42,
             textStyle: TextStyle(
-              color: themeProvider.easyTableText,
+              color: themeProvider.daviText,
             ),
           ),
         ),
@@ -265,15 +266,15 @@ class ContactsEasyTable extends StatelessWidget {
           label: "Employee Directory Table",
           explicitChildNodes: true,
           // excludeSemantics: true,
-          child: EasyTable(
-            EasyTableModel(
+          child: Davi(
+            DaviModel(
               rows: rows,
               columns: [
-                EasyTableColumn(
+                DaviColumn(
                   name: "Name",
-                  cellBuilder: (context, row, index) {
+                  cellBuilder: (context, row) {
                     final name =
-                        "${(row as Map)["LastName"]}, ${row["FirstName"]}";
+                        "${(row.data as Map)["LastName"]}, ${(row.data as Map)["FirstName"]}";
                     return Focus(
                       child: Semantics(
                         label: "Name: $name",
@@ -306,31 +307,31 @@ class ContactsEasyTable extends StatelessWidget {
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    String v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}";
-                    String v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}";
-                    if (v1.isEmpty || v2.isEmpty) {
-                      return 0;
-                    }
-                    if (v1.isEmpty) {
-                      return 0;
-                    }
-                    if (v2.isEmpty) {
-                      return 1;
-                    }
-                    return v1.compareTo(v2);
-                  },
+                  // sort: (a, b) {
+                  //   String v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}";
+                  //   String v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}";
+                  //   if (v1.isEmpty || v2.isEmpty) {
+                  //     return 0;
+                  //   }
+                  //   if (v1.isEmpty) {
+                  //     return 0;
+                  //   }
+                  //   if (v2.isEmpty) {
+                  //     return 1;
+                  //   }
+                  //   return v1.compareTo(v2);
+                  // },
                   width: 200,
                 ),
-                EasyTableColumn(
+                DaviColumn(
                   name: "Phone Number",
-                  cellBuilder: (context, row, index) {
-                    final phoneNumber = "${(row as Map)["PhoneNumber"]}";
+                  cellBuilder: (context, row) {
+                    final phoneNumber = "${(row.data as Map)["PhoneNumber"]}";
                     return Focus(
                       child: Semantics(
                         label: "Phone Number: $phoneNumber",
-                        onTap: () =>
-                            launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
+                        onTap: () => launchUrl(Uri.parse(
+                            "tel:${(row.data as Map)["PhoneNumber"]}")),
                         excludeSemantics: true,
                         button: true,
                         child: InkWell(
@@ -340,22 +341,22 @@ class ContactsEasyTable extends StatelessWidget {
                               decoration: TextDecoration.underline,
                             ),
                           ),
-                          onTap: () =>
-                              launchUrl(Uri.parse("tel:${row["PhoneNumber"]}")),
+                          onTap: () => launchUrl(Uri.parse(
+                              "tel:${(row.data as Map)["PhoneNumber"]}")),
                         ),
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    return directoryProvider.directoryTableStringSorter(
-                        a, b, "PhoneNumber");
-                  },
+                  // sort: (a, b) {
+                  //   return directoryProvider.directoryTableStringSorter(
+                  //       a, b, "PhoneNumber");
+                  // },
                   width: 130,
                 ),
-                EasyTableColumn(
+                DaviColumn(
                   name: "Title",
-                  cellBuilder: (context, row, index) {
-                    final jobTitle = "${(row as Map)["JobTitle"]}";
+                  cellBuilder: (context, row) {
+                    final jobTitle = "${(row.data as Map)["JobTitle"]}";
                     return Focus(
                       child: Semantics(
                         label: "Job Title: $jobTitle",
@@ -366,16 +367,16 @@ class ContactsEasyTable extends StatelessWidget {
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    return directoryProvider.directoryTableStringSorter(
-                        a, b, "JobTitle");
-                  },
+                  // sort: (a, b) {
+                  //   return directoryProvider.directoryTableStringSorter(
+                  //       a, b, "JobTitle");
+                  // },
                   width: 200,
                 ),
-                EasyTableColumn(
+                DaviColumn(
                   name: "Department",
-                  cellBuilder: (context, row, _) {
-                    final department = "${(row as Map)["Department"]}";
+                  cellBuilder: (context, row) {
+                    final department = "${(row.data as Map)["Department"]}";
                     return Focus(
                       child: Text(
                         department,
@@ -383,23 +384,23 @@ class ContactsEasyTable extends StatelessWidget {
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    return directoryProvider.directoryTableStringSorter(
-                        a, b, "Department");
-                  },
+                  // sort: (a, b) {
+                  //   return directoryProvider.directoryTableStringSorter(
+                  //       a, b, "Department");
+                  // },
                   width: 260,
                 ),
-                EasyTableColumn(
+                DaviColumn(
                   name: "Email",
-                  cellBuilder: (context, row, _) {
-                    final emailAddress = "${(row as Map)["EmailAddress"]}";
+                  cellBuilder: (context, row) {
+                    final emailAddress = "${(row.data as Map)["EmailAddress"]}";
                     return Focus(
                       child: Semantics(
                         label: "Email Address: $emailAddress",
                         excludeSemantics: true,
                         button: true,
-                        onTap: () => launchUrl(
-                            Uri.parse("mailto:${row["EmailAddress"]}")),
+                        onTap: () => launchUrl(Uri.parse(
+                            "mailto:${(row.data as Map)["EmailAddress"]}")),
                         child: InkWell(
                           child: Text(
                             emailAddress,
@@ -407,22 +408,22 @@ class ContactsEasyTable extends StatelessWidget {
                               decoration: TextDecoration.underline,
                             ),
                           ),
-                          onTap: () => launchUrl(
-                              Uri.parse("mailto:${row["EmailAddress"]}")),
+                          onTap: () => launchUrl(Uri.parse(
+                              "mailto:${(row.data as Map)["EmailAddress"]}")),
                         ),
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    return directoryProvider.directoryTableStringSorter(
-                        a, b, "EmailAddress");
-                  },
+                  // sort: (a, b) {
+                  //   return directoryProvider.directoryTableStringSorter(
+                  //       a, b, "EmailAddress");
+                  // },
                   width: 230,
                 ),
-                EasyTableColumn(
+                DaviColumn(
                   name: "Campus",
-                  cellBuilder: (context, row, index) {
-                    final campus = "${(row as Map)["Campus"]}";
+                  cellBuilder: (context, row) {
+                    final campus = "${(row.data as Map)["Campus"]}";
                     return Focus(
                       child: Semantics(
                         label: "Campus: $campus",
@@ -433,16 +434,16 @@ class ContactsEasyTable extends StatelessWidget {
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    return directoryProvider.directoryTableStringSorter(
-                        a, b, "Campus");
-                  },
+                  // sort: (a, b) {
+                  //   return directoryProvider.directoryTableStringSorter(
+                  //       a, b, "Campus");
+                  // },
                   width: 130,
                 ),
-                EasyTableColumn(
+                DaviColumn(
                   name: "Office",
-                  cellBuilder: (context, row, index) {
-                    final office = "${(row as Map)["Office"]}";
+                  cellBuilder: (context, row) {
+                    final office = "${(row.data as Map)["Office"]}";
                     return Focus(
                       child: Semantics(
                         label: "Office: $office",
@@ -453,18 +454,20 @@ class ContactsEasyTable extends StatelessWidget {
                       ),
                     );
                   },
-                  sort: (a, b) {
-                    return directoryProvider.directoryTableStringSorter(
-                        a, b, "Office");
-                  },
+                  // sort: (a, b) {
+                  //   return directoryProvider.directoryTableStringSorter(
+                  //       a, b, "Office");
+                  // },
                   width: 100,
                 ),
               ],
+              multiSortEnabled: true,
             ),
-            columnsFit: viewPortWidth(context) >= 1300 ? true : false,
-            multiSortEnabled: true,
-            // visibleRowsCount: 20,
-            cellContentHeight: 42,
+            columnWidthBehavior: ColumnWidthBehavior.fit,
+
+            // columnsFit: viewPortWidth(context) >= 1300 ? true : false,
+            tapToSortEnabled: true,
+            visibleRowsCount: 20,
           ),
         ),
       ),

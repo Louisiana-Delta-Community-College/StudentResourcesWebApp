@@ -19,7 +19,7 @@ class AppTheme extends ChangeNotifier {
   Color get rowColorNormal => isDark ? Colors.transparent : Colors.white54;
   Color get rowColorHighlighted => isDark ? secondary30 : secondary40;
   Color get rowColorHover => isDark ? secondary50 : secondary60;
-  Color get easyTableText => isDark ? AppColor.white : Colors.black;
+  Color get daviText => isDark ? AppColor.white : Colors.black;
 
   Color get menuColor => AppColor.primary;
   // Color get menuColorSelected => AppColor.darkSilver90;

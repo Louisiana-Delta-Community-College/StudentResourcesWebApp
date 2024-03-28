@@ -1,7 +1,7 @@
 import 'package:group_button/group_button.dart';
 import 'package:schedule/common/common.dart';
 
-import 'package:easy_table/easy_table.dart';
+import 'package:davi/davi.dart';
 
 class SchedulePage extends StatefulWidget {
   final String year;
@@ -111,10 +111,10 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: EasySearchBar(
         title: Stack(
           children: [
-            Row(
+            const Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 // This is here to pad the title to center position
                 Icon(
                   Icons.dark_mode_sharp,
@@ -490,7 +490,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                     ),
                                   )
                                 // SHOW REGULAR TABLE
-                                : const ScheduleEasyTable()
+                                : const ScheduleDavi()
                             : Center(
                                 child: SelectableText(
                                   scheduleProvider.searchString.isNotEmpty
@@ -578,8 +578,8 @@ class MatchCountChip extends StatelessWidget {
   }
 }
 
-class ScheduleEasyTable extends StatelessWidget {
-  const ScheduleEasyTable({Key? key}) : super(key: key);
+class ScheduleDavi extends StatelessWidget {
+  const ScheduleDavi({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -588,14 +588,14 @@ class ScheduleEasyTable extends StatelessWidget {
     final rows = scheduleProvider.currentlySelectedCampusFilteredData;
 
     return Center(
-      child: EasyTableTheme(
-        data: EasyTableThemeData(
+      child: DaviTheme(
+        data: DaviThemeData(
           headerCell: HeaderCellThemeData(
             padding: const EdgeInsets.all(5),
-            sortIconColor: themeProvider.text,
+            sortIconColors: SortIconColors.all(themeProvider.text),
           ),
           row: RowThemeData(
-            hoveredColor: (index) => themeProvider.rowColorHover,
+            hoverBackground: (index) => themeProvider.rowColorHover,
             color: (index) => index % 2 == 0
                 ? themeProvider.rowColorHighlighted
                 : themeProvider.rowColorNormal,
@@ -606,20 +606,21 @@ class ScheduleEasyTable extends StatelessWidget {
             radius: Radius.circular(10),
           ),
           cell: CellThemeData(
+            // contentHeight: 42,
             textStyle: TextStyle(
-              color: themeProvider.easyTableText,
+              color: themeProvider.daviText,
             ),
           ),
         ),
-        child: EasyTable(
-          EasyTableModel(
+        child: Davi(
+          DaviModel(
             rows: rows,
             columns: [
-              EasyTableColumn(
+              DaviColumn(
                 name: "Controls",
                 width: 140,
                 // pinned: true,
-                cellBuilder: (context, row, _) => Row(
+                cellBuilder: (context, row) => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // MORE INFO ICON
@@ -674,32 +675,32 @@ class ScheduleEasyTable extends StatelessWidget {
                   ],
                 ),
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "CRN",
                 stringValue: (row) => (row as Map)["CRN"],
                 width: 60,
                 // pinned: true,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Subject",
                 stringValue: (row) => (row as Map)["SC"],
                 width: 70,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Course",
                 stringValue: (row) => (row as Map)["CN"],
                 width: 70,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Description",
                 stringValue: (row) => (row as Map)["CT"],
                 width: 250,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Course Duration",
                 width: 120,
-                cellBuilder: (ctx, row, idx) {
-                  final ptrm = (row as Map)["PTRM"].toString();
+                cellBuilder: (ctx, row) {
+                  final ptrm = (row.data as Map)["PTRM"].toString();
                   Text friendlyType;
                   if (ptrm == "J01") {
                     friendlyType = const Text("Full 16 Weeks");
@@ -712,85 +713,86 @@ class ScheduleEasyTable extends StatelessWidget {
                   }
                   return Container(child: friendlyType);
                 },
-                sort: (a, b) {
-                  String v1 = "${(a as Map)["PTRM"]}, ${a["PTRM"]}";
-                  String v2 = "${(b as Map)["PTRM"]}, ${b["PTRM"]}";
-                  if (v1.isEmpty || v2.isEmpty) {
-                    return 0;
-                  }
-                  if (v1.isEmpty) {
-                    return 0;
-                  }
-                  if (v2.isEmpty) {
-                    return 1;
-                  }
-                  return v1.compareTo(v2);
-                },
+                // sort: (a, b) {
+                //   String v1 = "${(a as Map)["PTRM"]}, ${a["PTRM"]}";
+                //   String v2 = "${(b as Map)["PTRM"]}, ${b["PTRM"]}";
+                //   if (v1.isEmpty || v2.isEmpty) {
+                //     return 0;
+                //   }
+                //   if (v1.isEmpty) {
+                //     return 0;
+                //   }
+                //   if (v2.isEmpty) {
+                //     return 1;
+                //   }
+                //   return v1.compareTo(v2);
+                // },
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Hours",
                 stringValue: (row) => (row as Map)["CH"],
                 width: 60,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Days",
                 stringValue: (row) => (row as Map)["D"],
                 width: 80,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Start",
                 stringValue: (row) => (row as Map)["TB"],
                 width: 80,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "End",
                 stringValue: (row) => (row as Map)["TE"],
                 width: 80,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Building",
                 stringValue: (row) => (row as Map)["B"],
                 width: 220,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Room",
                 stringValue: (row) => (row as Map)["R"],
                 width: 80,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Teacher(s)",
                 stringValue: (row) => (row as Map)["TN"].toString(),
                 width: 240,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Enrolled",
                 stringValue: (row) => "${(row as Map)["E"]} / ${row["MS"]}",
                 width: 80,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Date Start",
                 stringValue: (row) => (row as Map)["PTRMDS"],
                 width: 100,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Date End",
                 stringValue: (row) => (row as Map)["PTRMDE"],
                 width: 100,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Method",
                 stringValue: (row) => (row as Map)["INSMC"],
                 width: 80,
               ),
-              EasyTableColumn(
+              DaviColumn(
                 name: "Added Fees",
                 stringValue: (row) => (row as Map)["AF"],
                 width: 100,
               ),
             ],
+            multiSortEnabled: true,
           ),
           visibleRowsCount: 20,
-          multiSortEnabled: true,
+          tapToSortEnabled: true,
         ),
       ),
     );

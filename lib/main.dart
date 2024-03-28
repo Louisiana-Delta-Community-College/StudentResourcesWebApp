@@ -1,5 +1,5 @@
 import 'package:schedule/common/common.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -15,7 +15,7 @@ void main() async {
       ),
     ),
   );
-  RendererBinding.instance.setSemanticsEnabled(true);
+  // RendererBinding.instance.setSemanticsEnabled(true);
 }
 
 class ModularConfig extends Module {
@@ -118,16 +118,16 @@ class _MyAppState extends State<MyApp> {
       darkTheme: themeProvider.dark,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
-      builder: (context, widget) => ResponsiveWrapper.builder(
-        ClampingScrollWrapper.builder(context, widget!),
-        maxWidth: double.infinity,
-        minWidth: 480,
-        defaultScale: true,
+      builder: (context, widget) => ResponsiveBreakpoints.builder(
+        child: ClampingScrollWrapper.builder(context, widget!),
+        // maxWidth: double.infinity,
+        // minWidth: 480,
+        // defaultScale: true,
         breakpoints: [
-          const ResponsiveBreakpoint.resize(480, name: MOBILE),
-          const ResponsiveBreakpoint.resize(800, name: TABLET),
-          const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-          const ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+          const Breakpoint(start: 0, end: 480, name: MOBILE),
+          const Breakpoint(start: 481, end: 800, name: TABLET),
+          const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+          const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
         ],
       ),
     );
