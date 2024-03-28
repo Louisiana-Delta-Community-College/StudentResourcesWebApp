@@ -41,190 +41,195 @@ class _DirectoryPageState extends State<DirectoryPage> {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
 
-    return Scaffold(
-      drawer: Semantics(
-          value: "navigation menu",
-          sortKey: const OrdinalSortKey(1),
-          child: const NavBar()),
-      appBar: EasySearchBar(
-        title: Stack(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // This is here to pad the title to center position
-                const Icon(
-                  Icons.dark_mode_sharp,
-                  color: AppColor.primary,
-                ),
-                Focus(
-                  child: Semantics(
-                    label: "Page Title: Directory$titleAppendedCampus",
-                    excludeSemantics: true,
-                    child: Center(
-                      child: Text(
-                        "Directory$titleAppendedCampus",
-                        textAlign: TextAlign.center,
+    return LayoutBuilder(builder: (context, constraints) {
+      var isSmallFormFactor = constraints.maxWidth < 800;
+
+      return Scaffold(
+        drawer: Semantics(
+            value: "navigation menu",
+            sortKey: const OrdinalSortKey(1),
+            child: const NavBar()),
+        appBar: EasySearchBar(
+          title: Stack(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // This is here to pad the title to center position
+                  const Icon(
+                    Icons.dark_mode_sharp,
+                    color: AppColor.primary,
+                  ),
+                  Focus(
+                    child: Semantics(
+                      label: "Page Title: Directory$titleAppendedCampus",
+                      excludeSemantics: true,
+                      child: Center(
+                        child: Text(
+                          "Directory$titleAppendedCampus",
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Focus(
-                  child: Semantics(
-                    image: true,
-                    label: "LDCC Logo",
-                    excludeSemantics: true,
-                    child: Image.asset(
-                        isSmallFormFactor(context)
-                            ? "assets/images/mark.png"
-                            : "assets/images/logo.png",
-                        fit: BoxFit.fitHeight),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Focus(
+                    child: Semantics(
+                      image: true,
+                      label: "LDCC Logo",
+                      excludeSemantics: true,
+                      child: Image.asset(
+                          ResponsiveBreakpoints.of(context)
+                                  .between(MOBILE, TABLET)
+                              ? "assets/images/mark.png"
+                              : "assets/images/logo.png",
+                          fit: BoxFit.fitHeight),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          backgroundColor: AppColor.primary,
+          foregroundColor: AppColor.white,
+          searchCursorColor: themeProvider.text,
+          searchBackIconTheme: IconThemeData(
+            color: themeProvider.text,
+          ),
+          // centerTitle: true,
+          actions: [
+            Semantics(
+              button: true,
+              value: "toggle brightness mode",
+              child: FadeInDown(
+                preferences: const AnimationPreferences(
+                  autoPlay: AnimationPlayStates.Forward,
+                  duration: Duration(
+                    milliseconds: 500,
                   ),
-                )
-              ],
-            )
+                ),
+                child: IconButton(
+                    tooltip: "Toggle Brightness Mode",
+                    onPressed: () {
+                      themeProvider.toggle();
+                    },
+                    icon: themeProvider.icon),
+              ),
+            ),
           ],
+          onSearch: (value) {
+            directoryProvider.searchString = value;
+          },
         ),
-        backgroundColor: AppColor.primary,
-        foregroundColor: AppColor.white,
-        searchCursorColor: themeProvider.text,
-        searchBackIconTheme: IconThemeData(
-          color: themeProvider.text,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Container(),
+              ),
+              // DIRECTORY
+              Expanded(
+                flex: 98,
+                child: Container(
+                  // color: Colors.green,
+                  padding: const EdgeInsets.only(
+                    // top: 10,
+                    bottom: 10,
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: directoryProvider.isLoading
+                      ? const CustomLoadingIndicator()
+                      : directoryProvider.hasError
+                          ? Center(child: Text(directoryProvider.errorMessage))
+                          // : SelectableText(directoryProvider.data[0].toString()),
+                          : directoryProvider.filteredData.isNotEmpty
+                              ? isSmallFormFactor
+                                  // MOBILE STYLE CARDS
+                                  ? GlowingOverscrollIndicator(
+                                      axisDirection: AxisDirection.down,
+                                      color: AppColor.secondary,
+                                      child: ListView.builder(
+                                        itemCount: directoryProvider
+                                            .filteredData.length,
+                                        itemBuilder: (context, index) {
+                                          final contact = directoryProvider
+                                              .filteredData[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 4, bottom: 4),
+                                            child: ListTile(
+                                              dense: true,
+                                              visualDensity:
+                                                  VisualDensity.compact,
+                                              title: ContactsCard(
+                                                contact: contact,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  // SHOW REGULAR TABLE
+                                  : const ContactsDavi()
+                              : Center(
+                                  child: Text(
+                                    directoryProvider.searchString.isNotEmpty
+                                        ? "No results for that search."
+                                        : "No contacts found",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                ),
+              )
+            ],
+          ),
         ),
-        // centerTitle: true,
-        actions: [
-          Semantics(
+        floatingActionButton: Focus(
+          child: Semantics(
             button: true,
-            value: "toggle brightness mode",
-            child: FadeInDown(
+            label: "Refresh Table Data",
+            child: FadeInUp(
               preferences: const AnimationPreferences(
-                autoPlay: AnimationPlayStates.Forward,
                 duration: Duration(
                   milliseconds: 500,
                 ),
               ),
-              child: IconButton(
-                  tooltip: "Toggle Brightness Mode",
-                  onPressed: () {
-                    themeProvider.toggle();
-                  },
-                  icon: themeProvider.icon),
-            ),
-          ),
-        ],
-        onSearch: (value) {
-          directoryProvider.searchString = value;
-        },
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Container(),
-            ),
-            // DIRECTORY
-            Expanded(
-              flex: 98,
-              child: Container(
-                // color: Colors.green,
-                padding: const EdgeInsets.only(
-                  // top: 10,
-                  bottom: 10,
-                  left: 20,
-                  right: 20,
-                ),
-                child: directoryProvider.isLoading
-                    ? const CustomLoadingIndicator()
-                    : directoryProvider.hasError
-                        ? Center(child: Text(directoryProvider.errorMessage))
-                        // : SelectableText(directoryProvider.data[0].toString()),
-                        : directoryProvider.filteredData.isNotEmpty
-                            ? isSmallFormFactor(context)
-                                // MOBILE STYLE CARDS
-                                ? GlowingOverscrollIndicator(
-                                    axisDirection: AxisDirection.down,
-                                    color: AppColor.secondary,
-                                    child: ListView.builder(
-                                      itemCount:
-                                          directoryProvider.filteredData.length,
-                                      itemBuilder: (context, index) {
-                                        final contact = directoryProvider
-                                            .filteredData[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 4, bottom: 4),
-                                          child: ListTile(
-                                            dense: true,
-                                            visualDensity:
-                                                VisualDensity.compact,
-                                            title: ContactsCard(
-                                              contact: contact,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  )
-                                // SHOW REGULAR TABLE
-                                : const ContactsDavi()
-                            : Center(
-                                child: Text(
-                                  directoryProvider.searchString.isNotEmpty
-                                      ? "No results for that search."
-                                      : "No contacts found",
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-              ),
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: Focus(
-        child: Semantics(
-          button: true,
-          label: "Refresh Table Data",
-          child: FadeInUp(
-            preferences: const AnimationPreferences(
-              duration: Duration(
-                milliseconds: 500,
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  child: FloatingActionButton(
-                    mini: true,
-                    onPressed: () {
-                      // Modular.to.pushNamed('/other');
-                      directoryProvider.getDirectoryData();
-                    },
-                    tooltip: 'Refresh Table Data',
-                    heroTag: "btnRefresh",
-                    backgroundColor:
-                        themeProvider.floatingActionButtonBackgroundColor,
-                    foregroundColor:
-                        themeProvider.floatingActionButtonForegroundColor,
-                    child: const Icon(Icons.refresh),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    child: FloatingActionButton(
+                      mini: true,
+                      onPressed: () {
+                        // Modular.to.pushNamed('/other');
+                        directoryProvider.getDirectoryData();
+                      },
+                      tooltip: 'Refresh Table Data',
+                      heroTag: "btnRefresh",
+                      backgroundColor:
+                          themeProvider.floatingActionButtonBackgroundColor,
+                      foregroundColor:
+                          themeProvider.floatingActionButtonForegroundColor,
+                      child: const Icon(Icons.refresh),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

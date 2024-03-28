@@ -24,6 +24,7 @@ export 'package:recase/recase.dart';
 export 'package:skeletons/skeletons.dart';
 export 'package:clipboard/clipboard.dart';
 export 'package:flutter_styled_toast/flutter_styled_toast.dart';
+export 'package:responsive_framework/responsive_framework.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';
@@ -95,12 +96,6 @@ double viewPortWidth(context) {
   double viewPortWidth = double.infinity;
   viewPortWidth = MediaQuery.of(context).size.width;
   return viewPortWidth;
-}
-
-bool isSmallFormFactor(context) {
-  var isSmallFormFactor = false;
-  isSmallFormFactor = viewPortWidth(context) <= 800;
-  return isSmallFormFactor;
 }
 
 void makeToast(String message) {

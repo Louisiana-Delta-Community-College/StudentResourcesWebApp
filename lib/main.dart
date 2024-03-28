@@ -1,8 +1,6 @@
 import 'package:schedule/common/common.dart';
 // import 'package:flutter/rendering.dart';
 
-import 'package:responsive_framework/responsive_framework.dart';
-
 void main() async {
   initLog();
   await GetStorage.init();

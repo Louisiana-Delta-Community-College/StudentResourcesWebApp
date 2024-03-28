@@ -15,7 +15,7 @@ class NotFoundPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(
-                    isSmallFormFactor(context)
+                    ResponsiveBreakpoints.of(context).between(MOBILE, TABLET)
                         ? "assets/images/mark.png"
                         : "assets/images/logo.png",
                     height: 35.5,
