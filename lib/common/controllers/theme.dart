@@ -11,8 +11,9 @@ class AppTheme extends ChangeNotifier {
       ? const Icon(Icons.light_mode_sharp)
       : const Icon(Icons.dark_mode_sharp);
 
-  Color get text => isDark ? AppColor.white : AppColor.primary;
+  Color get text => isDark ? AppColor.white : Colors.black;
   Color get background => isDark ? AppColor.primary : AppColor.darkSilver;
+  Color get bodyBackground => isDark ? AppColor.darkGray : AppColor.white;
   Color get surface => isDark ? AppColor.darkSilver : AppColor.primary;
   Color get onSurface => isDark ? AppColor.primary : AppColor.white;
 

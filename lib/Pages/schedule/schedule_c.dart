@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:group_button/group_button.dart';
+import 'package:davi/davi.dart';
 
 import '../../common/common.dart';
 
@@ -236,14 +237,16 @@ class Schedule extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<dynamic> showMoreInfoDialog(BuildContext context, Object? row) {
+  Future<dynamic> showMoreInfoDialog(BuildContext context, DaviRow row) {
     final ScrollController scrollController = ScrollController();
 
     return showDialog(
       context: context,
       builder: (context) {
-        final feesFlat = (row as Map)["FF"];
-        final feesCredit = row["FC"];
+        final themeProvider = context.watch<AppTheme>();
+        final theRow = (row.data as Map);
+        final feesFlat = theRow["FF"];
+        final feesCredit = theRow["FC"];
         var feesTotal = "0.00";
         try {
           feesTotal = ((double.tryParse(feesFlat) ?? 0.00) +
@@ -253,16 +256,20 @@ class Schedule extends ChangeNotifier {
           log.e(e.toString());
         }
         return AlertDialog(
-          title: Text("${row["SC"]} ${row["CN"]} - ${row["CT"]}"),
+          title: Text(
+            "${theRow["SC"]} ${theRow["CN"]} - ${theRow["CT"]}",
+            style: TextStyle(color: themeProvider.text),
+          ),
           alignment: Alignment.center,
+          backgroundColor: themeProvider.bodyBackground,
           actions: [
             TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.primary,
+                  themeProvider.text,
                 ),
                 foregroundColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.onPrimary,
+                  themeProvider.bodyBackground,
                 ),
               ),
               onPressed: () {
@@ -295,14 +302,14 @@ class Schedule extends ChangeNotifier {
                           label: const Text("Buy Materials"),
                           style: ButtonStyle(
                             overlayColor:
-                                MaterialStateProperty.all(AppTheme.secondary50),
+                                MaterialStateProperty.all(themeProvider.text),
                             foregroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.tertiary,
+                              themeProvider.text,
                             ),
                             side: MaterialStateProperty.all(
                               BorderSide(
                                 width: 1,
-                                color: Theme.of(context).colorScheme.tertiary,
+                                color: themeProvider.text,
                               ),
                             ),
                           ),
@@ -319,14 +326,13 @@ class Schedule extends ChangeNotifier {
                           label: const Text("Copy Course Info"),
                           style: ButtonStyle(
                             overlayColor:
-                                MaterialStateProperty.all(AppTheme.secondary50),
-                            foregroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.tertiary,
-                            ),
+                                MaterialStateProperty.all(themeProvider.text),
+                            foregroundColor:
+                                MaterialStateProperty.all(themeProvider.text),
                             side: MaterialStateProperty.all(
                               BorderSide(
                                 width: 1,
-                                color: Theme.of(context).colorScheme.tertiary,
+                                color: themeProvider.text,
                               ),
                             ),
                           ),
@@ -334,7 +340,7 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -342,6 +348,7 @@ class Schedule extends ChangeNotifier {
                         Text(
                           "Course Details",
                           style: TextStyle(
+                            color: themeProvider.text,
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -349,26 +356,26 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  InfoRow("CRN:", row["CRN"].toString().trim()),
+                  InfoRow("CRN:", theRow["CRN"].toString().trim()),
                   InfoRow(
                       "Campus:",
-                      row["C"]
+                      theRow["C"]
                           .toString()
                           .replaceAll("LDCC", "")
                           .replaceAll("CAMPUS", "")
                           .titleCase
                           .trim()),
-                  InfoRow("Teacher(s):", row["TN"].toString()),
-                  InfoRow("Enrolled:", "${row["E"]} / ${row["MS"]}"),
-                  InfoRow("Building:", row["B"].toString()),
-                  InfoRow("Room:", row["R"].toString()),
+                  InfoRow("Teacher(s):", theRow["TN"].toString()),
+                  InfoRow("Enrolled:", "${theRow["E"]} / ${theRow["MS"]}"),
+                  InfoRow("Building:", theRow["B"].toString()),
+                  InfoRow("Room:", theRow["R"].toString()),
                   InfoRow("Dates in Session:",
-                      "${row["PTRMDS"]} / ${row["PTRMDE"]}"),
-                  InfoRow("Days:", row["D"].toString()),
-                  InfoRow("Time:", "${row["TB"]} - ${row["TE"]}"),
-                  InfoRow("Credit Hours:", row["CH"].toString()),
+                      "${theRow["PTRMDS"]} / ${theRow["PTRMDE"]}"),
+                  InfoRow("Days:", theRow["D"].toString()),
+                  InfoRow("Time:", "${theRow["TB"]} - ${theRow["TE"]}"),
+                  InfoRow("Credit Hours:", theRow["CH"].toString()),
                   // ADDITIONAL FEES
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -376,6 +383,7 @@ class Schedule extends ChangeNotifier {
                         Text(
                           "Additional Fees",
                           style: TextStyle(
+                            color: themeProvider.text,
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -383,19 +391,19 @@ class Schedule extends ChangeNotifier {
                       ],
                     ),
                   ),
-                  InfoRow(
-                      "Flat:", "${(row)["FF"] == "" ? "0.00" : (row)["FF"]}"),
-                  InfoRow(
-                      "Credit:", "${(row)["FC"] == "" ? "0.00" : (row)["FC"]}"),
+                  InfoRow("Flat:",
+                      "${(theRow)["FF"] == "" ? "0.00" : (theRow)["FF"]}"),
+                  InfoRow("Credit:",
+                      "${(theRow)["FC"] == "" ? "0.00" : (theRow)["FC"]}"),
                   Divider(
                     thickness: 1,
                     indent: 16,
                     endIndent: 16,
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: themeProvider.text,
                   ),
                   InfoRow("", feesTotal),
                   // DESCRIPTION
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -403,6 +411,7 @@ class Schedule extends ChangeNotifier {
                         Text(
                           "Description",
                           style: TextStyle(
+                            color: themeProvider.text,
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -413,13 +422,14 @@ class Schedule extends ChangeNotifier {
                   ListTile(
                     dense: true,
                     title: SelectableText(
-                      row["N"].toString().trim() != ""
-                          ? parse(row["N"].toString())
+                      theRow["N"].toString().trim() != ""
+                          ? parse(theRow["N"].toString())
                               .body!
                               .text
                               .replaceAll("<br/>", "\n")
                           : "No description.",
-                      style: const TextStyle(
+                      style: TextStyle(
+                        color: themeProvider.text,
                         fontSize: 14,
                       ),
                     ),
@@ -433,17 +443,18 @@ class Schedule extends ChangeNotifier {
     );
   }
 
-  void launchBookStore(Object? row) {
+  void launchBookStore(DaviRow? row) {
     Uri bookStoreURI;
     const bookStoreHost = "ladelta.bncollege.com";
     const bookStorePath = "/webapp/wcs/stores/servlet/TBListView";
     var courseXML = "";
-    if ((row as Map)["C"] == "MONROE CAMPUS") {
+    final rowData = (row?.data as Map);
+    if (rowData["C"] == "MONROE CAMPUS") {
       courseXML =
-          '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="MONROE"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
+          '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="MONROE"><courses><course dept="${rowData["SC"]}" num="${rowData["CN"]}" sect="${rowData["CRN"]}" term="${rowData["T"]}"/></courses></campus></textbookorder>';
     } else {
       courseXML =
-          '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="OTHER"><courses><course dept="${row["SC"]}" num="${row["CN"]}" sect="${row["CRN"]}" term="${row["T"]}"/></courses></campus></textbookorder>';
+          '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="OTHER"><courses><course dept="${rowData["SC"]}" num="${rowData["CN"]}" sect="${rowData["CRN"]}" term="${rowData["T"]}"/></courses></campus></textbookorder>';
     }
     bookStoreURI = Uri(
       scheme: 'https',
@@ -658,6 +669,7 @@ class InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<AppTheme>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
       child: Row(
@@ -666,14 +678,16 @@ class InfoRow extends StatelessWidget {
         children: [
           Text(
             name,
-            style: const TextStyle(
+            style: TextStyle(
+              color: themeProvider.text,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),
           ),
           SelectableText(
             value,
-            style: const TextStyle(
+            style: TextStyle(
+              color: themeProvider.text,
               fontSize: 14,
             ),
           ),

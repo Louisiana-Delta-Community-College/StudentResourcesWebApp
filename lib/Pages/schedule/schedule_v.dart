@@ -680,23 +680,67 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "CRN",
-                stringValue: (row) => (row as Map)["CRN"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["CRN"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 60,
                 // pinned: true,
               ),
               DaviColumn(
                 name: "Subject",
-                stringValue: (row) => (row as Map)["SC"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["SC"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 70,
               ),
               DaviColumn(
                 name: "Course",
-                stringValue: (row) => (row as Map)["CN"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["CN"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 70,
               ),
               DaviColumn(
                 name: "Description",
-                stringValue: (row) => (row as Map)["CT"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["CT"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 250,
               ),
               DaviColumn(
@@ -733,62 +777,195 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Hours",
-                stringValue: (row) => (row as Map)["CH"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["CH"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 60,
               ),
               DaviColumn(
                 name: "Days",
-                stringValue: (row) => (row as Map)["D"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["D"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 80,
               ),
               DaviColumn(
                 name: "Start",
-                stringValue: (row) => (row as Map)["TB"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["TB"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 80,
               ),
               DaviColumn(
                 name: "End",
-                stringValue: (row) => (row as Map)["TE"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["TE"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 80,
               ),
               DaviColumn(
                 name: "Building",
-                stringValue: (row) => (row as Map)["B"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["B"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 220,
               ),
               DaviColumn(
                 name: "Room",
-                stringValue: (row) => (row as Map)["R"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["R"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 80,
               ),
               DaviColumn(
                 name: "Teacher(s)",
-                stringValue: (row) => (row as Map)["TN"].toString(),
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["TN"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 240,
               ),
               DaviColumn(
                 name: "Enrolled",
-                stringValue: (row) => "${(row as Map)["E"]} / ${row["MS"]}",
+                cellBuilder: (context, row) {
+                  final val =
+                      "${(row.data as Map)["E"]} / ${(row.data as Map)["MS"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 80,
               ),
               DaviColumn(
                 name: "Date Start",
-                stringValue: (row) => (row as Map)["PTRMDS"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["PTRMDS"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 100,
               ),
               DaviColumn(
                 name: "Date End",
-                stringValue: (row) => (row as Map)["PTRMDE"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["PTRMDE"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 100,
               ),
               DaviColumn(
                 name: "Method",
-                stringValue: (row) => (row as Map)["INSMC"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["INSMC"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 80,
               ),
               DaviColumn(
                 name: "Added Fees",
-                stringValue: (row) => (row as Map)["AF"],
+                cellBuilder: (context, row) {
+                  final val = "${(row.data as Map)["AF"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                      ),
+                    ),
+                  );
+                },
                 width: 100,
               ),
             ],
