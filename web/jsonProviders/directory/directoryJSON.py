@@ -45,197 +45,249 @@ def useCached():
 
 async def get_fresh_data():
   strSQL = '''
+SELECT DISTINCT
+  firstname,
+  lastname,
+  phonenumber,
+  jobtitle,
+  department,
+  emailaddress,
+  campus,
+  office
+FROM
+  (
     SELECT
       CASE
-        WHEN aka.pidm IS NOT NULL
-        THEN aka.FirstName
-        ELSE spriden.SPRIDEN_FIRST_NAME
-      END FirstName,
+        WHEN aka.pidm IS NOT NULL THEN
+          aka.firstname
+        ELSE
+          spriden.spriden_first_name
+      END                    firstname,
       CASE
-        WHEN aka.pidm IS NOT NULL
-        THEN aka.LastName
-        ELSE spriden.SPRIDEN_LAST_NAME
-      END LastName,
+        WHEN aka.pidm IS NOT NULL THEN
+          aka.lastname
+        ELSE
+          spriden.spriden_last_name
+      END                    lastname,
       CASE
-        WHEN phone.num IS NULL
-        THEN
-          case
-            WHEN UPPER(CAMP.CAMPUS) = 'MONROE'
-            then '3183459000'
-            WHEN UPPER(CAMP.CAMPUS) = 'WEST MONROE'
-            then '3183976100'
-            WHEN UPPER(CAMP.CAMPUS) = 'RUSTON'
-            then '3182514145'
-            WHEN UPPER(CAMP.CAMPUS) = 'BASTROP'
-            then '3182830836'
-            WHEN UPPER(CAMP.CAMPUS) = 'BASTROP AIRPORT'
-            then '3183683179'
-            WHEN UPPER(CAMP.CAMPUS) = 'FARMERVILLE'
-            then '3185590864'
-            WHEN UPPER(CAMP.CAMPUS) = 'LAKE PROVIDENCE'
-            then '3185744820'
-            WHEN UPPER(CAMP.CAMPUS) = 'TALLULAH'
-            THEN '3183625010'
-            WHEN UPPER(CAMP.CAMPUS) = 'WINNSBORO'
-            then '3184352163'
-            WHEN UPPER(CAMP.CAMPUS) = 'STATE OFFICE BUILDING'
-            then '3183625010'
-            else null
-          end
-        ELSE replace(phone.num, '-', '')
-      END PhoneNumber,
-      pop.nbrjobs_desc JobTitle,
-      title.ftvorgn_title Department,
-      case
-        when work_eml.work_email is not null then work_eml.work_email 
-        else
-          case
-            WHEN TO_CHAR(pop.ECLS_CODE) = '50' THEN gobtpac.GOBTPAC_EXTERNAL_USER
-              ||'@my.ladelta.edu'
-            WHEN TO_CHAR(pop.ECLS_CODE) = '51' THEN gobtpac.GOBTPAC_EXTERNAL_USER
-              ||'@my.ladelta.edu'
-            ELSE gobtpac.GOBTPAC_EXTERNAL_USER||'@ladelta.edu'
-          end
-      end emailaddress,
-      CAMP.CAMPUS,
+        WHEN phone.num IS NULL THEN
+            CASE
+              WHEN upper(camp.campus) = 'MONROE'                      THEN
+                '3183459000'
+              WHEN upper(camp.campus) = 'WEST MONROE'                 THEN
+                '3183976100'
+              WHEN upper(camp.campus) = 'RUSTON'                      THEN
+                '3182514145'
+              WHEN upper(camp.campus) = 'BASTROP'                     THEN
+                '3182830836'
+              WHEN upper(camp.campus) = 'BASTROP AIRPORT'             THEN
+                '3183683179'
+              WHEN upper(camp.campus) = 'FARMERVILLE'                 THEN
+                '3185590864'
+              WHEN upper(camp.campus) = 'LAKE PROVIDENCE'             THEN
+                '3185744820'
+              WHEN upper(camp.campus) = 'TALLULAH'                    THEN
+                '3183625010'
+              WHEN upper(camp.campus) = 'WINNSBORO'                   THEN
+                '3184352163'
+              WHEN upper(camp.campus) = 'STATE OFFICE BUILDING'       THEN
+                '3183625010'
+              ELSE
+                NULL
+            END
+        ELSE
+          replace(phone.num, '-', '')
+      END                    phonenumber,
+      pop.nbrjobs_desc       jobtitle,
+      title.ftvorgn_title    department,
+      CASE
+        WHEN work_eml.work_email IS NOT NULL THEN
+          work_eml.work_email
+        ELSE
+          CASE
+              WHEN to_char(pop.ecls_code) = '50'       THEN
+                gobtpac.gobtpac_external_user || '@my.ladelta.edu'
+              WHEN to_char(pop.ecls_code) = '51'       THEN
+                gobtpac.gobtpac_external_user || '@my.ladelta.edu'
+              ELSE
+                gobtpac.gobtpac_external_user || '@ladelta.edu'
+          END
+      END                    emailaddress,
+      camp.campus,
       phone.office
-    FROM spriden
-    JOIN
-      (SELECT nbrjobs.nbrjobs_pidm pidm,
-        MAX(nbrjobs.nbrjobs_jbln_code) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) jbln_code,
-        MAX(nbrjobs.nbrjobs_effective_date) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) eff_date,
-        MAX(nbrjobs.nbrjobs_desc) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) nbrjobs_desc,
-        MAX(nbrbjob.nbrbjob_contract_type) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) ctype,
-        MAX(nbrjobs.nbrjobs_orgn_code_ts) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) orgn_code,
-        MAX(nbrjobs.nbrjobs_ecls_code) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) ecls_code,
-        MAX(nbrjobs.nbrjobs_status) keep (dense_rank last
-      ORDER BY nbrjobs.nbrjobs_effective_date) empl_status
-      FROM nbrjobs
-      JOIN nbrbjob
-      ON nbrbjob.nbrbjob_pidm           = nbrjobs.nbrjobs_pidm
-      AND nbrbjob.nbrbjob_posn          = nbrjobs.nbrjobs_posn
-      AND nbrbjob.nbrbjob_suff          = nbrjobs.nbrjobs_suff
-      AND nbrjobs.nbrjobs_status       <> 'T'
-      AND nbrbjob.nbrbjob_contract_type = 'P'
-      GROUP BY nbrjobs.nbrjobs_pidm
-      ) pop ON pop.pidm = spriden.spriden_pidm
-    JOIN
-      (SELECT pebempl.pebempl_pidm pidm,
-        pebempl.pebempl_ecls_code ecls_code
-      FROM pebempl
-      WHERE pebempl.pebempl_empl_status <> 'T'
-      ) emp_status
-    ON emp_status.pidm = pop.pidm
-    LEFT JOIN
-      (SELECT DISTINCT spriden.spriden_pidm pidm,
-        spriden.spriden_last_name LastName,
-        spriden.spriden_first_name FirstName
-      FROM spriden
-      WHERE spriden.spriden_ntyp_code = 'AKA'
-      ) aka
-    ON aka.pidm = spriden.spriden_pidm
-    LEFT JOIN (SELECT goremal.goremal_pidm pidm,
-                      goremal.goremal_email_address work_email
-              FROM goremal
-              join (select goremal.goremal_pidm pidm, max(goremal.goremal_activity_date) md from goremal where goremal.goremal_emal_code = 'BUS' group by goremal.goremal_pidm) maxd on maxd.pidm = goremal.goremal_pidm and maxd.md = goremal.goremal_activity_date
-              AND goremal.goremal_status_ind = 'A'
-              AND goremal.goremal_emal_code = 'BUS') work_eml ON work_eml.pidm = spriden.spriden_pidm
-    left join gobtpac on gobtpac.gobtpac_pidm = spriden.spriden_pidm
-    LEFT JOIN
-      (SELECT ftvorgn.ftvorgn_orgn_code orgn_code,
-        ftvorgn.ftvorgn_title
-      FROM ftvorgn
-      JOIN
-        (SELECT ftvorgn.ftvorgn_orgn_code code,
-          MAX(ftvorgn.ftvorgn_eff_date) md
-        FROM ftvorgn
-        GROUP BY ftvorgn.ftvorgn_orgn_code
-        ) maxfd
-      ON maxfd.code                    = ftvorgn.ftvorgn_orgn_code
-      AND maxfd.md                     = ftvorgn.ftvorgn_eff_date
-      WHERE ftvorgn.ftvorgn_status_ind = 'A'
-      ) title ON title.orgn_code       = pop.orgn_code
+    FROM
+          spriden
+      JOIN (
+        SELECT
+          nbrjobs.nbrjobs_pidm                                                                                         pidm,
+          MAX(nbrjobs.nbrjobs_jbln_code) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)         jbln_code,
+          MAX(nbrjobs.nbrjobs_effective_date) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)    eff_date,
+          MAX(nbrjobs.nbrjobs_desc) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)              nbrjobs_desc,
+          MAX(nbrbjob.nbrbjob_contract_type) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)     ctype,
+          MAX(nbrjobs.nbrjobs_orgn_code_ts) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)      orgn_code,
+          MAX(nbrjobs.nbrjobs_ecls_code) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)         ecls_code,
+          MAX(nbrjobs.nbrjobs_status) KEEP(DENSE_RANK LAST ORDER BY nbrjobs.nbrjobs_effective_date)            empl_status
+        FROM
+              nbrjobs
+          JOIN nbrbjob ON nbrbjob.nbrbjob_pidm = nbrjobs.nbrjobs_pidm
+                          AND nbrbjob.nbrbjob_posn = nbrjobs.nbrjobs_posn
+                          AND nbrbjob.nbrbjob_suff = nbrjobs.nbrjobs_suff
+                          AND nbrjobs.nbrjobs_status <> 'T'
+                          AND nbrbjob.nbrbjob_contract_type = 'P'
+        GROUP BY
+          nbrjobs.nbrjobs_pidm
+      )  pop ON pop.pidm = spriden.spriden_pidm
+      JOIN (
+        SELECT
+          pebempl.pebempl_pidm         pidm,
+          pebempl.pebempl_ecls_code    ecls_code
+        FROM
+          pebempl
+        WHERE
+          pebempl.pebempl_empl_status <> 'T'
+      )  emp_status ON emp_status.pidm = pop.pidm
+      LEFT JOIN (
+        SELECT DISTINCT
+          spriden.spriden_pidm          pidm,
+          spriden.spriden_last_name     lastname,
+          spriden.spriden_first_name    firstname
+        FROM
+          spriden
+        WHERE
+          spriden.spriden_ntyp_code = 'AKA'
+      )  aka ON aka.pidm = spriden.spriden_pidm
+      LEFT JOIN (
+        SELECT
+          goremal.goremal_pidm             pidm,
+          goremal.goremal_email_address    work_email
+        FROM
+              goremal
+          JOIN (
+            SELECT
+              goremal.goremal_pidm                     pidm,
+              MAX(goremal.goremal_activity_date)       md
+            FROM
+              goremal
+            WHERE
+              goremal.goremal_emal_code = 'BUS'
+            GROUP BY
+              goremal.goremal_pidm
+          ) maxd ON maxd.pidm = goremal.goremal_pidm
+                    AND maxd.md = goremal.goremal_activity_date
+                    AND goremal.goremal_status_ind = 'A'
+                    AND goremal.goremal_emal_code = 'BUS'
+      )  work_eml ON work_eml.pidm = spriden.spriden_pidm
+      LEFT JOIN gobtpac ON gobtpac.gobtpac_pidm = spriden.spriden_pidm
+      LEFT JOIN (
+        SELECT
+          ftvorgn.ftvorgn_orgn_code orgn_code,
+          ftvorgn.ftvorgn_title
+        FROM
+              ftvorgn
+          JOIN (
+            SELECT
+              ftvorgn.ftvorgn_orgn_code           code,
+              MAX(ftvorgn.ftvorgn_eff_date)       md
+            FROM
+              ftvorgn
+            GROUP BY
+              ftvorgn.ftvorgn_orgn_code
+          ) maxfd ON maxfd.code = ftvorgn.ftvorgn_orgn_code
+                    AND maxfd.md = ftvorgn.ftvorgn_eff_date
+        WHERE
+          ftvorgn.ftvorgn_status_ind = 'A'
+      )  title ON title.orgn_code = pop.orgn_code
 
     /* CAMPUS */
-    left join (
-      select
-        STVCAMP.STVCAMP_CODE CAMP_CODE,
-        (INITCAP(TRIM(replace(LOWER(STVCAMP.STVCAMP_DESC), 'campus', '')))) CAMPUS
-      from STVCAMP
-    ) CAMP
-    on camp.camp_code = pop.jbln_code
+      LEFT JOIN (
+        SELECT
+          stvcamp.stvcamp_code                                                                   camp_code,
+          ( initcap(TRIM(replace(lower(stvcamp.stvcamp_desc), 'campus', ''))) )                    campus
+        FROM
+          stvcamp
+      )  camp ON camp.camp_code = pop.jbln_code
 
     /* PHONE NUMBER */
-    left join (select distinct
-      pidm,
-      case
-        WHEN campus_number IS NOT NULL THEN campus_number
-        WHEN business_number IS NOT NULL THEN business_number
-        ELSE NULL
-      END AS num,
-      case
-        WHEN campus_number IS NOT NULL THEN 'campus'
-        WHEN business_number IS NOT NULL THEN 'business'
-        else null
-      end as WHICH_NUMBER,
-      OFFICE,
-      SPRTELE_TELE_CODE
-      from (
-        SELECT 
-          sprtele.sprtele_pidm pidm,
-          max(case
-            when SPRTELE.SPRTELE_TELE_CODE = 'CA' then SPRTELE.SPRTELE_PHONE_AREA||SPRTELE.SPRTELE_PHONE_NUMBER
-            else null
-          END) campus_number,
-          max(case
-            WHEN sprtele.sprtele_tele_code = 'BU' THEN sprtele.sprtele_phone_area||sprtele.sprtele_phone_number
-            else null
-          END) business_number,
-          SPRTELE.SPRTELE_COMMENT OFFICE,
-          sprtele.sprtele_tele_code
-          FROM sprtele
-          JOIN (
-            SELECT 
-              sprtele.sprtele_pidm pidm,
-              sprtele.sprtele_tele_code code,
-              max(sprtele.sprtele_seqno) max_seq
-            from sprtele
-            group by 
-              sprtele.sprtele_pidm,
+      LEFT JOIN (
+        SELECT DISTINCT
+          pidm,
+          CASE
+            WHEN campus_number IS NOT NULL THEN
+              campus_number
+            WHEN business_number IS NOT NULL THEN
+              business_number
+            ELSE
+              NULL
+          END  AS num,
+          CASE
+            WHEN campus_number IS NOT NULL THEN
+              'campus'
+            WHEN business_number IS NOT NULL THEN
+              'business'
+            ELSE
+              NULL
+          END  AS which_number,
+          office,
+          sprtele_tele_code
+        FROM
+          (
+            SELECT
+              sprtele.sprtele_pidm       pidm,
+              MAX(
+                CASE
+                  WHEN sprtele.sprtele_tele_code = 'CA' THEN
+                    sprtele.sprtele_phone_area || sprtele.sprtele_phone_number
+                  ELSE
+                    NULL
+                END
+              )                          campus_number,
+              MAX(
+                CASE
+                  WHEN sprtele.sprtele_tele_code = 'BU' THEN
+                    sprtele.sprtele_phone_area || sprtele.sprtele_phone_number
+                  ELSE
+                    NULL
+                END
+              )                          business_number,
+              sprtele.sprtele_comment    office,
               sprtele.sprtele_tele_code
-          ) LATEST_TELE 
-          on LATEST_TELE.PIDM = SPRTELE.SPRTELE_PIDM 
-          and LATEST_TELE.MAX_SEQ = SPRTELE.SPRTELE_SEQNO 
-          and LATEST_TELE.CODE = SPRTELE.SPRTELE_TELE_CODE
-          WHERE sprtele.sprtele_tele_code IN ('CA', 'BU')
-          and SPRTELE.SPRTELE_STATUS_IND is null
-          group by 
-            SPRTELE.SPRTELE_PIDM,
-            SPRTELE.SPRTELE_COMMENT,
-            SPRTELE.SPRTELE_TELE_CODE
-      )
-    ) phone ON phone.pidm = spriden.spriden_pidm
-
-    WHERE spriden.spriden_change_ind  IS NULL
-    AND
-      CASE
-        WHEN trim(BOTH ' '
-        FROM (trim(BOTH '-'
-        FROM (SUBSTR(pop.nbrjobs_desc, 8))))) = 'STUDENT'
-        THEN 'STUDENT WORKER'
-        ELSE trim(BOTH ' '
-        FROM (trim(BOTH '-'
-        FROM (SUBSTR(pop.nbrjobs_desc, 8)))))
-      END                        <> 'STUDENT WORKER'
-    AND emp_status.ECLS_CODE NOT IN ('CO', 'AC')
-    order by spriden.spriden_last_name,
-      spriden.spriden_first_name'''.format(**locals())
+            FROM
+                  sprtele
+              JOIN (
+                SELECT
+                  sprtele.sprtele_pidm             pidm,
+                  sprtele.sprtele_tele_code        code,
+                  MAX(sprtele.sprtele_seqno)       max_seq
+                FROM
+                  sprtele
+                GROUP BY
+                  sprtele.sprtele_pidm,
+                  sprtele.sprtele_tele_code
+              ) latest_tele ON latest_tele.pidm = sprtele.sprtele_pidm
+                              AND latest_tele.max_seq = sprtele.sprtele_seqno
+                              AND latest_tele.code = sprtele.sprtele_tele_code
+            WHERE
+              sprtele.sprtele_tele_code IN ( 'CA', 'BU' )
+              AND sprtele.sprtele_status_ind IS NULL
+            GROUP BY
+              sprtele.sprtele_pidm,
+              sprtele.sprtele_comment,
+              sprtele.sprtele_tele_code
+          )
+      )  phone ON phone.pidm = spriden.spriden_pidm
+    WHERE
+      spriden.spriden_change_ind IS NULL
+      AND CASE
+            WHEN TRIM(BOTH ' ' FROM(TRIM(BOTH '-' FROM(substr(pop.nbrjobs_desc, 8))))) = 'STUDENT' THEN
+              'STUDENT WORKER'
+            ELSE
+              TRIM(BOTH ' ' FROM(TRIM(BOTH '-' FROM(substr(pop.nbrjobs_desc, 8)))))
+          END <> 'STUDENT WORKER'
+      AND emp_status.ecls_code NOT IN ( 'CO', 'AC' )
+  )
+ORDER BY
+  lastname,
+  firstname'''.format(**locals())
 
   RS = Bcur.execute(strSQL)
 
