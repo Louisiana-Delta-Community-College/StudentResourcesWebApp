@@ -283,6 +283,7 @@ class ContactsDavi extends StatelessWidget {
                             Row(
                           children: [
                             IconButton(
+                              color: themeProvider.text,
                               tooltip: "Share Contact Information",
                               padding: const EdgeInsets.only(
                                 left: 1,

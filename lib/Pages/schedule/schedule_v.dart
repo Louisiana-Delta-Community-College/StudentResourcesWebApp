@@ -625,6 +625,7 @@ class ScheduleDavi extends StatelessWidget {
                   children: [
                     // MORE INFO ICON
                     IconButton(
+                      color: themeProvider.text,
                       tooltip: "More Info",
                       padding: const EdgeInsets.only(
                         left: 1,
@@ -640,6 +641,7 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                     // BUY BOOKS ICON
                     IconButton(
+                      color: themeProvider.text,
                       tooltip: "Buy Materials",
                       padding: const EdgeInsets.only(
                         left: 1,
@@ -654,6 +656,7 @@ class ScheduleDavi extends StatelessWidget {
                       },
                     ),
                     IconButton(
+                      color: themeProvider.text,
                       tooltip: "Copy Course Information",
                       padding: const EdgeInsets.only(
                         left: 1,

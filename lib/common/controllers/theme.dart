@@ -90,7 +90,7 @@ class AppTheme extends ChangeNotifier {
         onSecondary: AppColor.primary,
         error: Colors.red,
         onError: Colors.black,
-        background: AppColor.primary,
+        background: AppColor.darkGray,
         onBackground: AppColor.white,
         surface: AppColor.primary,
         onSurface: Colors.white,

@@ -6,6 +6,7 @@ class AppColor {
   static const bronze = Color.fromARGB(255, 153, 98, 44);
   static const silver = Color.fromARGB(255, 175, 172, 166);
   static const darkSilver = Color.fromARGB(255, 155, 155, 155);
+  static const darkGray = Color.fromARGB(255, 58, 58, 58);
   static const lightBlue = Color.fromARGB(255, 0, 162, 255);
 
   static const primary = navy;
