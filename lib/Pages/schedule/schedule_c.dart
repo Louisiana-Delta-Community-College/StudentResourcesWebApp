@@ -237,14 +237,19 @@ class Schedule extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<dynamic> showMoreInfoDialog(BuildContext context, DaviRow row) {
+  Future<dynamic> showMoreInfoDialog(BuildContext context, row) {
     final ScrollController scrollController = ScrollController();
 
     return showDialog(
       context: context,
       builder: (context) {
+        Map rowData = {};
         final themeProvider = context.watch<AppTheme>();
-        final rowData = (row.data as Map);
+        if (row.runtimeType == DaviRow) {
+          rowData = (row.data as Map);
+        } else {
+          rowData = row;
+        }
         final feesFlat = rowData["FF"];
         final feesCredit = rowData["FC"];
         var feesTotal = "0.00";
@@ -443,12 +448,17 @@ class Schedule extends ChangeNotifier {
     );
   }
 
-  void launchBookStore(DaviRow? row) {
+  void launchBookStore(row) {
     Uri bookStoreURI;
     const bookStoreHost = "ladelta.bncollege.com";
     const bookStorePath = "/webapp/wcs/stores/servlet/TBListView";
     var courseXML = "";
-    final rowData = (row?.data as Map);
+    Map rowData = {};
+    if (row.runtimeType == DaviRow) {
+      rowData = (row?.data as Map);
+    } else {
+      rowData = row;
+    }
     if (rowData["C"] == "MONROE CAMPUS") {
       courseXML =
           '<?xml version="1.0" encoding="UTF-8"?><textbookorder><campus name="MONROE"><courses><course dept="${rowData["SC"]}" num="${rowData["CN"]}" sect="${rowData["CRN"]}" term="${rowData["T"]}"/></courses></campus></textbookorder>';
@@ -475,7 +485,12 @@ class Schedule extends ChangeNotifier {
   }
 
   void copyRowToClipboard(row) {
-    final rowData = (row.data as Map);
+    Map rowData = {};
+    if (row.runtimeType == DaviRow) {
+      rowData = (row.data as Map);
+    } else {
+      rowData = row;
+    }
     final feesFlat = rowData["FF"];
     final feesCredit = rowData["FC"];
     var feesTotal = "0.00";

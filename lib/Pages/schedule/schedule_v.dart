@@ -482,7 +482,9 @@ class _SchedulePageState extends State<SchedulePage> {
                                               index];
                                           return Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 4, bottom: 4),
+                                              top: 4,
+                                              bottom: 4,
+                                            ),
                                             child: ListTile(
                                               dense: true,
                                               visualDensity:
@@ -491,8 +493,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                                 course: course,
                                               ),
                                               onTap: () => scheduleProvider
-                                                  .showMoreInfoDialog(
-                                                      context, course),
+                                                  .showMoreInfoDialog(context,
+                                                      course),
                                             ),
                                           );
                                         },
