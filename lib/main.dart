@@ -33,10 +33,6 @@ class ModularConfig extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        WildcardRoute(
-          child: (context, args) => const NotFoundPage(),
-          transition: TransitionType.fadeIn,
-        ),
         ChildRoute(
           '/',
           child: (context, args) => const HomePage(),
@@ -83,6 +79,10 @@ class ModularConfig extends Module {
         // ChildRoute('/other',
         //     child: (context, args) => const Other(),
         //     transition: TransitionType.fadeIn),
+        WildcardRoute(
+          child: (context, args) => const NotFoundPage(),
+          transition: TransitionType.fadeIn,
+        ),
       ];
 }
 
