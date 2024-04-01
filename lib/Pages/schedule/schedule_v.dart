@@ -620,7 +620,7 @@ class ScheduleDavi extends StatelessWidget {
             radius: Radius.circular(10),
           ),
           cell: CellThemeData(
-            // contentHeight: 42,
+            contentHeight: 42,
             textStyle: TextStyle(
               color: themeProvider.daviText,
             ),
@@ -759,18 +759,33 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Course Duration",
-                width: 140,
+                width: 150,
                 cellBuilder: (ctx, row) {
                   final ptrm = (row.data as Map)["PTRM"].toString();
+                  final termDesc = (row.data as Map)["TD"];
                   Text friendlyType;
-                  if (ptrm == "J01") {
-                    friendlyType = const Text("Full 16 Weeks");
-                  } else if (ptrm == "J02") {
-                    friendlyType = const Text("1st 8 Weeks");
-                  } else if (ptrm == "J03") {
-                    friendlyType = const Text("2nd 8 Weeks");
+                  if (termDesc.toString().toLowerCase().contains("summer")) {
+                    if (ptrm == "J01") {
+                      friendlyType = const Text("Full 8 Weeks");
+                    } else if (ptrm == "J02") {
+                      friendlyType = const Text("1st 4 Weeks");
+                    } else if (ptrm == "J03") {
+                      friendlyType = const Text("2nd 4 Weeks");
+                    } else if (ptrm == "JP") {
+                      friendlyType = const Text("Extended 10 Weeks");
+                    } else {
+                      friendlyType = const Text("See Date Range");
+                    }
                   } else {
-                    friendlyType = const Text("See Date Range");
+                    if (ptrm == "J01") {
+                      friendlyType = const Text("Full 16 Weeks");
+                    } else if (ptrm == "J02") {
+                      friendlyType = const Text("1st 8 Weeks");
+                    } else if (ptrm == "J03") {
+                      friendlyType = const Text("2nd 8 Weeks");
+                    } else {
+                      friendlyType = const Text("See Date Range");
+                    }
                   }
                   return Container(child: friendlyType);
                 },

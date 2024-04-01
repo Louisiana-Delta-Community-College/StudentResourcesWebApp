@@ -85,8 +85,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                       label: "LDCC Logo",
                       excludeSemantics: true,
                       child: Image.asset(
-                          ResponsiveBreakpoints.of(context)
-                                  .between(MOBILE, TABLET)
+                          isSmallFormFactor
                               ? "assets/images/mark.png"
                               : "assets/images/logo.png",
                           fit: BoxFit.fitHeight),
