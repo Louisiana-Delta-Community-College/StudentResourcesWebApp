@@ -1024,6 +1024,7 @@ class CourseCard extends StatelessWidget {
     final themeProvider = context.watch<AppTheme>();
     final Color borderColor = themeProvider.mobileCardBorderColor;
     final Color borderTextColor = themeProvider.mobileCardBorderTextColor;
+    // final Color textColor = Theme.of(context).colorScheme.onBackground;
     final Color textColor = themeProvider.mobileCardTextColor;
 
     final subjectCode = course["SC"].toString().trim();

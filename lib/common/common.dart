@@ -24,7 +24,8 @@ export 'package:recase/recase.dart';
 export 'package:skeletons/skeletons.dart';
 export 'package:clipboard/clipboard.dart';
 export 'package:flutter_styled_toast/flutter_styled_toast.dart';
-export 'package:responsive_framework/responsive_framework.dart';
+// export 'package:responsive_framework/responsive_framework.dart';
+export 'package:scaled_app/scaled_app.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';

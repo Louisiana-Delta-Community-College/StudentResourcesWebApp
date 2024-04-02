@@ -116,27 +116,6 @@ class _MyAppState extends State<MyApp> {
       darkTheme: themeProvider.dark,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
-      builder: (context, widget) => ResponsiveBreakpoints.builder(
-        child: ClampingScrollWrapper.builder(context, widget!),
-        // maxWidth: double.infinity,
-        // minWidth: 480,
-        // defaultScale: true,
-        breakpoints: [
-          const Breakpoint(start: 0, end: 480, name: MOBILE),
-          const Breakpoint(start: 481, end: 800, name: TABLET),
-          const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-          const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
-        ],
-      ),
     );
-    // OR WITHOUT RESPONSIVE WRAPPER
-    // return MaterialApp.router(
-    //   title: 'Flutter Modular Demo',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    //   routeInformationParser: Modular.routeInformationParser,
-    //   routerDelegate: Modular.routerDelegate,
-    // );
   }
 }
