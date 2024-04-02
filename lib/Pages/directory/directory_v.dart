@@ -245,6 +245,12 @@ class ContactsDavi extends StatelessWidget {
       child: DaviTheme(
         data: DaviThemeData(
           headerCell: HeaderCellThemeData(
+            textStyle: TextStyle(
+              color: themeProvider.text,
+              fontSize: themeProvider.fontSizeXS,
+            ),
+            height: themeProvider.daviRowHeight,
+            sortPriorityColor: themeProvider.text,
             padding: const EdgeInsets.all(5),
             sortIconColors: SortIconColors.all(themeProvider.text),
           ),
@@ -260,9 +266,10 @@ class ContactsDavi extends StatelessWidget {
             radius: Radius.circular(10),
           ),
           cell: CellThemeData(
-            contentHeight: 42,
+            contentHeight: themeProvider.daviRowHeight,
             textStyle: TextStyle(
               color: themeProvider.daviText,
+              fontSize: themeProvider.fontSizeXS,
             ),
           ),
         ),
@@ -293,9 +300,9 @@ class ContactsDavi extends StatelessWidget {
                                 left: 1,
                                 right: 1,
                               ),
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.copy_all_sharp,
-                                size: 20,
+                                size: themeProvider.fontSizeM,
                               ),
                               onPressed: () {
                                 directoryProvider.copyRowToClipboard(row);
@@ -306,13 +313,18 @@ class ContactsDavi extends StatelessWidget {
                                 );
                               },
                             ),
-                            Text(name),
+                            Text(
+                              name,
+                              style: TextStyle(
+                                fontSize: themeProvider.fontSizeXXS,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     );
                   },
-                  width: 250,
+                  width: 300,
                 ),
                 DaviColumn(
                   name: "Phone Number",
@@ -328,8 +340,11 @@ class ContactsDavi extends StatelessWidget {
                         child: InkWell(
                           child: Text(
                             phoneNumber,
-                            style: const TextStyle(
+                            style: TextStyle(
                               decoration: TextDecoration.underline,
+                              decorationColor: themeProvider.text,
+                              decorationThickness: 2,
+                              fontSize: themeProvider.fontSizeXXS,
                             ),
                           ),
                           onTap: () => launchUrl(Uri.parse(
@@ -338,7 +353,7 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  width: 130,
+                  width: 150 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Title",
@@ -350,6 +365,9 @@ class ContactsDavi extends StatelessWidget {
                         excludeSemantics: true,
                         child: Text(
                           jobTitle,
+                          style: TextStyle(
+                            fontSize: themeProvider.fontSizeXXS,
+                          ),
                         ),
                       ),
                     );
@@ -358,7 +376,7 @@ class ContactsDavi extends StatelessWidget {
                   //   return directoryProvider.directoryTableStringSorter(
                   //       a, b, "JobTitle");
                   // },
-                  width: 200,
+                  width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Department",
@@ -367,6 +385,9 @@ class ContactsDavi extends StatelessWidget {
                     return Focus(
                       child: Text(
                         department,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                         semanticsLabel: "Department: $department",
                       ),
                     );
@@ -375,7 +396,7 @@ class ContactsDavi extends StatelessWidget {
                   //   return directoryProvider.directoryTableStringSorter(
                   //       a, b, "Department");
                   // },
-                  width: 260,
+                  width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Email",
@@ -391,8 +412,11 @@ class ContactsDavi extends StatelessWidget {
                         child: InkWell(
                           child: Text(
                             emailAddress,
-                            style: const TextStyle(
+                            style: TextStyle(
+                              fontSize: themeProvider.fontSizeXXS,
                               decoration: TextDecoration.underline,
+                              decorationColor: themeProvider.text,
+                              decorationThickness: 2,
                             ),
                           ),
                           onTap: () => launchUrl(Uri.parse(
@@ -405,7 +429,7 @@ class ContactsDavi extends StatelessWidget {
                   //   return directoryProvider.directoryTableStringSorter(
                   //       a, b, "EmailAddress");
                   // },
-                  width: 230,
+                  width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Campus",
@@ -417,6 +441,9 @@ class ContactsDavi extends StatelessWidget {
                         excludeSemantics: true,
                         child: Text(
                           campus,
+                          style: TextStyle(
+                            fontSize: themeProvider.fontSizeXXS,
+                          ),
                         ),
                       ),
                     );
@@ -425,7 +452,7 @@ class ContactsDavi extends StatelessWidget {
                   //   return directoryProvider.directoryTableStringSorter(
                   //       a, b, "Campus");
                   // },
-                  width: 130,
+                  width: 130 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Office",
@@ -437,6 +464,9 @@ class ContactsDavi extends StatelessWidget {
                         excludeSemantics: true,
                         child: Text(
                           office,
+                          style: TextStyle(
+                            fontSize: themeProvider.fontSizeXXS,
+                          ),
                         ),
                       ),
                     );
@@ -445,7 +475,7 @@ class ContactsDavi extends StatelessWidget {
                   //   return directoryProvider.directoryTableStringSorter(
                   //       a, b, "Office");
                   // },
-                  width: 100,
+                  width: 100 + themeProvider.fontSizeXXS * 2,
                 ),
               ],
               multiSortEnabled: true,
@@ -524,7 +554,7 @@ class ContactsCard extends StatelessWidget {
               name,
               style: TextStyle(
                 color: borderTextColor,
-                fontSize: 14,
+                fontSize: themeProvider.fontSizeS,
                 // fontWeight: FontWeight.w600,
               ),
             ),
@@ -578,7 +608,7 @@ class ContactsCard extends StatelessWidget {
                       Text(
                         phoneNumber,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: themeProvider.fontSizeS,
                           color: textColor,
                           decoration: TextDecoration.underline,
                           decorationColor: textColor,
@@ -596,7 +626,7 @@ class ContactsCard extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                         color: textColor,
                       ),
                     ),
@@ -610,7 +640,7 @@ class ContactsCard extends StatelessWidget {
                     Text(
                       department,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                         color: textColor,
                       ),
                     ),
@@ -625,7 +655,7 @@ class ContactsCard extends StatelessWidget {
                       Text(
                         email,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: themeProvider.fontSizeS,
                           color: textColor,
                           decoration: TextDecoration.underline,
                           decorationColor: textColor,
@@ -643,7 +673,7 @@ class ContactsCard extends StatelessWidget {
                     Text(
                       "$campus - ${office.isEmpty ? "Room N/A" : office}",
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                         color: textColor,
                       ),
                     ),

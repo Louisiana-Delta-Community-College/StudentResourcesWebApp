@@ -355,7 +355,7 @@ class Schedule extends ChangeNotifier {
                           style: TextStyle(
                             color: themeProvider.text,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: themeProvider.fontSizeM,
                           ),
                         ),
                       ],
@@ -390,7 +390,7 @@ class Schedule extends ChangeNotifier {
                           style: TextStyle(
                             color: themeProvider.text,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: themeProvider.fontSizeM,
                           ),
                         ),
                       ],
@@ -418,7 +418,7 @@ class Schedule extends ChangeNotifier {
                           style: TextStyle(
                             color: themeProvider.text,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: themeProvider.fontSizeM,
                           ),
                         ),
                       ],
@@ -435,7 +435,7 @@ class Schedule extends ChangeNotifier {
                           : "No description.",
                       style: TextStyle(
                         color: themeProvider.text,
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                       ),
                     ),
                   ),
@@ -697,14 +697,14 @@ class InfoRow extends StatelessWidget {
             style: TextStyle(
               color: themeProvider.text,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: themeProvider.fontSizeS,
             ),
           ),
           SelectableText(
             value,
             style: TextStyle(
               color: themeProvider.text,
-              fontSize: 14,
+              fontSize: themeProvider.fontSizeS,
             ),
           ),
         ],

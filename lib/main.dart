@@ -12,6 +12,10 @@ void main() async {
         child: const MyApp(),
       ),
     ),
+    // scaleFactor: (deviceSize) {
+    //   const double widthOfDesign = 375;
+    //   return deviceSize.width / widthOfDesign;
+    // },
   );
   // RendererBinding.instance.setSemanticsEnabled(true);
 }
@@ -116,6 +120,15 @@ class _MyAppState extends State<MyApp> {
       darkTheme: themeProvider.dark,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
+      builder: (context, child) {
+        final MediaQueryData data = MediaQuery.of(context);
+        return MediaQuery(
+          data: data.copyWith(
+            textScaler: TextScaler.linear(1.0),
+          ),
+          child: child!,
+        );
+      },
     );
   }
 }

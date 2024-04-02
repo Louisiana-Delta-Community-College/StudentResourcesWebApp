@@ -293,7 +293,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           color: isSelected
                                               ? AppColor.primary
                                               : AppColor.white,
-                                          fontSize: 13,
+                                          fontSize: themeProvider.fontSizeXS,
                                         ),
                                       ),
                                       matchCount > 0
@@ -303,7 +303,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           //     child: Chip(side: ,
                                           //       labelStyle: TextStyle(
                                           //         color: Colors.white,
-                                          //         fontSize: 13,
+                                          //         fontSize: themeProvider.fontSizeXS,
                                           //       ),
                                           //       backgroundColor:
                                           //           AppTheme.quaternary,
@@ -323,7 +323,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           //         matchCountString,
                                           //         style: TextStyle(
                                           //           color: Colors.white,
-                                          //           fontSize: 13,
+                                          //           fontSize: themeProvider.fontSizeXS,
                                           //         ),
                                           //       ),
                                           //     ),
@@ -438,7 +438,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                       color: isSelected
                                           ? AppColor.primary
                                           : AppColor.white,
-                                      fontSize: 13,
+                                      fontSize: themeProvider.fontSizeXS,
                                     ),
                                   ),
                                 );
@@ -564,6 +564,8 @@ class MatchCountChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<AppTheme>();
+
     return Padding(
       padding: const EdgeInsets.only(left: 4.0),
       child: Container(
@@ -580,9 +582,9 @@ class MatchCountChip extends StatelessWidget {
         ),
         child: Text(
           countString,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 13,
+            fontSize: themeProvider.fontSizeXS,
           ),
         ),
       ),
@@ -605,7 +607,9 @@ class ScheduleDavi extends StatelessWidget {
           headerCell: HeaderCellThemeData(
             textStyle: TextStyle(
               color: themeProvider.text,
+              fontSize: themeProvider.fontSizeXS,
             ),
+            height: themeProvider.daviRowHeight,
             sortPriorityColor: themeProvider.text,
             padding: const EdgeInsets.all(5),
             sortIconColors: SortIconColors.all(themeProvider.text),
@@ -622,9 +626,10 @@ class ScheduleDavi extends StatelessWidget {
             radius: Radius.circular(10),
           ),
           cell: CellThemeData(
-            contentHeight: 42,
+            contentHeight: themeProvider.daviRowHeight,
             textStyle: TextStyle(
               color: themeProvider.daviText,
+              fontSize: themeProvider.fontSizeXS,
             ),
           ),
         ),
@@ -647,9 +652,9 @@ class ScheduleDavi extends StatelessWidget {
                         left: 1,
                         right: 1,
                       ),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.info_outline,
-                        size: 20,
+                        size: themeProvider.fontSizeM,
                       ),
                       onPressed: () {
                         scheduleProvider.showMoreInfoDialog(context, row);
@@ -663,9 +668,9 @@ class ScheduleDavi extends StatelessWidget {
                         left: 1,
                         right: 1,
                       ),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.menu_book_sharp,
-                        size: 20,
+                        size: themeProvider.fontSizeM,
                       ),
                       onPressed: () {
                         scheduleProvider.launchBookStore(row);
@@ -678,9 +683,9 @@ class ScheduleDavi extends StatelessWidget {
                         left: 1,
                         right: 1,
                       ),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.copy_all_sharp,
-                        size: 20,
+                        size: themeProvider.fontSizeM,
                       ),
                       onPressed: () {
                         scheduleProvider.copyRowToClipboard(row);
@@ -704,11 +709,13 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 60,
                 // pinned: true,
               ),
               DaviColumn(
@@ -721,11 +728,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 70,
+                // width: 70,
               ),
               DaviColumn(
                 name: "Course",
@@ -737,11 +747,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 70,
+                // width: 70,
               ),
               DaviColumn(
                 name: "Description",
@@ -753,43 +766,57 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 250,
+                width: 330 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Course Duration",
-                width: 150,
+                width: 160 + themeProvider.fontSizeXXS * 2,
                 cellBuilder: (ctx, row) {
                   final ptrm = (row.data as Map)["PTRM"].toString();
                   final termDesc = (row.data as Map)["TD"];
-                  Text friendlyType;
+                  String friendlyType;
                   if (termDesc.toString().toLowerCase().contains("summer")) {
                     if (ptrm == "J01") {
-                      friendlyType = const Text("Full 8 Weeks");
+                      friendlyType = "Full 8 Weeks";
                     } else if (ptrm == "J02") {
-                      friendlyType = const Text("1st 4 Weeks");
+                      friendlyType = "1st 4 Weeks";
                     } else if (ptrm == "J03") {
-                      friendlyType = const Text("2nd 4 Weeks");
+                      friendlyType = "2nd 4 Weeks";
                     } else if (ptrm == "JP") {
-                      friendlyType = const Text("Extended 10 Weeks");
+                      friendlyType = "Extended 10 Weeks";
                     } else {
-                      friendlyType = const Text("See Date Range");
+                      friendlyType = "See Date Range";
                     }
                   } else {
                     if (ptrm == "J01") {
-                      friendlyType = const Text("Full 16 Weeks");
+                      friendlyType = "Full 16 Weeks";
                     } else if (ptrm == "J02") {
-                      friendlyType = const Text("1st 8 Weeks");
+                      friendlyType = "1st 8 Weeks";
                     } else if (ptrm == "J03") {
-                      friendlyType = const Text("2nd 8 Weeks");
+                      friendlyType = "2nd 8 Weeks";
                     } else {
-                      friendlyType = const Text("See Date Range");
+                      friendlyType = "See Date Range";
                     }
                   }
-                  return Container(child: friendlyType);
+                  return Focus(
+                    child: Semantics(
+                      label: friendlyType,
+                      excludeSemantics: true,
+                      child: Text(
+                        friendlyType,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 // sort: (a, b) {
                 //   String v1 = "${(a as Map)["PTRM"]}, ${a["PTRM"]}";
@@ -816,11 +843,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 60,
+                width: 60 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Days",
@@ -832,11 +862,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 80,
+                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Start",
@@ -848,11 +881,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 80,
+                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "End",
@@ -864,11 +900,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 80,
+                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Building",
@@ -880,11 +919,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 220,
+                width: 220 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Room",
@@ -896,11 +938,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 80,
+                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Teacher(s)",
@@ -912,11 +957,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 240,
+                width: 240 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Enrolled",
@@ -929,11 +977,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 80,
+                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Date Start",
@@ -945,11 +996,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 100,
+                width: 100 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Date End",
@@ -961,11 +1015,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 100,
+                width: 100 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Method",
@@ -977,11 +1034,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 80,
+                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Added Fees",
@@ -993,11 +1053,14 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
                       ),
                     ),
                   );
                 },
-                width: 100,
+                width: 100 + themeProvider.fontSizeXXS * 2,
               ),
             ],
             multiSortEnabled: true,
@@ -1081,7 +1144,7 @@ class CourseCard extends StatelessWidget {
               friendlyName,
               style: TextStyle(
                 color: borderTextColor,
-                fontSize: 14,
+                fontSize: themeProvider.fontSizeS,
                 // fontWeight: FontWeight.w600,
               ),
             ),
@@ -1133,7 +1196,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       buildingAndRoom,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                         color: textColor,
                       ),
                     ),
@@ -1147,7 +1210,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       days,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                         color: textColor,
                       ),
                     ),
@@ -1161,7 +1224,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       meetingTimes,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: themeProvider.fontSizeS,
                         color: textColor,
                       ),
                     ),

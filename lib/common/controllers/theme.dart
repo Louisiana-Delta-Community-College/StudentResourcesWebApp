@@ -38,6 +38,68 @@ class AppTheme extends ChangeNotifier {
   Color get floatingActionButtonForegroundColor =>
       isDark ? AppColor.primary : Colors.white;
 
+  double get _fontSizeDelta {
+    if (formFactor == "MOBILE") {
+      return -1.0;
+    } else if (formFactor == "TABLET") {
+      return 6.0;
+    } else if (formFactor == "DESKTOP") {
+      return 8.0;
+    } else if (formFactor == "ULTRAWIDE") {
+      return 10.0;
+    } else {
+      return 0.0;
+    }
+  }
+
+  String get formFactor {
+    final double physicalWidth = WidgetsBinding
+        .instance.platformDispatcher.views.first.physicalSize.width;
+    final double devicePixelRatio =
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+    final double width = physicalWidth / devicePixelRatio;
+    // log.i(width.toString());
+    if (width < 600) {
+      return "MOBILE";
+    } else if (width > 600 && width < 800) {
+      return "TABLET";
+    } else if (width > 800 && width < 1200) {
+      return "DESKTOP";
+    } else if (width > 1200) {
+      return 'ULTRAWIDE';
+    } else {
+      return "";
+    }
+  }
+
+  double get daviRowHeight {
+    if (formFactor == "MOBILE") {
+      return 30;
+    } else if (formFactor == "TABLET") {
+      return 35;
+    } else if (formFactor == "DESKTOP") {
+      return 40;
+    } else if (formFactor == "ULTRAWIDE") {
+      return 57;
+    } else {
+      return 40;
+    }
+  }
+
+  double get fontSizeXXS => 10 + _fontSizeDelta;
+  double get fontSizeXS => 13 + _fontSizeDelta;
+  double get fontSizeS => 14 + _fontSizeDelta;
+  double get fontSizeM => 20 + _fontSizeDelta;
+  double get fontSizeL => 40 + _fontSizeDelta;
+  double get fontSizeXL => 48 + _fontSizeDelta;
+  double get fontSizeXXL => 80 + _fontSizeDelta;
+  // double get fontSizeXS => 13;
+  // double get fontSizeS => 14;
+  // double get fontSizeM => 20;
+  // double get fontSizeL => 40;
+  // double get fontSizeXL => 48;
+  // double get fontSizeXXL => 80;
+
   init() {
     Modular.get<Persistence>().isDark
         ? _themeMode = ThemeMode.dark

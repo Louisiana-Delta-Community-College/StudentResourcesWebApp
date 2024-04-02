@@ -38,7 +38,7 @@ class NotFoundPage extends StatelessWidget {
               Text(
                 "404 Error",
                 style: TextStyle(
-                  fontSize: 80,
+                  fontSize: themeProvider.fontSizeXXL,
                   fontWeight: FontWeight.w500,
                   fontFamily: "DMSerifDisplay",
                   color: themeProvider.text,
@@ -47,20 +47,20 @@ class NotFoundPage extends StatelessWidget {
               Text(
                 "The page you're looking for doesn't exist.",
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: themeProvider.fontSizeL,
                   fontWeight: FontWeight.w500,
                   fontFamily: "DMSerifDisplay",
                   color: themeProvider.text,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                   top: 20,
                 ),
                 child: Text(
                   "You may have mistyped the address or the page may have moved.",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: themeProvider.fontSizeM,
                   ),
                 ),
               ),
@@ -71,40 +71,40 @@ class NotFoundPage extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       "Return to the ",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: themeProvider.fontSizeM,
                       ),
                     ),
                     InkWell(
                       onTap: () => Modular.to.navigate("/schedule"),
-                      child: const Text(
+                      child: Text(
                         "Schedule of Classes",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: themeProvider.fontSizeM,
                         ),
                       ),
                     ),
-                    const Text(
+                    Text(
                       " or the ",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: themeProvider.fontSizeM,
                       ),
                     ),
                     InkWell(
                       onTap: () => Modular.to.navigate("/contacts"),
-                      child: const Text(
+                      child: Text(
                         "Contacts",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: themeProvider.fontSizeM,
                         ),
                       ),
                     ),
-                    const Text(
+                    Text(
                       " pages.",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: themeProvider.fontSizeM,
                       ),
                     ),
                   ],
