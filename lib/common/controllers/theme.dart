@@ -28,9 +28,10 @@ class AppTheme extends ChangeNotifier {
   Color get menuColorBorder => isDark ? AppColor.secondary : AppColor.primary;
 
   Color get mobileCardBorderColor =>
-      isDark ? AppColor.secondary : AppColor.primary;
+      isDark ? AppColor.primary : AppColor.primary;
   Color get mobileCardBorderTextColor =>
-      isDark ? AppColor.navy : AppColor.white;
+      isDark ? AppColor.white : AppColor.white;
+  Color get mobileCardTextColor => isDark ? AppColor.white : AppColor.primary;
 
   Color get floatingActionButtonBackgroundColor =>
       isDark ? Colors.white : AppColor.primary;

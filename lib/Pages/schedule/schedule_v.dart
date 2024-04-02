@@ -493,8 +493,8 @@ class _SchedulePageState extends State<SchedulePage> {
                                                 course: course,
                                               ),
                                               onTap: () => scheduleProvider
-                                                  .showMoreInfoDialog(context,
-                                                      course),
+                                                  .showMoreInfoDialog(
+                                                      context, course),
                                             ),
                                           );
                                         },
@@ -1024,7 +1024,7 @@ class CourseCard extends StatelessWidget {
     final themeProvider = context.watch<AppTheme>();
     final Color borderColor = themeProvider.mobileCardBorderColor;
     final Color borderTextColor = themeProvider.mobileCardBorderTextColor;
-    final Color textColor = Theme.of(context).colorScheme.onBackground;
+    final Color textColor = themeProvider.mobileCardTextColor;
 
     final subjectCode = course["SC"].toString().trim();
     final courseNumber = course["CN"].toString().trim();

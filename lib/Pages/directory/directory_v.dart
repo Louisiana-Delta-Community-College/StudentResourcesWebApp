@@ -312,21 +312,7 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   String v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}";
-                  //   String v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}";
-                  //   if (v1.isEmpty || v2.isEmpty) {
-                  //     return 0;
-                  //   }
-                  //   if (v1.isEmpty) {
-                  //     return 0;
-                  //   }
-                  //   if (v2.isEmpty) {
-                  //     return 1;
-                  //   }
-                  //   return v1.compareTo(v2);
-                  // },
-                  width: 200,
+                  width: 250,
                 ),
                 DaviColumn(
                   name: "Phone Number",
@@ -352,10 +338,6 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   return directoryProvider.directoryTableStringSorter(
-                  //       a, b, "PhoneNumber");
-                  // },
                   width: 130,
                 ),
                 DaviColumn(
@@ -468,7 +450,7 @@ class ContactsDavi extends StatelessWidget {
               ],
               multiSortEnabled: true,
             ),
-            columnWidthBehavior: ColumnWidthBehavior.fit,
+            columnWidthBehavior: ColumnWidthBehavior.scrollable,
 
             // columnsFit: viewPortWidth(context) >= 1300 ? true : false,
             tapToSortEnabled: true,
@@ -493,7 +475,7 @@ class ContactsCard extends StatelessWidget {
     final themeProvider = context.watch<AppTheme>();
     final Color borderColor = themeProvider.mobileCardBorderColor;
     final Color borderTextColor = themeProvider.mobileCardBorderTextColor;
-    final Color textColor = Theme.of(context).colorScheme.onBackground;
+    final Color textColor = themeProvider.mobileCardTextColor;
 
     final name =
         "${contact["LastName"].toString().trim()}, ${contact["FirstName"].toString().trim()}";
@@ -599,6 +581,8 @@ class ContactsCard extends StatelessWidget {
                           fontSize: 14,
                           color: textColor,
                           decoration: TextDecoration.underline,
+                          decorationColor: textColor,
+                          decorationThickness: 2,
                         ),
                       ),
                     ],
@@ -644,6 +628,8 @@ class ContactsCard extends StatelessWidget {
                           fontSize: 14,
                           color: textColor,
                           decoration: TextDecoration.underline,
+                          decorationColor: textColor,
+                          decorationThickness: 2,
                         ),
                       ),
                     ],
