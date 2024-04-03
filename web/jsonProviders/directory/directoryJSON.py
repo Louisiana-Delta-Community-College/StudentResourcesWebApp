@@ -44,8 +44,7 @@ def useCached():
   return False
 
 async def get_fresh_data():
-  strSQL = '''
-SELECT DISTINCT
+  strSQL = '''SELECT DISTINCT
   firstname,
   lastname,
   phonenumber,
@@ -208,31 +207,52 @@ FROM
       )  camp ON camp.camp_code = pop.jbln_code
 
     /* PHONE NUMBER */
-      LEFT JOIN (
-        SELECT DISTINCT
+      LEFT JOIN (SELECT DISTINCT
           pidm,
           CASE
-            WHEN campus_number IS NOT NULL THEN
-              campus_number
             WHEN business_number IS NOT NULL THEN
               business_number
+            WHEN campus_number IS NOT NULL THEN
+              campus_number
             ELSE
               NULL
           END  AS num,
           CASE
-            WHEN campus_number IS NOT NULL THEN
-              'campus'
             WHEN business_number IS NOT NULL THEN
               'business'
+            WHEN campus_number IS NOT NULL THEN
+              'campus'
             ELSE
               NULL
           END  AS which_number,
-          office,
-          sprtele_tele_code
+          CASE
+            WHEN business_office IS NOT NULL THEN
+              business_office
+            WHEN campus_office IS NOT NULL THEN
+              campus_office
+            ELSE
+              NULL
+          END  AS office,
+          CASE
+            WHEN business_tele_code IS NOT NULL THEN
+              business_tele_code
+            WHEN campus_tele_code IS NOT NULL THEN
+              campus_tele_code
+            ELSE
+              NULL
+          END  AS sprtele_tele_code
         FROM
           (
             SELECT
               sprtele.sprtele_pidm       pidm,
+              MAX(
+                CASE
+                  WHEN sprtele.sprtele_tele_code = 'BU' THEN
+                    sprtele.sprtele_phone_area || sprtele.sprtele_phone_number
+                  ELSE
+                    NULL
+                END
+              )                          business_number,
               MAX(
                 CASE
                   WHEN sprtele.sprtele_tele_code = 'CA' THEN
@@ -243,14 +263,36 @@ FROM
               )                          campus_number,
               MAX(
                 CASE
-                  WHEN sprtele.sprtele_tele_code = 'BU' THEN
-                    sprtele.sprtele_phone_area || sprtele.sprtele_phone_number
+                  WHEN sprtele.sprtele_tele_code = 'BU' and sprtele.sprtele_comment is not null THEN
+                    sprtele.sprtele_comment
                   ELSE
                     NULL
                 END
-              )                          business_number,
-              sprtele.sprtele_comment    office,
-              sprtele.sprtele_tele_code
+              )                          business_office,
+              MAX(
+                CASE
+                  WHEN sprtele.sprtele_tele_code = 'CA' and sprtele.sprtele_comment is not null THEN
+                    sprtele.sprtele_comment
+                  ELSE
+                    NULL
+                END
+              )                          campus_office,
+              MAX(
+                CASE
+                  WHEN sprtele.sprtele_tele_code = 'BU' and sprtele.sprtele_tele_code is not null THEN
+                    sprtele.sprtele_tele_code
+                  ELSE
+                    NULL
+                END
+              )                          business_tele_code,
+              MAX(
+                CASE
+                  WHEN sprtele.sprtele_tele_code = 'CA' and sprtele.sprtele_tele_code is not null THEN
+                    sprtele.sprtele_tele_code
+                  ELSE
+                    NULL
+                END
+              )                          campus_tele_code
             FROM
                   sprtele
               JOIN (
@@ -270,9 +312,7 @@ FROM
               sprtele.sprtele_tele_code IN ( 'CA', 'BU' )
               AND sprtele.sprtele_status_ind IS NULL
             GROUP BY
-              sprtele.sprtele_pidm,
-              sprtele.sprtele_comment,
-              sprtele.sprtele_tele_code
+              sprtele.sprtele_pidm
           )
       )  phone ON phone.pidm = spriden.spriden_pidm
     WHERE
