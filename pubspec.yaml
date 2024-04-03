@@ -49,7 +49,7 @@ dependencies:
   rive: ^0.9.0
   logger: ^1.1.0
   davi: ^3.4.1
-  sizing: ^1.1.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

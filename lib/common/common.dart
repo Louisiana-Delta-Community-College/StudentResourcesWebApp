@@ -10,6 +10,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:schedule/config.dart';
 import 'package:schedule/common/controllers/theme.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 export 'dart:math';
 export 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ export 'package:recase/recase.dart';
 export 'package:skeletons/skeletons.dart';
 export 'package:clipboard/clipboard.dart';
 export 'package:flutter_styled_toast/flutter_styled_toast.dart';
-export 'package:sizing/sizing.dart';
+// export 'package:sizing/sizing.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';
@@ -188,4 +189,22 @@ class CustomLoadingIndicator extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatDate(String date) {
+  String originalDateString = date; // Example input date string
+
+  // Create a DateFormat instance for the original format
+  final originalFormat = DateFormat('MM-dd-yyyy');
+
+  // Parse the original date string
+  final originalDate = originalFormat.parse(originalDateString);
+
+  // Create a new DateFormat instance for the desired format (MM-DD-YY)
+  final newFormat = DateFormat('MM-dd-yy');
+
+  // Format the date in the new format
+  final formattedDate = newFormat.format(originalDate);
+
+  return formattedDate;
 }

@@ -38,20 +38,6 @@ class AppTheme extends ChangeNotifier {
   Color get floatingActionButtonForegroundColor =>
       isDark ? AppColor.primary : Colors.white;
 
-  double get _fontSizeDelta {
-    if (formFactor == "MOBILE") {
-      return -1.0;
-    } else if (formFactor == "TABLET") {
-      return 6.0;
-    } else if (formFactor == "DESKTOP") {
-      return 8.0;
-    } else if (formFactor == "ULTRAWIDE") {
-      return 10.0;
-    } else {
-      return 0.0;
-    }
-  }
-
   String get formFactor {
     final double physicalWidth = WidgetsBinding
         .instance.platformDispatcher.views.first.physicalSize.width;
@@ -60,27 +46,41 @@ class AppTheme extends ChangeNotifier {
     final double width = physicalWidth / devicePixelRatio;
     // log.i(width.toString());
     if (width < 600) {
-      return "MOBILE";
+      return "S";
     } else if (width > 600 && width < 800) {
-      return "TABLET";
+      return "M";
     } else if (width > 800 && width < 1200) {
-      return "DESKTOP";
+      return "L";
     } else if (width > 1200) {
-      return 'ULTRAWIDE';
+      return 'XL';
     } else {
       return "";
     }
   }
 
+  double get _fontSizeDelta {
+    if (formFactor == "S") {
+      return -2.0;
+    } else if (formFactor == "M") {
+      return -1.0;
+    } else if (formFactor == "L") {
+      return 8.0;
+    } else if (formFactor == "XL") {
+      return 8.0;
+    } else {
+      return 0.0;
+    }
+  }
+
   double get daviRowHeight {
-    if (formFactor == "MOBILE") {
+    if (formFactor == "S") {
       return 30;
-    } else if (formFactor == "TABLET") {
+    } else if (formFactor == "M") {
       return 35;
-    } else if (formFactor == "DESKTOP") {
+    } else if (formFactor == "L") {
       return 40;
-    } else if (formFactor == "ULTRAWIDE") {
-      return 57;
+    } else if (formFactor == "XL") {
+      return 40;
     } else {
       return 40;
     }

@@ -5,26 +5,27 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = context.watch<AppTheme>();
+    // final themeProvider = context.watch<AppTheme>();
     return Drawer(
+      backgroundColor: AppColor.primary,
       child: ListView(
         children: [
           DrawerHeader(
             child: Image.asset(
               "assets/images/logo_stacked.png",
               fit: BoxFit.fitWidth,
-              color: themeProvider.text,
+              color: Colors.white,
             ),
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.home,
-              color: themeProvider.text,
+              color: Colors.white,
             ),
-            title: Text(
+            title: const Text(
               "LDCC Main Site",
               style: TextStyle(
-                color: themeProvider.text,
+                color: Colors.white,
               ),
             ),
             onTap: () {
@@ -32,14 +33,14 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.contacts_sharp,
-              color: themeProvider.text,
+              color: Colors.white,
             ),
-            title: Text(
+            title: const Text(
               "Directory",
               style: TextStyle(
-                color: themeProvider.text,
+                color: Colors.white,
               ),
             ),
             onTap: () {
@@ -47,14 +48,14 @@ class NavBar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.school,
-              color: themeProvider.text,
+              color: Colors.white,
             ),
-            title: Text(
+            title: const Text(
               "Schedule of Classes",
               style: TextStyle(
-                color: themeProvider.text,
+                color: Colors.white,
               ),
             ),
             onTap: () {

@@ -114,12 +114,12 @@ class _SchedulePageState extends State<SchedulePage> {
         appBar: EasySearchBar(
           title: Stack(
             children: [
-              const Row(
+              Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // This is here to pad the title to center position
-                  Icon(
+                  const Icon(
                     Icons.dark_mode_sharp,
                     color: AppColor.primary,
                   ),
@@ -127,6 +127,9 @@ class _SchedulePageState extends State<SchedulePage> {
                     child: Text(
                       "Schedule of Classes",
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: themeProvider.fontSizeM,
+                      ),
                     ),
                   ),
                 ],
@@ -926,7 +929,7 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
-                width: 220 + themeProvider.fontSizeXXS * 2,
+                width: 300 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Room",

@@ -303,8 +303,18 @@ class Schedule extends ChangeNotifier {
                       children: [
                         TextButton.icon(
                           onPressed: () => launchBookStore(row),
-                          icon: const Icon(Icons.menu_book_sharp),
-                          label: const Text("Buy Materials"),
+                          icon: Icon(
+                            Icons.menu_book_sharp,
+                            size: themeProvider.fontSizeM,
+                          ),
+                          label: Text(
+                            themeProvider.formFactor == "S"
+                                ? "Books"
+                                : "Buy Materials",
+                            style: TextStyle(
+                              fontSize: themeProvider.fontSizeM,
+                            ),
+                          ),
                           style: ButtonStyle(
                             overlayColor:
                                 MaterialStateProperty.all(themeProvider.text),
@@ -317,6 +327,12 @@ class Schedule extends ChangeNotifier {
                                 color: themeProvider.text,
                               ),
                             ),
+                            textStyle: MaterialStateProperty.all(
+                              TextStyle(
+                                color: themeProvider.text,
+                                fontSize: themeProvider.fontSizeM,
+                              ),
+                            ),
                           ),
                         ),
                         TextButton.icon(
@@ -327,8 +343,18 @@ class Schedule extends ChangeNotifier {
                               isSuccess: true,
                             );
                           },
-                          icon: const Icon(Icons.copy_all_sharp),
-                          label: const Text("Copy Course Info"),
+                          icon: Icon(
+                            Icons.copy_all_sharp,
+                            size: themeProvider.fontSizeM,
+                          ),
+                          label: Text(
+                            themeProvider.formFactor == "S"
+                                ? "Copy"
+                                : "Copy Course Info",
+                            style: TextStyle(
+                              fontSize: themeProvider.fontSizeM,
+                            ),
+                          ),
                           style: ButtonStyle(
                             overlayColor:
                                 MaterialStateProperty.all(themeProvider.text),
@@ -338,6 +364,12 @@ class Schedule extends ChangeNotifier {
                               BorderSide(
                                 width: 1,
                                 color: themeProvider.text,
+                              ),
+                            ),
+                            textStyle: MaterialStateProperty.all(
+                              TextStyle(
+                                color: themeProvider.text,
+                                fontSize: themeProvider.fontSizeM,
                               ),
                             ),
                           ),
@@ -374,8 +406,11 @@ class Schedule extends ChangeNotifier {
                   InfoRow("Enrolled:", "${rowData["E"]} / ${rowData["MS"]}"),
                   InfoRow("Building:", rowData["B"].toString()),
                   InfoRow("Room:", rowData["R"].toString()),
-                  InfoRow("Dates in Session:",
-                      "${rowData["PTRMDS"]} / ${rowData["PTRMDE"]}"),
+                  themeProvider.formFactor == "S"
+                      ? InfoRow("Dates in Session:",
+                          "${formatDate(rowData["PTRMDS"])} / ${formatDate(rowData["PTRMDE"])}")
+                      : InfoRow("Dates in Session:",
+                          "${rowData["PTRMDS"]} / ${rowData["PTRMDE"]}"),
                   InfoRow("Days:", rowData["D"].toString()),
                   InfoRow("Time:", "${rowData["TB"]} - ${rowData["TE"]}"),
                   InfoRow("Credit Hours:", rowData["CH"].toString()),

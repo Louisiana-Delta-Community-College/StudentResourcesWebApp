@@ -69,6 +69,9 @@ class _DirectoryPageState extends State<DirectoryPage> {
                         child: Text(
                           "Directory$titleAppendedCampus",
                           textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: themeProvider.fontSizeM,
+                          ),
                         ),
                       ),
                     ),
