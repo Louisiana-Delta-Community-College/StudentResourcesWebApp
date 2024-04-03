@@ -478,7 +478,7 @@ class ContactsDavi extends StatelessWidget {
                   //   return directoryProvider.directoryTableStringSorter(
                   //       a, b, "Office");
                   // },
-                  width: 100 + themeProvider.fontSizeXXS * 2,
+                  width: 130 + themeProvider.fontSizeXXS * 2,
                 ),
               ],
               multiSortEnabled: true,
