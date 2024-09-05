@@ -356,6 +356,9 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
+                  dataComparator: (a, b, column) {
+                    return compare(a, b, "PhoneNumber");
+                  },
                   width: 150 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
@@ -375,11 +378,10 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   return directoryProvider.directoryTableStringSorter(
-                  //       a, b, "JobTitle");
-                  // },
-                  width: 300 + themeProvider.fontSizeXXS * 2,
+                  dataComparator: (a, b, column) {
+                    return compare(a, b, "JobTitle");
+                  },
+                  width: 450 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Department",
@@ -395,10 +397,9 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   return directoryProvider.directoryTableStringSorter(
-                  //       a, b, "Department");
-                  // },
+                  dataComparator: (a, b, column) {
+                    return compare(a, b, "Department");
+                  },
                   width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
@@ -428,10 +429,9 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   return directoryProvider.directoryTableStringSorter(
-                  //       a, b, "EmailAddress");
-                  // },
+                  dataComparator: (a, b, column) {
+                    return compare(a, b, "EmailAddress");
+                  },
                   width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
@@ -451,10 +451,9 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   return directoryProvider.directoryTableStringSorter(
-                  //       a, b, "Campus");
-                  // },
+                  dataComparator: (a, b, column) {
+                    return compare(a, b, "Campus");
+                  },
                   width: 130 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
@@ -474,11 +473,10 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  // sort: (a, b) {
-                  //   return directoryProvider.directoryTableStringSorter(
-                  //       a, b, "Office");
-                  // },
-                  width: 130 + themeProvider.fontSizeXXS * 2,
+                  dataComparator: (a, b, column) {
+                    return compare(a, b, "Office");
+                  },
+                  width: 170 + themeProvider.fontSizeXXS * 2,
                 ),
               ],
               multiSortEnabled: true,
@@ -492,6 +490,21 @@ class ContactsDavi extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int compare(Object? a, Object? b, String? name) {
+    String v1 = "${(a as Map)["$name"]}, ${a["$name"]}";
+    String v2 = "${(b as Map)["$name"]}, ${b["$name"]}";
+    if (v1.isEmpty || v2.isEmpty) {
+      return 0;
+    }
+    if (v1.isEmpty) {
+      return 0;
+    }
+    if (v2.isEmpty) {
+      return 1;
+    }
+    return v1.compareTo(v2);
   }
 }
 

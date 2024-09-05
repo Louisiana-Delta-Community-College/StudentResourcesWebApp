@@ -719,6 +719,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["CRN"]}, ${a["CRN"]}";
+                  String v2 = "${(b as Map)["CRN"]}, ${b["CRN"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 // pinned: true,
               ),
               DaviColumn(
@@ -737,6 +751,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["SC"]}, ${a["SC"]}";
+                  String v2 = "${(b as Map)["SC"]}, ${b["SC"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 // width: 70,
               ),
@@ -757,6 +785,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["CN"]}, ${a["CN"]}";
+                  String v2 = "${(b as Map)["CN"]}, ${b["CN"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 // width: 70,
               ),
               DaviColumn(
@@ -776,9 +818,24 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["CT"]}, ${a["CT"]}";
+                  String v2 = "${(b as Map)["CT"]}, ${b["CT"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 330 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
+                sortable: true,
                 name: "Course Duration",
                 width: 160 + themeProvider.fontSizeXXS * 2,
                 cellBuilder: (ctx, row) {
@@ -821,20 +878,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
-                // sort: (a, b) {
-                //   String v1 = "${(a as Map)["PTRM"]}, ${a["PTRM"]}";
-                //   String v2 = "${(b as Map)["PTRM"]}, ${b["PTRM"]}";
-                //   if (v1.isEmpty || v2.isEmpty) {
-                //     return 0;
-                //   }
-                //   if (v1.isEmpty) {
-                //     return 0;
-                //   }
-                //   if (v2.isEmpty) {
-                //     return 1;
-                //   }
-                //   return v1.compareTo(v2);
-                // },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["PTRM"]}, ${a["PTRM"]}";
+                  String v2 = "${(b as Map)["PTRM"]}, ${b["PTRM"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
               ),
               DaviColumn(
                 name: "Hours",
@@ -852,6 +909,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["CH"]}, ${a["CH"]}";
+                  String v2 = "${(b as Map)["CH"]}, ${b["CH"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 width: 60 + themeProvider.fontSizeXXS * 2,
               ),
@@ -872,6 +943,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["D"]}, ${a["D"]}";
+                  String v2 = "${(b as Map)["D"]}, ${b["D"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
@@ -890,6 +975,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["TB"]}, ${a["TB"]}";
+                  String v2 = "${(b as Map)["TB"]}, ${b["TB"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 width: 80 + themeProvider.fontSizeXXS * 2,
               ),
@@ -910,6 +1009,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["TE"]}, ${a["TE"]}";
+                  String v2 = "${(b as Map)["TE"]}, ${b["TE"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
@@ -928,6 +1041,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["B"]}, ${a["B"]}";
+                  String v2 = "${(b as Map)["B"]}, ${b["B"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 width: 300 + themeProvider.fontSizeXXS * 2,
               ),
@@ -948,6 +1075,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["R"]}, ${a["R"]}";
+                  String v2 = "${(b as Map)["R"]}, ${b["R"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
@@ -966,6 +1107,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["TN"]}, ${a["TN"]}";
+                  String v2 = "${(b as Map)["TN"]}, ${b["TN"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 width: 240 + themeProvider.fontSizeXXS * 2,
               ),
@@ -987,6 +1142,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["E"]}, ${a["E"]}";
+                  String v2 = "${(b as Map)["E"]}, ${b["E"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
@@ -1005,6 +1174,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["PTRMDS"]}, ${a["PTRMDS"]}";
+                  String v2 = "${(b as Map)["PTRMDS"]}, ${b["PTRMDS"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 width: 100 + themeProvider.fontSizeXXS * 2,
               ),
@@ -1025,6 +1208,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["PTRMDE"]}, ${a["PTRMDE"]}";
+                  String v2 = "${(b as Map)["PTRMDE"]}, ${b["PTRMDE"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 100 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
@@ -1044,6 +1241,20 @@ class ScheduleDavi extends StatelessWidget {
                     ),
                   );
                 },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["INSMC"]}, ${a["INSMC"]}";
+                  String v2 = "${(b as Map)["INSMC"]}, ${b["INSMC"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
                 width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
@@ -1062,6 +1273,20 @@ class ScheduleDavi extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["AF"]}, ${a["AF"]}";
+                  String v2 = "${(b as Map)["AF"]}, ${b["AF"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
                 },
                 width: 100 + themeProvider.fontSizeXXS * 2,
               ),
