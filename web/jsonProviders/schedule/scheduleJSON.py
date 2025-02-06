@@ -429,6 +429,7 @@ async def get_fresh_data():
           AND DSCBCRSE.SCBCRSE_CRSE_NUMB   = SCBCRSE.SCBCRSE_CRSE_NUMB
           AND DSCBCRSE.SCBCRSE_VPDI_CODE   = SCBCRSE.SCBCRSE_VPDI_CODE
           )
+        and not REGEXP_LIKE (stvcamp.stvcamp_desc, 'correction', 'i')
         )
         ORDER BY
           CASE UPPER(STVCAMP_DESC)
@@ -471,6 +472,7 @@ async def get_fresh_data():
           ssbsect_ptrm_code'''.format(**globals())
 
   RS = Bcur.execute(strSQL)
+
 
   scheduleList = []
 
