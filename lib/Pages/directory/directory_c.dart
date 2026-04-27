@@ -35,28 +35,41 @@ class Directory extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<dynamic> get filteredData => _data
-      .where((contact) => _selectedCampus.isNotEmpty
-          ? contact["Campus"].toString().toLowerCase() ==
-              _selectedCampus.toLowerCase()
-          : true)
-      .where((contact) =>
-          (contact as Map)
-              .values
-              .toList()
-              .toString()
-              .toLowerCase()
-              // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-              .contains(RegExp(_searchString, caseSensitive: false)) ||
-          contact.values
-              .toList()
-              .reversed
-              .toList()
-              .toString()
-              .toLowerCase()
-              // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-              .contains(RegExp(_searchString, caseSensitive: false)))
-      .toList();
+  List<dynamic> get filteredData {
+    // DEDUPLICATE: Banner sometimes sends the same employee twice
+    // with different partial records. Key on email, keep the entry
+    // that has the most populated fields.
+    final unique = <String, Map>{};
+    for (final raw in _data) {
+      final contact = raw as Map;
+      final key = '${contact["EmailAddress"]}'.trim().toLowerCase();
+      if (key.isEmpty || key == 'null') continue;
+
+      if (!unique.containsKey(key)) {
+        unique[key] = contact;
+      } else {
+        // Keep the record with more non-empty fields
+        final existing = unique[key]!;
+        final existingCount =
+            existing.values.where((v) => '$v'.trim().isNotEmpty).length;
+        final newCount =
+            contact.values.where((v) => '$v'.trim().isNotEmpty).length;
+        if (newCount > existingCount) unique[key] = contact;
+      }
+    }
+    final deduped = unique.values.toList();
+
+    // SINGLE SEARCH (removed redundant reversed check)
+    return deduped
+        .where((contact) => _selectedCampus.isNotEmpty
+            ? contact["Campus"].toString().toLowerCase() ==
+                _selectedCampus.toLowerCase()
+            : true)
+        .where((contact) {
+      final flat = (contact).values.toList().toString().toLowerCase();
+      return flat.contains(RegExp(_searchString, caseSensitive: false));
+    }).toList();
+  }
 
   Future getDirectoryData() async {
     Map<String, dynamic> queryParameters = {};

@@ -18,14 +18,11 @@ export 'package:flutter/material.dart';
 export 'package:flutter_modular/flutter_modular.dart';
 export 'package:flutter_animator/flutter_animator.dart';
 export 'package:url_launcher/url_launcher.dart';
-export 'package:easy_search_bar/easy_search_bar.dart';
-export 'package:get_storage/get_storage.dart' show GetStorage;
 export 'package:html/parser.dart' show parse;
 export 'package:recase/recase.dart';
-export 'package:skeletons/skeletons.dart';
+export 'package:skeletonizer/skeletonizer.dart';
 export 'package:clipboard/clipboard.dart';
 export 'package:flutter_styled_toast/flutter_styled_toast.dart';
-// export 'package:sizing/sizing.dart';
 
 export 'package:schedule/config.dart';
 export 'package:schedule/Pages/pages.dart';
@@ -73,8 +70,6 @@ void initLog() {
 
   log.d("Log level set to: $logLevel");
 }
-
-// final GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
 String? encodeQueryParameters(Map<String, String> params) {
   return params.entries
@@ -177,7 +172,6 @@ class CustomLoadingIndicator extends StatelessWidget {
         width: 150,
         height: 150,
         child: RiveAnimation.asset(
-          // "assets/rive/ldcc_mark.riv",
           "assets/rive/elastic_circle.riv",
           animations: [
             Modular.get<AppTheme>().themeMode == ThemeMode.dark
@@ -192,18 +186,11 @@ class CustomLoadingIndicator extends StatelessWidget {
 }
 
 String formatDate(String date) {
-  String originalDateString = date; // Example input date string
+  String originalDateString = date;
 
-  // Create a DateFormat instance for the original format
   final originalFormat = DateFormat('MM-dd-yyyy');
-
-  // Parse the original date string
   final originalDate = originalFormat.parse(originalDateString);
-
-  // Create a new DateFormat instance for the desired format (MM-DD-YY)
   final newFormat = DateFormat('MM-dd-yy');
-
-  // Format the date in the new format
   final formattedDate = newFormat.format(originalDate);
 
   return formattedDate;

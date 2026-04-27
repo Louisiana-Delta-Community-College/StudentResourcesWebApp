@@ -16,6 +16,8 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  bool _isSearchOpen = false;
+
   @override
   initState() {
     // Pull in schedule data on page initialization.
@@ -111,80 +113,143 @@ class _SchedulePageState extends State<SchedulePage> {
       return Scaffold(
         // key: globalKey,
         drawer: const NavBar(),
-        appBar: EasySearchBar(
-          title: Stack(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // This is here to pad the title to center position
-                  const Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
-                  ),
-                  Center(
-                    child: Text(
-                      "Schedule of Classes",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: themeProvider.fontSizeM,
-                      ),
+        appBar: AppBar(
+          title: SizedBox(
+            width: double.infinity,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // TITLE (fades out when search open)
+                Opacity(
+                  opacity: _isSearchOpen ? 0.0 : 1.0,
+                  child: IgnorePointer(
+                    ignoring: _isSearchOpen,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.dark_mode_sharp,
+                          color: AppColor.primary,
+                        ),
+                        Semantics(
+                          label: "Page Title: Schedule of Classes",
+                          excludeSemantics: true,
+                          child: Text(
+                            "Schedule of Classes",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: themeProvider.fontSizeM,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Focus(
-                    child: Semantics(
-                      image: true,
-                      label: "LDCC Logo",
-                      excludeSemantics: true,
-                      child: Image.asset(
+                ),
+                // LOGO
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: SizedBox(
+                    width: isSmallFormFactor ? 60 : 250,
+                    child: Focus(
+                      child: Semantics(
+                        image: true,
+                        label: "LDCC Logo",
+                        excludeSemantics: true,
+                        child: Image.asset(
                           isSmallFormFactor
                               ? "assets/images/mark.png"
                               : "assets/images/logo.png",
-                          fit: BoxFit.fitHeight),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
+                  ),
+                ),
+                // SEARCH FIELD (fades in when search open)
+                Positioned(
+                  left: isSmallFormFactor ? 60 : 250,
+                  right: 100,
+                  top: 0,
+                  bottom: 0,
+                  child: Opacity(
+                    opacity: _isSearchOpen ? 1.0 : 0.0,
+                    child: IgnorePointer(
+                      ignoring: !_isSearchOpen,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextField(
+                          key: ValueKey<bool>(
+                              _isSearchOpen), // ADD THIS - forces rebuild on toggle
+                          autofocus: _isSearchOpen, // ADD THIS
+                          onChanged: (value) {
+                            scheduleProvider.searchString = value;
+                            scheduleProvider.updateMatchCounts();
+                          },
+                          style: const TextStyle(color: AppColor.white),
+                          decoration: InputDecoration(
+                            hintText: 'Search...',
+                            hintStyle: TextStyle(
+                              color: AppColor.white.withValues(alpha: 0.7),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 12),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: AppColor.white,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
-          searchCursorColor: themeProvider.text,
-          searchBackIconTheme: IconThemeData(
-            color: themeProvider.text,
-          ),
-          // centerTitle: true,
           actions: [
+            // SEARCH TOGGLE
+            IconButton(
+              tooltip: "Search",
+              onPressed: () {
+                setState(() {
+                  _isSearchOpen = !_isSearchOpen;
+                  if (!_isSearchOpen) {
+                    scheduleProvider.searchString = "";
+                    scheduleProvider.updateMatchCounts();
+                  }
+                });
+              },
+              icon: Icon(
+                _isSearchOpen ? Icons.close : Icons.search,
+                color: AppColor.white,
+              ),
+            ),
+            // BRIGHTNESS TOGGLE
             Semantics(
               button: true,
               value: "toggle brightness mode",
               child: FadeInDown(
                 preferences: const AnimationPreferences(
                   autoPlay: AnimationPlayStates.Forward,
-                  duration: Duration(
-                    milliseconds: 500,
-                  ),
+                  duration: Duration(milliseconds: 500),
                 ),
                 child: IconButton(
-                    tooltip: "Toggle Brightness Mode",
-                    onPressed: () {
-                      themeProvider.toggle();
-                    },
-                    icon: themeProvider.icon),
+                  tooltip: "Toggle Brightness Mode",
+                  onPressed: () {
+                    themeProvider.toggle();
+                  },
+                  icon: themeProvider.icon,
+                ),
               ),
             ),
           ],
-          onSearch: (value) {
-            scheduleProvider.searchString = value;
-            scheduleProvider.updateMatchCounts();
-          },
         ),
         body: Center(
           child: Column(
@@ -199,16 +264,16 @@ class _SchedulePageState extends State<SchedulePage> {
                     right: 10,
                   ),
                   child: scheduleCampusMenuProvider.isLoading
-                      ? SkeletonLine(
-                          style: SkeletonLineStyle(
-                            alignment: Alignment.center,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
-                            padding: EdgeInsets.only(
-                              left: viewPortWidth(context) * .2,
-                              right: viewPortWidth(context) * .2,
+                      ? Skeletonizer(
+                          child: Container(
+                            height: 20,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: viewPortWidth(context) * .2,
                             ),
-                            // randomLength: true,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
                         )
                       : scheduleCampusMenuProvider.hasError
@@ -351,17 +416,15 @@ class _SchedulePageState extends State<SchedulePage> {
                     right: 20,
                   ),
                   child: scheduleTermsMenuProvider.isLoading
-                      ? const SkeletonLine(
-                          style: SkeletonLineStyle(
-                              alignment: Alignment.center,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              padding: EdgeInsets.only(
-                                left: 200,
-                                right: 200,
-                              )
-                              // randomLength: true,
-                              ),
+                      ? Skeletonizer(
+                          child: Container(
+                            height: 20,
+                            margin: const EdgeInsets.symmetric(horizontal: 200),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
                         )
                       : scheduleTermsMenuProvider.hasError
                           ? Center(
@@ -1406,7 +1469,7 @@ class CourseCard extends StatelessWidget {
           //-----------------------------
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.all(10),

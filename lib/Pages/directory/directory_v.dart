@@ -13,6 +13,7 @@ class DirectoryPage extends StatefulWidget {
 
 class _DirectoryPageState extends State<DirectoryPage> {
   String titleAppendedCampus = "";
+  bool _isSearchOpen = false;
 
   @override
   initState() {
@@ -49,85 +50,140 @@ class _DirectoryPageState extends State<DirectoryPage> {
             value: "navigation menu",
             sortKey: const OrdinalSortKey(1),
             child: const NavBar()),
-        appBar: EasySearchBar(
-          title: Stack(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // This is here to pad the title to center position
-                  const Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
+        appBar: AppBar(
+          title: SizedBox(
+            width: double.infinity,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // TITLE (fades out when search open)
+                Opacity(
+                  opacity: _isSearchOpen ? 0.0 : 1.0,
+                  child: IgnorePointer(
+                    ignoring: _isSearchOpen,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.dark_mode_sharp,
+                          color: AppColor.primary,
+                        ),
+                        Semantics(
+                          label: "Page Title: Directory$titleAppendedCampus",
+                          excludeSemantics: true,
+                          child: Text(
+                            "Directory$titleAppendedCampus",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: themeProvider.fontSizeM,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Focus(
-                    child: Semantics(
-                      label: "Page Title: Directory$titleAppendedCampus",
-                      excludeSemantics: true,
-                      child: Center(
-                        child: Text(
-                          "Directory$titleAppendedCampus",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: themeProvider.fontSizeM,
+                ),
+                // LOGO
+                Positioned(
+                  left: isSmallFormFactor ? 0 : 10,
+                  top: 0,
+                  bottom: 0,
+                  child: SizedBox(
+                    width: isSmallFormFactor ? 60 : null,
+                    child: Focus(
+                      child: Semantics(
+                        image: true,
+                        label: "LDCC Logo",
+                        excludeSemantics: true,
+                        child: Image.asset(
+                          isSmallFormFactor
+                              ? "assets/images/mark.png"
+                              : "assets/images/logo.png",
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // SEARCH FIELD (fades in when search open)
+                Positioned(
+                  left: isSmallFormFactor ? 65 : 250,
+                  right: 100,
+                  top: 0,
+                  bottom: 0,
+                  child: Opacity(
+                    opacity: _isSearchOpen ? 1.0 : 0.0,
+                    child: IgnorePointer(
+                      ignoring: !_isSearchOpen,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextField(
+                          key: ValueKey<bool>(_isSearchOpen),
+                          autofocus: _isSearchOpen,
+                          onChanged: (value) {
+                            directoryProvider.searchString = value;
+                          },
+                          style: const TextStyle(color: AppColor.white),
+                          decoration: InputDecoration(
+                            hintText: 'Search...',
+                            hintStyle: TextStyle(
+                              color: AppColor.white.withValues(alpha: 0.7),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 12),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: AppColor.white,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Focus(
-                    child: Semantics(
-                      image: true,
-                      label: "LDCC Logo",
-                      excludeSemantics: true,
-                      child: Image.asset(
-                          isSmallFormFactor
-                              ? "assets/images/mark.png"
-                              : "assets/images/logo.png",
-                          fit: BoxFit.fitHeight),
-                    ),
-                  )
-                ],
-              )
-            ],
+                ),
+              ],
+            ),
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
-          searchCursorColor: themeProvider.text,
-          searchBackIconTheme: IconThemeData(
-            color: themeProvider.text,
-          ),
-          // centerTitle: true,
           actions: [
+            // SEARCH TOGGLE
+            IconButton(
+              tooltip: "Search",
+              onPressed: () {
+                setState(() {
+                  _isSearchOpen = !_isSearchOpen;
+                  if (!_isSearchOpen) {
+                    directoryProvider.searchString = "";
+                  }
+                });
+              },
+              icon: Icon(
+                _isSearchOpen ? Icons.close : Icons.search,
+                color: AppColor.white,
+              ),
+            ),
+            // BRIGHTNESS TOGGLE
             Semantics(
               button: true,
               value: "toggle brightness mode",
               child: FadeInDown(
                 preferences: const AnimationPreferences(
                   autoPlay: AnimationPlayStates.Forward,
-                  duration: Duration(
-                    milliseconds: 500,
-                  ),
+                  duration: Duration(milliseconds: 500),
                 ),
                 child: IconButton(
-                    tooltip: "Toggle Brightness Mode",
-                    onPressed: () {
-                      themeProvider.toggle();
-                    },
-                    icon: themeProvider.icon),
+                  tooltip: "Toggle Brightness Mode",
+                  onPressed: () {
+                    themeProvider.toggle();
+                  },
+                  icon: themeProvider.icon,
+                ),
               ),
             ),
           ],
-          onSearch: (value) {
-            directoryProvider.searchString = value;
-          },
         ),
         body: Center(
           child: Column(
@@ -493,17 +549,11 @@ class ContactsDavi extends StatelessWidget {
   }
 
   int compare(Object? a, Object? b, String? name) {
-    String v1 = "${(a as Map)["$name"]}, ${a["$name"]}";
-    String v2 = "${(b as Map)["$name"]}, ${b["$name"]}";
-    if (v1.isEmpty || v2.isEmpty) {
-      return 0;
-    }
-    if (v1.isEmpty) {
-      return 0;
-    }
-    if (v2.isEmpty) {
-      return 1;
-    }
+    String v1 = "${(a as Map)['$name']}";
+    String v2 = "${(b as Map)['$name']}";
+    if (v1.isEmpty && v2.isEmpty) return 0;
+    if (v1.isEmpty) return -1;
+    if (v2.isEmpty) return 1;
     return v1.compareTo(v2);
   }
 }
@@ -604,7 +654,7 @@ class ContactsCard extends StatelessWidget {
           //-----------------------------
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.all(10),

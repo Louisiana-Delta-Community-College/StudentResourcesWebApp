@@ -73,38 +73,23 @@ class Schedule extends ChangeNotifier {
     notifyListeners();
   }
 
-  // List<dynamic> get filteredData => _data
-  //     .where((course) => course["C"] == _campus)
-  //     .where((course) => course
-  //         .toString()
-  //         .toLowerCase()
-  //         // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-  //         .contains(RegExp(_searchString, caseSensitive: false)))
-  //     .toList();
-
   List<dynamic> get filteredData {
     return _data
-        .where((course) =>
-            (course as Map)
-                .values
-                .toList()
-                .toString()
-                .toLowerCase()
-                // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-                .contains(RegExp(_searchString, caseSensitive: false)) ||
-            course.values
-                .toList()
-                .reversed
-                .toList()
-                .toString()
-                .toLowerCase()
-                // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-                .contains(RegExp(_searchString, caseSensitive: false)))
+        .where((course) => (course as Map)
+            .values
+            .toList()
+            .toString()
+            .toLowerCase()
+            .contains(RegExp(_searchString, caseSensitive: false)))
         .toList();
   }
 
   List<dynamic> get currentlySelectedCampusFilteredData {
-    return filteredData.where((course) => course["C"] == _campus).toList();
+    return filteredData
+        .where((c) => _campus.isNotEmpty
+            ? c["C"].toString().toLowerCase() == _campus.toLowerCase()
+            : true)
+        .toList();
   }
 
   set campus(String c) {
@@ -270,10 +255,10 @@ class Schedule extends ChangeNotifier {
           actions: [
             TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(
                   themeProvider.text,
                 ),
-                foregroundColor: MaterialStateProperty.all(
+                foregroundColor: WidgetStateProperty.all(
                   themeProvider.bodyBackground,
                 ),
               ),
@@ -317,17 +302,17 @@ class Schedule extends ChangeNotifier {
                           ),
                           style: ButtonStyle(
                             overlayColor:
-                                MaterialStateProperty.all(themeProvider.text),
-                            foregroundColor: MaterialStateProperty.all(
+                                WidgetStateProperty.all(themeProvider.text),
+                            foregroundColor: WidgetStateProperty.all(
                               themeProvider.text,
                             ),
-                            side: MaterialStateProperty.all(
+                            side: WidgetStateProperty.all(
                               BorderSide(
                                 width: 1,
                                 color: themeProvider.text,
                               ),
                             ),
-                            textStyle: MaterialStateProperty.all(
+                            textStyle: WidgetStateProperty.all(
                               TextStyle(
                                 color: themeProvider.text,
                                 fontSize: themeProvider.fontSizeM,
@@ -357,16 +342,16 @@ class Schedule extends ChangeNotifier {
                           ),
                           style: ButtonStyle(
                             overlayColor:
-                                MaterialStateProperty.all(themeProvider.text),
+                                WidgetStateProperty.all(themeProvider.text),
                             foregroundColor:
-                                MaterialStateProperty.all(themeProvider.text),
-                            side: MaterialStateProperty.all(
+                                WidgetStateProperty.all(themeProvider.text),
+                            side: WidgetStateProperty.all(
                               BorderSide(
                                 width: 1,
                                 color: themeProvider.text,
                               ),
                             ),
-                            textStyle: MaterialStateProperty.all(
+                            textStyle: WidgetStateProperty.all(
                               TextStyle(
                                 color: themeProvider.text,
                                 fontSize: themeProvider.fontSizeM,
