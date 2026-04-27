@@ -124,9 +124,8 @@ class AppTheme extends ChangeNotifier {
       onSecondary: AppColor.primary,
       error: Colors.red,
       onError: Colors.black,
-      // REMOVED: background and onBackground (now merged into surface/onSurface)
-      surface: AppColor.white, // was your old background value
-      onSurface: AppColor.primary, // was your old onBackground value
+      surface: AppColor.white, // scaffold background
+      onSurface: AppColor.primary, // text on scaffold
       tertiary: AppColor.primary,
       onTertiary: AppColor.white,
     ),
@@ -154,9 +153,8 @@ class AppTheme extends ChangeNotifier {
       onSecondary: AppColor.primary,
       error: Colors.red,
       onError: Colors.black,
-      // REMOVED: background and onBackground
-      surface: AppColor.primary,
-      onSurface: Colors.white,
+      surface: AppColor.darkGray, // FIX: was AppColor.primary
+      onSurface: Colors.white, // FIX: was AppColor.primary
       tertiary: AppColor.white,
       onTertiary: AppColor.primary,
     ),

@@ -88,19 +88,11 @@ class Schedule extends ChangeNotifier {
   DateTime _lastFilter = DateTime(2000);
 
   List<dynamic> get currentlySelectedCampusFilteredData {
-    // Only re-filter when underlying data actually changes
-    if (cachedCampusData.isEmpty ||
-        _lastFilter
-            .isBefore(DateTime.now().subtract(const Duration(seconds: 1)))) {
-      cachedCampusData = filteredData
-          .where((c) => _selectedCampus.isNotEmpty
-              ? c["Campus"].toString().toLowerCase() ==
-                  _selectedCampus.toLowerCase()
-              : true)
-          .toList();
-      _lastFilter = DateTime.now();
-    }
-    return cachedCampusData;
+    return filteredData
+        .where((c) => _campus.isNotEmpty
+            ? c["C"].toString().toLowerCase() == _campus.toLowerCase()
+            : true)
+        .toList();
   }
 
   get _selectedCampus => _campus;
