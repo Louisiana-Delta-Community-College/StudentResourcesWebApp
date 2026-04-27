@@ -114,18 +114,18 @@ class _SchedulePageState extends State<SchedulePage> {
         appBar: AppBar(
           title: Stack(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
-                  ),
-                  Semantics(
-                    label: "Page Title: Schedule of Classes",
-                    excludeSemantics: true,
-                    child: Center(
+              // CENTERED TITLE
+              Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.dark_mode_sharp,
+                      color: AppColor.primary,
+                    ),
+                    Semantics(
+                      label: "Page Title: Schedule of Classes",
+                      excludeSemantics: true,
                       child: Text(
                         "Schedule of Classes",
                         textAlign: TextAlign.center,
@@ -134,49 +134,56 @@ class _SchedulePageState extends State<SchedulePage> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Focus(
-                    child: Semantics(
-                      image: true,
-                      label: "LDCC Logo",
-                      excludeSemantics: true,
-                      child: Image.asset(
-                          isSmallFormFactor
-                              ? "assets/images/mark.png"
-                              : "assets/images/logo.png",
-                          fit: BoxFit.fitHeight),
+              // LOGO WITH PADDING
+              Positioned(
+                left: 10, // adjust as needed
+                top: 0,
+                bottom: 0,
+                child: Focus(
+                  child: Semantics(
+                    image: true,
+                    label: "LDCC Logo",
+                    excludeSemantics: true,
+                    child: Image.asset(
+                      isSmallFormFactor
+                          ? "assets/images/mark.png"
+                          : "assets/images/logo.png",
+                      fit: BoxFit.fitHeight,
                     ),
-                  )
-                ],
-              )
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: SizedBox(
+                  width: 200,
+                  child: TextField(
+                    onChanged: (value) {
+                      scheduleProvider.searchString = value;
+                      scheduleProvider.updateMatchCounts();
+                    },
+                    style: const TextStyle(color: AppColor.white),
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      hintStyle: TextStyle(
+                          color: AppColor.white.withValues(alpha: 0.7)),
+                      border: InputBorder.none,
+                      prefixIcon:
+                          const Icon(Icons.search, color: AppColor.white),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
           actions: [
-            SizedBox(
-              width: 200,
-              child: TextField(
-                onChanged: (value) {
-                  scheduleProvider.searchString = value;
-                  scheduleProvider.updateMatchCounts();
-                },
-                style: const TextStyle(color: AppColor.white),
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle:
-                      TextStyle(color: AppColor.white.withValues(alpha: 0.7)),
-                  border: InputBorder.none,
-                  prefixIcon: const Icon(Icons.search, color: AppColor.white),
-                ),
-              ),
-            ),
             Semantics(
               button: true,
               value: "toggle brightness mode",
@@ -477,7 +484,8 @@ class _SchedulePageState extends State<SchedulePage> {
                               child:
                                   SelectableText(scheduleProvider.errorMessage))
                           // : SelectableText(scheduleProvider.data[0].toString()),
-                          : scheduleProvider.cachedCampusData.isNotEmpty
+                          : scheduleProvider.currentlySelectedCampusFilteredData
+                                  .isNotEmpty
                               ? isSmallFormFactor
                                   // MOBILE STYLE CARDS
                                   ? GlowingOverscrollIndicator(
@@ -485,10 +493,12 @@ class _SchedulePageState extends State<SchedulePage> {
                                       color: AppColor.secondary,
                                       child: ListView.builder(
                                         itemCount: scheduleProvider
-                                            .cachedCampusData.length,
+                                            .currentlySelectedCampusFilteredData
+                                            .length,
                                         itemBuilder: (context, index) {
                                           final course = scheduleProvider
-                                              .cachedCampusData[index];
+                                                  .currentlySelectedCampusFilteredData[
+                                              index];
                                           return Padding(
                                             padding: const EdgeInsets.only(
                                               top: 4,

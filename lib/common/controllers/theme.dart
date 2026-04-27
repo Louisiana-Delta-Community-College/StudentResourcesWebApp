@@ -114,6 +114,7 @@ class AppTheme extends ChangeNotifier {
   }
 
   ThemeData light = ThemeData(
+    useMaterial3: false,
     brightness: Brightness.light,
     fontFamily: "OpenSans",
     colorScheme: const ColorScheme(
@@ -124,16 +125,15 @@ class AppTheme extends ChangeNotifier {
       onSecondary: AppColor.primary,
       error: Colors.red,
       onError: Colors.black,
-      surface: AppColor.white, // scaffold background
-      onSurface: AppColor.primary, // text on scaffold
+      surface: AppColor.white,
+      onSurface: AppColor.primary,
       tertiary: AppColor.primary,
       onTertiary: AppColor.white,
     ),
-    scaffoldBackgroundColor: AppColor.white, // add this explicitly
+    scaffoldBackgroundColor: AppColor.white,
     primaryTextTheme: Typography().black,
     scrollbarTheme: ScrollbarThemeData(
-      thumbVisibility: WidgetStateProperty.all(
-          true), // MaterialStateProperty → WidgetStateProperty
+      thumbVisibility: WidgetStateProperty.all(true),
       thickness: WidgetStateProperty.all(7),
       thumbColor: WidgetStateProperty.all(primary70),
       radius: const Radius.circular(10),
@@ -143,6 +143,7 @@ class AppTheme extends ChangeNotifier {
   );
 
   ThemeData dark = ThemeData(
+    useMaterial3: false,
     brightness: Brightness.dark,
     fontFamily: "OpenSans",
     colorScheme: const ColorScheme(
@@ -153,20 +154,19 @@ class AppTheme extends ChangeNotifier {
       onSecondary: AppColor.primary,
       error: Colors.red,
       onError: Colors.black,
-      surface: AppColor.darkGray, // FIX: was AppColor.primary
-      onSurface: Colors.white, // FIX: was AppColor.primary
+      surface: AppColor.darkGray,
+      onSurface: Colors.white,
       tertiary: AppColor.white,
       onTertiary: AppColor.primary,
     ),
-    scaffoldBackgroundColor: AppColor.darkGray, // captures old background color
+    scaffoldBackgroundColor: AppColor.darkGray,
     primaryColor: AppColor.secondary,
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: AppColor.secondary,
     ),
     primaryTextTheme: Typography().white,
     scrollbarTheme: ScrollbarThemeData(
-      thumbVisibility: WidgetStateProperty.all(
-          true), // MaterialStateProperty → WidgetStateProperty
+      thumbVisibility: WidgetStateProperty.all(true),
       thickness: WidgetStateProperty.all(7),
       thumbColor: WidgetStateProperty.all(tertiary50),
       radius: const Radius.circular(10),

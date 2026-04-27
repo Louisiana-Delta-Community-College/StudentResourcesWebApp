@@ -84,9 +84,6 @@ class Schedule extends ChangeNotifier {
         .toList();
   }
 
-  List<dynamic> cachedCampusData = [];
-  DateTime _lastFilter = DateTime(2000);
-
   List<dynamic> get currentlySelectedCampusFilteredData {
     return filteredData
         .where((c) => _campus.isNotEmpty
@@ -95,8 +92,6 @@ class Schedule extends ChangeNotifier {
         .toList();
   }
 
-  get _selectedCampus => _campus;
-
   set campus(String c) {
     _campus = c;
     updateCampusMenuSelection();
@@ -104,7 +99,6 @@ class Schedule extends ChangeNotifier {
   }
 
   Future getScheduleData() async {
-    cachedCampusData = [];
     Map<String, dynamic> queryParameters = {};
 
     if (_term.isNotEmpty) {
@@ -150,7 +144,6 @@ class Schedule extends ChangeNotifier {
           // response.body is already a JSON formatted string
           // because of how the Python CGI page is coded.
           _data = jsonDecode(response.body) as List<dynamic>;
-          cachedCampusData = [];
           if (_data.isEmpty) {
             _error("No data.");
           } else {

@@ -13,18 +13,25 @@ class NotFoundPage extends StatelessWidget {
         appBar: AppBar(
           title: Stack(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image.asset(
+              // LOGO WITH PADDING
+              Positioned(
+                left: 10, // adjust as needed
+                top: 0,
+                bottom: 0,
+                child: Focus(
+                  child: Semantics(
+                    image: true,
+                    label: "LDCC Logo",
+                    excludeSemantics: true,
+                    child: Image.asset(
                       isSmallFormFactor
                           ? "assets/images/mark.png"
                           : "assets/images/logo.png",
-                      height: 35.5,
-                      fit: BoxFit.fitHeight)
-                ],
-              )
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           backgroundColor: AppColor.primary,

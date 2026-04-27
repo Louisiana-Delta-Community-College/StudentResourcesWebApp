@@ -52,70 +52,75 @@ class _DirectoryPageState extends State<DirectoryPage> {
         appBar: AppBar(
           title: Stack(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.dark_mode_sharp,
-                    color: AppColor.primary,
-                  ),
-                  Focus(
-                    child: Semantics(
-                      label: "Page Title: Directory$titleAppendedCampus",
+              // CENTERED TITLE
+              Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.dark_mode_sharp,
+                      color: AppColor.primary,
+                    ),
+                    Semantics(
+                      label: "Page Title: Schedule of Classes",
                       excludeSemantics: true,
-                      child: Center(
-                        child: Text(
-                          "Directory$titleAppendedCampus",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: themeProvider.fontSizeM,
-                          ),
+                      child: Text(
+                        "Directory",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeM,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Focus(
-                    child: Semantics(
-                      image: true,
-                      label: "LDCC Logo",
-                      excludeSemantics: true,
-                      child: Image.asset(
-                          isSmallFormFactor
-                              ? "assets/images/mark.png"
-                              : "assets/images/logo.png",
-                          fit: BoxFit.fitHeight),
+              // LOGO WITH PADDING
+              Positioned(
+                left: 10, // adjust as needed
+                top: 0,
+                bottom: 0,
+                child: Focus(
+                  child: Semantics(
+                    image: true,
+                    label: "LDCC Logo",
+                    excludeSemantics: true,
+                    child: Image.asset(
+                      isSmallFormFactor
+                          ? "assets/images/mark.png"
+                          : "assets/images/logo.png",
+                      fit: BoxFit.fitHeight,
                     ),
-                  )
-                ],
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: SizedBox(
+                  width: 200,
+                  child: TextField(
+                    onChanged: (value) {
+                      directoryProvider.searchString = value;
+                    },
+                    style: const TextStyle(color: AppColor.white),
+                    decoration: InputDecoration(
+                      hintText: 'Search...',
+                      hintStyle: TextStyle(
+                          color: AppColor.white.withValues(alpha: 0.7)),
+                      border: InputBorder.none,
+                      prefixIcon:
+                          const Icon(Icons.search, color: AppColor.white),
+                    ),
+                  ),
+                ),
               )
             ],
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
           actions: [
-            SizedBox(
-              width: 200,
-              child: TextField(
-                onChanged: (value) {
-                  directoryProvider.searchString = value;
-                },
-                style: const TextStyle(color: AppColor.white),
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle:
-                      TextStyle(color: AppColor.white.withValues(alpha: 0.7)),
-                  border: InputBorder.none,
-                  prefixIcon: const Icon(Icons.search, color: AppColor.white),
-                ),
-              ),
-            ),
             Semantics(
               button: true,
               value: "toggle brightness mode",
