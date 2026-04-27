@@ -195,3 +195,31 @@ String formatDate(String date) {
 
   return formattedDate;
 }
+
+double textWidth(String text, {required double fontSize}) {
+  return TextPainter.computeWidth(
+    text: TextSpan(
+      text: text,
+      style: TextStyle(
+        fontFamily: 'OpenSans', // your app font
+        fontSize: fontSize,
+      ),
+    ),
+    textDirection: TextDirection.ltr,
+  );
+}
+
+double maxTextWidth(
+  Iterable<String> values, {
+  required double fontSize,
+  double minWidth = 60,
+  double maxWidth = 400,
+  double padding = 28,
+}) {
+  double maxW = 0;
+  for (final v in values) {
+    final w = textWidth(v, fontSize: fontSize);
+    if (w > maxW) maxW = w;
+  }
+  return (maxW + padding).clamp(minWidth, maxWidth);
+}

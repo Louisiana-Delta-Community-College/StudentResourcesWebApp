@@ -38,53 +38,87 @@ class AppTheme extends ChangeNotifier {
   Color get floatingActionButtonForegroundColor =>
       isDark ? AppColor.primary : Colors.white;
 
-  String get formFactor {
-    final double physicalWidth = WidgetsBinding
+  double _scale = 1.0;
+
+  double get scale {
+    // 320 → 0.8, 1920 → 1.1, clamped
+    final double width = WidgetsBinding
         .instance.platformDispatcher.views.first.physicalSize.width;
-    final double devicePixelRatio =
-        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
-    final double width = physicalWidth / devicePixelRatio;
-    // log.i(width.toString());
-    if (width < 600) {
-      return "S";
-    } else if (width > 600 && width < 800) {
-      return "M";
-    } else if (width > 800 && width < 1200) {
-      return "L";
-    } else if (width > 1200) {
-      return 'XL';
-    } else {
-      return "";
-    }
+    final s = 0.8 + (width - 320) * (0.3 / (1920 - 320));
+    _scale = s.clamp(0.8, 1.1);
+    return _scale;
+  }
+
+  String get formFactor {
+    if (scale < 0.9) return "S"; // phones / small windows
+    if (scale < 1.0) return "M"; // tablets / small laptops
+    if (scale < 1.05) return "L"; // normal desktop
+    return "XL"; // very wide desktop
   }
 
   double get _fontSizeDelta {
-    if (formFactor == "S") {
-      return -2.0;
-    } else if (formFactor == "M") {
-      return -1.0;
-    } else if (formFactor == "L") {
-      return 8.0;
-    } else if (formFactor == "XL") {
-      return 8.0;
-    } else {
-      return 0.0;
-    }
+    // Base: 10–18px → * scale
+    final baseDelta = (scale - 1.0) * 25;
+
+    // Optional extra bump for XL only
+    if (formFactor == "XL") return baseDelta + 1.0;
+    return baseDelta;
   }
 
   double get daviRowHeight {
-    if (formFactor == "S") {
-      return 30;
-    } else if (formFactor == "M") {
-      return 35;
-    } else if (formFactor == "L") {
-      return 40;
-    } else if (formFactor == "XL") {
-      return 40;
-    } else {
-      return 40;
-    }
+    final base = 25.0 * scale; // 34px at scale=1
+    if (formFactor == "S") return base - 4; // compress on phones
+    if (formFactor == "XL") return base + 2;
+    return base;
   }
+
+  // String get formFactor {
+  //   final double physicalWidth = WidgetsBinding
+  //       .instance.platformDispatcher.views.first.physicalSize.width;
+  //   final double devicePixelRatio =
+  //       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+  //   final double width = physicalWidth / devicePixelRatio;
+  //   // log.i(width.toString());
+  //   if (width < 600) {
+  //     return "S";
+  //   } else if (width > 600 && width < 800) {
+  //     return "M";
+  //   } else if (width > 800 && width < 1200) {
+  //     return "L";
+  //   } else if (width > 1200) {
+  //     return 'XL';
+  //   } else {
+  //     return "";
+  //   }
+  // }
+
+  // double get _fontSizeDelta {
+  //   if (formFactor == "S") {
+  //     return -2.0;
+  //   } else if (formFactor == "M") {
+  //     return -1.0;
+  //   } else if (formFactor == "L") {
+  //     return 2.0;
+  //   } else if (formFactor == "XL") {
+  //     return 4.0;
+  //   } else {
+  //     return 0.0;
+  //   }
+  // }
+
+  // double get daviRowHeight {
+  //   if (formFactor == "S") {
+  //     return 20;
+  //   } else if (formFactor == "M") {
+  //     return 25;
+  //   } else if (formFactor == "L") {
+  //     return 30;
+  //   } else if (formFactor == "XL") {
+  //     return 35;
+  //   } else {
+  //     return 40;
+  //   }
+  // }
 
   double get fontSizeXXS => 10 + _fontSizeDelta;
   double get fontSizeXS => 13 + _fontSizeDelta;
