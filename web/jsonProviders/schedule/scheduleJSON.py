@@ -29,7 +29,8 @@ def debug(msg):
     print(msg)
 
 cacheDir = 'C:/inetpub/wwwroot/cache/schedule'
-cacheTimeOutInSeconds = 60 * 60 * .25  # 15 minutes
+# cacheTimeOutInSeconds = 60 * 60 * .25  # 15 minutes
+cacheTimeOutInSeconds = 60 * 60 * .00139 # 5 minutes
 
 useCached = False
 
@@ -430,6 +431,7 @@ async def get_fresh_data():
           AND DSCBCRSE.SCBCRSE_VPDI_CODE   = SCBCRSE.SCBCRSE_VPDI_CODE
           )
         and not REGEXP_LIKE (stvcamp.stvcamp_desc, 'correction', 'i')
+        and not REGEXP_LIKE (stvcamp.stvcamp_desc, 'detention', 'i')
         )
         ORDER BY
           CASE UPPER(STVCAMP_DESC)
