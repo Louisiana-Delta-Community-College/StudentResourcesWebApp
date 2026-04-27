@@ -16,6 +16,9 @@ class SchedulePage extends StatefulWidget {
 }
 
 class _SchedulePageState extends State<SchedulePage> {
+  bool _isSearchOpen = false;
+  final FocusNode _searchFocusNode = FocusNode();
+
   @override
   initState() {
     // Pull in schedule data on page initialization.
@@ -112,94 +115,138 @@ class _SchedulePageState extends State<SchedulePage> {
         // key: globalKey,
         drawer: const NavBar(),
         appBar: AppBar(
-          title: Stack(
-            children: [
-              // CENTERED TITLE
-              Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.dark_mode_sharp,
-                      color: AppColor.primary,
+          title: SizedBox(
+            width: double.infinity,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // TITLE (fades out when search open)
+                Opacity(
+                  opacity: _isSearchOpen ? 0.0 : 1.0,
+                  child: IgnorePointer(
+                    ignoring: _isSearchOpen,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.dark_mode_sharp,
+                          color: AppColor.primary,
+                        ),
+                        Semantics(
+                          label: "Page Title: Schedule of Classes",
+                          excludeSemantics: true,
+                          child: Text(
+                            "Schedule of Classes",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: themeProvider.fontSizeM,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Semantics(
-                      label: "Page Title: Schedule of Classes",
+                  ),
+                ),
+                // LOGO
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Focus(
+                    child: Semantics(
+                      image: true,
+                      label: "LDCC Logo",
                       excludeSemantics: true,
-                      child: Text(
-                        "Schedule of Classes",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: themeProvider.fontSizeM,
+                      child: Image.asset(
+                        isSmallFormFactor
+                            ? "assets/images/mark.png"
+                            : "assets/images/logo.png",
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                  ),
+                ),
+                // SEARCH FIELD (fades in when search open)
+                Positioned(
+                  left: 40,
+                  right: 100,
+                  top: 0,
+                  bottom: 0,
+                  child: Opacity(
+                    opacity: _isSearchOpen ? 1.0 : 0.0,
+                    child: IgnorePointer(
+                      ignoring: !_isSearchOpen,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextField(
+                          focusNode: _searchFocusNode,
+                          autofocus: false,
+                          onChanged: (value) {
+                            scheduleProvider.searchString = value;
+                            scheduleProvider.updateMatchCounts();
+                          },
+                          style: const TextStyle(color: AppColor.white),
+                          decoration: InputDecoration(
+                            hintText: 'Search...',
+                            hintStyle: TextStyle(
+                              color: AppColor.white.withValues(alpha: 0.7),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 12),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: AppColor.white,
+                              size: 20,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              // LOGO WITH PADDING
-              Positioned(
-                left: 10, // adjust as needed
-                top: 0,
-                bottom: 0,
-                child: Focus(
-                  child: Semantics(
-                    image: true,
-                    label: "LDCC Logo",
-                    excludeSemantics: true,
-                    child: Image.asset(
-                      isSmallFormFactor
-                          ? "assets/images/mark.png"
-                          : "assets/images/logo.png",
-                      fit: BoxFit.fitHeight,
-                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: SizedBox(
-                  width: 200,
-                  child: TextField(
-                    onChanged: (value) {
-                      scheduleProvider.searchString = value;
-                      scheduleProvider.updateMatchCounts();
-                    },
-                    style: const TextStyle(color: AppColor.white),
-                    decoration: InputDecoration(
-                      hintText: 'Search...',
-                      hintStyle: TextStyle(
-                          color: AppColor.white.withValues(alpha: 0.7)),
-                      border: InputBorder.none,
-                      prefixIcon:
-                          const Icon(Icons.search, color: AppColor.white),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
           actions: [
+            // SEARCH TOGGLE
+            IconButton(
+              tooltip: "Search",
+              onPressed: () {
+                setState(() {
+                  _isSearchOpen = !_isSearchOpen;
+                  if (!_isSearchOpen) {
+                    scheduleProvider.searchString = "";
+                    scheduleProvider.updateMatchCounts();
+                    _searchFocusNode.unfocus();
+                  } else {
+                    _searchFocusNode.requestFocus();
+                  }
+                });
+              },
+              icon: Icon(
+                _isSearchOpen ? Icons.close : Icons.search,
+                color: AppColor.white,
+              ),
+            ),
+            // BRIGHTNESS TOGGLE
             Semantics(
               button: true,
               value: "toggle brightness mode",
               child: FadeInDown(
                 preferences: const AnimationPreferences(
                   autoPlay: AnimationPlayStates.Forward,
-                  duration: Duration(
-                    milliseconds: 500,
-                  ),
+                  duration: Duration(milliseconds: 500),
                 ),
                 child: IconButton(
-                    tooltip: "Toggle Brightness Mode",
-                    onPressed: () {
-                      themeProvider.toggle();
-                    },
-                    icon: themeProvider.icon),
+                  tooltip: "Toggle Brightness Mode",
+                  onPressed: () {
+                    themeProvider.toggle();
+                  },
+                  icon: themeProvider.icon,
+                ),
               ),
             ),
           ],
@@ -571,6 +618,12 @@ class _SchedulePageState extends State<SchedulePage> {
         ),
       );
     });
+  }
+
+  @override
+  void dispose() {
+    _searchFocusNode.dispose();
+    super.dispose();
   }
 }
 
