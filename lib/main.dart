@@ -7,9 +7,8 @@ void main() async {
   runApp(
     ModularApp(
       module: ModularConfig(),
-      child: StyledToast(
-        locale: const Locale("en", "US"),
-        child: const MyApp(),
+      child: const StyledToast(
+        child: MyApp(),
       ),
     ),
     // scaleFactor: (deviceSize) {

@@ -124,19 +124,19 @@ class AppTheme extends ChangeNotifier {
       onSecondary: AppColor.primary,
       error: Colors.red,
       onError: Colors.black,
-      background: AppColor.white,
-      onBackground: AppColor.primary,
-      surface: AppColor.secondary,
-      onSurface: AppColor.primary,
+      // REMOVED: background and onBackground (now merged into surface/onSurface)
+      surface: AppColor.white, // was your old background value
+      onSurface: AppColor.primary, // was your old onBackground value
       tertiary: AppColor.primary,
       onTertiary: AppColor.white,
     ),
+    scaffoldBackgroundColor: AppColor.white, // add this explicitly
     primaryTextTheme: Typography().black,
     scrollbarTheme: ScrollbarThemeData(
-      // isAlwaysShown: true,
-      thumbVisibility: MaterialStateProperty.all(true),
-      thickness: MaterialStateProperty.all(7),
-      thumbColor: MaterialStateProperty.all(primary70),
+      thumbVisibility: WidgetStateProperty.all(
+          true), // MaterialStateProperty → WidgetStateProperty
+      thickness: WidgetStateProperty.all(7),
+      thumbColor: WidgetStateProperty.all(primary70),
       radius: const Radius.circular(10),
       crossAxisMargin: 0,
       minThumbLength: 50,
@@ -147,30 +147,30 @@ class AppTheme extends ChangeNotifier {
     brightness: Brightness.dark,
     fontFamily: "OpenSans",
     colorScheme: const ColorScheme(
-        brightness: Brightness.dark,
-        primary: AppColor.secondary,
-        onPrimary: AppColor.primary,
-        secondary: AppColor.secondary,
-        onSecondary: AppColor.primary,
-        error: Colors.red,
-        onError: Colors.black,
-        background: AppColor.darkGray,
-        onBackground: AppColor.white,
-        surface: AppColor.primary,
-        onSurface: Colors.white,
-        tertiary: AppColor.white,
-        onTertiary: AppColor.primary),
+      brightness: Brightness.dark,
+      primary: AppColor.secondary,
+      onPrimary: AppColor.primary,
+      secondary: AppColor.secondary,
+      onSecondary: AppColor.primary,
+      error: Colors.red,
+      onError: Colors.black,
+      // REMOVED: background and onBackground
+      surface: AppColor.primary,
+      onSurface: Colors.white,
+      tertiary: AppColor.white,
+      onTertiary: AppColor.primary,
+    ),
+    scaffoldBackgroundColor: AppColor.darkGray, // captures old background color
     primaryColor: AppColor.secondary,
     textSelectionTheme: const TextSelectionThemeData(
       selectionColor: AppColor.secondary,
     ),
     primaryTextTheme: Typography().white,
     scrollbarTheme: ScrollbarThemeData(
-      // isAlwaysShown: true,
-      thumbVisibility: MaterialStateProperty.all(true),
-
-      thickness: MaterialStateProperty.all(7),
-      thumbColor: MaterialStateProperty.all(tertiary50),
+      thumbVisibility: WidgetStateProperty.all(
+          true), // MaterialStateProperty → WidgetStateProperty
+      thickness: WidgetStateProperty.all(7),
+      thumbColor: WidgetStateProperty.all(tertiary50),
       radius: const Radius.circular(10),
       crossAxisMargin: 0,
       minThumbLength: 50,
@@ -178,46 +178,46 @@ class AppTheme extends ChangeNotifier {
   );
 
   static const primary = AppColor.primary;
-  static final primary90 = primary.withOpacity(.9);
-  static final primary80 = primary.withOpacity(.8);
-  static final primary70 = primary.withOpacity(.7);
-  static final primary60 = primary.withOpacity(.6);
-  static final primary50 = primary.withOpacity(.5);
-  static final primary40 = primary.withOpacity(.4);
-  static final primary30 = primary.withOpacity(.3);
-  static final primary20 = primary.withOpacity(.2);
-  static final primary10 = primary.withOpacity(.1);
+  static final primary90 = primary.withValues(alpha: .9);
+  static final primary80 = primary.withValues(alpha: .8);
+  static final primary70 = primary.withValues(alpha: .7);
+  static final primary60 = primary.withValues(alpha: .6);
+  static final primary50 = primary.withValues(alpha: .5);
+  static final primary40 = primary.withValues(alpha: .4);
+  static final primary30 = primary.withValues(alpha: .3);
+  static final primary20 = primary.withValues(alpha: .2);
+  static final primary10 = primary.withValues(alpha: .1);
 
   static const secondary = AppColor.secondary;
-  static final secondary90 = secondary.withOpacity(.9);
-  static final secondary80 = secondary.withOpacity(.8);
-  static final secondary70 = secondary.withOpacity(.7);
-  static final secondary60 = secondary.withOpacity(.6);
-  static final secondary50 = secondary.withOpacity(.5);
-  static final secondary40 = secondary.withOpacity(.4);
-  static final secondary30 = secondary.withOpacity(.3);
-  static final secondary20 = secondary.withOpacity(.2);
-  static final secondary10 = secondary.withOpacity(.1);
+  static final secondary90 = secondary.withValues(alpha: .9);
+  static final secondary80 = secondary.withValues(alpha: .8);
+  static final secondary70 = secondary.withValues(alpha: .7);
+  static final secondary60 = secondary.withValues(alpha: .6);
+  static final secondary50 = secondary.withValues(alpha: .5);
+  static final secondary40 = secondary.withValues(alpha: .4);
+  static final secondary30 = secondary.withValues(alpha: .3);
+  static final secondary20 = secondary.withValues(alpha: .2);
+  static final secondary10 = secondary.withValues(alpha: .1);
 
   static const tertiary = AppColor.tertiary;
-  static final tertiary90 = tertiary.withOpacity(.9);
-  static final tertiary80 = tertiary.withOpacity(.8);
-  static final tertiary70 = tertiary.withOpacity(.7);
-  static final tertiary60 = tertiary.withOpacity(.6);
-  static final tertiary50 = tertiary.withOpacity(.5);
-  static final tertiary40 = tertiary.withOpacity(.4);
-  static final tertiary30 = tertiary.withOpacity(.3);
-  static final tertiary20 = tertiary.withOpacity(.2);
-  static final tertiary10 = tertiary.withOpacity(.1);
+  static final tertiary90 = tertiary.withValues(alpha: .9);
+  static final tertiary80 = tertiary.withValues(alpha: .8);
+  static final tertiary70 = tertiary.withValues(alpha: .7);
+  static final tertiary60 = tertiary.withValues(alpha: .6);
+  static final tertiary50 = tertiary.withValues(alpha: .5);
+  static final tertiary40 = tertiary.withValues(alpha: .4);
+  static final tertiary30 = tertiary.withValues(alpha: .3);
+  static final tertiary20 = tertiary.withValues(alpha: .2);
+  static final tertiary10 = tertiary.withValues(alpha: .1);
 
   static const quaternary = AppColor.quaternary;
-  static final quaternary90 = quaternary.withOpacity(.9);
-  static final quaternary80 = quaternary.withOpacity(.8);
-  static final quaternary70 = quaternary.withOpacity(.7);
-  static final quaternary60 = quaternary.withOpacity(.6);
-  static final quaternary50 = quaternary.withOpacity(.5);
-  static final quaternary40 = quaternary.withOpacity(.4);
-  static final quaternary30 = quaternary.withOpacity(.3);
-  static final quaternary20 = quaternary.withOpacity(.2);
-  static final quaternary10 = quaternary.withOpacity(.1);
+  static final quaternary90 = quaternary.withValues(alpha: .9);
+  static final quaternary80 = quaternary.withValues(alpha: .8);
+  static final quaternary70 = quaternary.withValues(alpha: .7);
+  static final quaternary60 = quaternary.withValues(alpha: .6);
+  static final quaternary50 = quaternary.withValues(alpha: .5);
+  static final quaternary40 = quaternary.withValues(alpha: .4);
+  static final quaternary30 = quaternary.withValues(alpha: .3);
+  static final quaternary20 = quaternary.withValues(alpha: .2);
+  static final quaternary10 = quaternary.withValues(alpha: .1);
 }

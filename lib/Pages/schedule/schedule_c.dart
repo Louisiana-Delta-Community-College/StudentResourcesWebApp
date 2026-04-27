@@ -103,9 +103,26 @@ class Schedule extends ChangeNotifier {
         .toList();
   }
 
+  List<dynamic> cachedCampusData = [];
+  DateTime _lastFilter = DateTime(2000);
+
   List<dynamic> get currentlySelectedCampusFilteredData {
-    return filteredData.where((course) => course["C"] == _campus).toList();
+    // Only re-filter when underlying data actually changes
+    if (cachedCampusData.isEmpty ||
+        _lastFilter
+            .isBefore(DateTime.now().subtract(const Duration(seconds: 1)))) {
+      cachedCampusData = filteredData
+          .where((c) => _selectedCampus.isNotEmpty
+              ? c["Campus"].toString().toLowerCase() ==
+                  _selectedCampus.toLowerCase()
+              : true)
+          .toList();
+      _lastFilter = DateTime.now();
+    }
+    return cachedCampusData;
   }
+
+  get _selectedCampus => _campus;
 
   set campus(String c) {
     _campus = c;
@@ -159,6 +176,7 @@ class Schedule extends ChangeNotifier {
           // response.body is already a JSON formatted string
           // because of how the Python CGI page is coded.
           _data = jsonDecode(response.body) as List<dynamic>;
+          cachedCampusData = [];
           if (_data.isEmpty) {
             _error("No data.");
           } else {
@@ -270,10 +288,10 @@ class Schedule extends ChangeNotifier {
           actions: [
             TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
+                backgroundColor: WidgetStateProperty.all(
                   themeProvider.text,
                 ),
-                foregroundColor: MaterialStateProperty.all(
+                foregroundColor: WidgetStateProperty.all(
                   themeProvider.bodyBackground,
                 ),
               ),
@@ -317,17 +335,17 @@ class Schedule extends ChangeNotifier {
                           ),
                           style: ButtonStyle(
                             overlayColor:
-                                MaterialStateProperty.all(themeProvider.text),
-                            foregroundColor: MaterialStateProperty.all(
+                                WidgetStateProperty.all(themeProvider.text),
+                            foregroundColor: WidgetStateProperty.all(
                               themeProvider.text,
                             ),
-                            side: MaterialStateProperty.all(
+                            side: WidgetStateProperty.all(
                               BorderSide(
                                 width: 1,
                                 color: themeProvider.text,
                               ),
                             ),
-                            textStyle: MaterialStateProperty.all(
+                            textStyle: WidgetStateProperty.all(
                               TextStyle(
                                 color: themeProvider.text,
                                 fontSize: themeProvider.fontSizeM,
@@ -357,16 +375,16 @@ class Schedule extends ChangeNotifier {
                           ),
                           style: ButtonStyle(
                             overlayColor:
-                                MaterialStateProperty.all(themeProvider.text),
+                                WidgetStateProperty.all(themeProvider.text),
                             foregroundColor:
-                                MaterialStateProperty.all(themeProvider.text),
-                            side: MaterialStateProperty.all(
+                                WidgetStateProperty.all(themeProvider.text),
+                            side: WidgetStateProperty.all(
                               BorderSide(
                                 width: 1,
                                 color: themeProvider.text,
                               ),
                             ),
-                            textStyle: MaterialStateProperty.all(
+                            textStyle: WidgetStateProperty.all(
                               TextStyle(
                                 color: themeProvider.text,
                                 fontSize: themeProvider.fontSizeM,

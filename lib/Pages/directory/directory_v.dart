@@ -493,17 +493,11 @@ class ContactsDavi extends StatelessWidget {
   }
 
   int compare(Object? a, Object? b, String? name) {
-    String v1 = "${(a as Map)["$name"]}, ${a["$name"]}";
-    String v2 = "${(b as Map)["$name"]}, ${b["$name"]}";
-    if (v1.isEmpty || v2.isEmpty) {
-      return 0;
-    }
-    if (v1.isEmpty) {
-      return 0;
-    }
-    if (v2.isEmpty) {
-      return 1;
-    }
+    String v1 = "${(a as Map)['$name']}";
+    String v2 = "${(b as Map)['$name']}";
+    if (v1.isEmpty && v2.isEmpty) return 0;
+    if (v1.isEmpty) return -1;
+    if (v2.isEmpty) return 1;
     return v1.compareTo(v2);
   }
 }
@@ -604,7 +598,7 @@ class ContactsCard extends StatelessWidget {
           //-----------------------------
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.all(10),

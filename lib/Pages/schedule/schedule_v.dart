@@ -468,8 +468,7 @@ class _SchedulePageState extends State<SchedulePage> {
                               child:
                                   SelectableText(scheduleProvider.errorMessage))
                           // : SelectableText(scheduleProvider.data[0].toString()),
-                          : scheduleProvider.currentlySelectedCampusFilteredData
-                                  .isNotEmpty
+                          : scheduleProvider.cachedCampusData.isNotEmpty
                               ? isSmallFormFactor
                                   // MOBILE STYLE CARDS
                                   ? GlowingOverscrollIndicator(
@@ -477,12 +476,10 @@ class _SchedulePageState extends State<SchedulePage> {
                                       color: AppColor.secondary,
                                       child: ListView.builder(
                                         itemCount: scheduleProvider
-                                            .currentlySelectedCampusFilteredData
-                                            .length,
+                                            .cachedCampusData.length,
                                         itemBuilder: (context, index) {
                                           final course = scheduleProvider
-                                                  .currentlySelectedCampusFilteredData[
-                                              index];
+                                              .cachedCampusData[index];
                                           return Padding(
                                             padding: const EdgeInsets.only(
                                               top: 4,
@@ -1406,7 +1403,7 @@ class CourseCard extends StatelessWidget {
           //-----------------------------
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.all(10),
