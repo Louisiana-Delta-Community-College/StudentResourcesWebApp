@@ -17,7 +17,6 @@ class SchedulePage extends StatefulWidget {
 
 class _SchedulePageState extends State<SchedulePage> {
   bool _isSearchOpen = false;
-  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   initState() {
@@ -152,23 +151,26 @@ class _SchedulePageState extends State<SchedulePage> {
                   left: 0,
                   top: 0,
                   bottom: 0,
-                  child: Focus(
-                    child: Semantics(
-                      image: true,
-                      label: "LDCC Logo",
-                      excludeSemantics: true,
-                      child: Image.asset(
-                        isSmallFormFactor
-                            ? "assets/images/mark.png"
-                            : "assets/images/logo.png",
-                        fit: BoxFit.fitHeight,
+                  child: SizedBox(
+                    width: isSmallFormFactor ? 60 : 250,
+                    child: Focus(
+                      child: Semantics(
+                        image: true,
+                        label: "LDCC Logo",
+                        excludeSemantics: true,
+                        child: Image.asset(
+                          isSmallFormFactor
+                              ? "assets/images/mark.png"
+                              : "assets/images/logo.png",
+                          fit: BoxFit.fitHeight,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 // SEARCH FIELD (fades in when search open)
                 Positioned(
-                  left: 40,
+                  left: isSmallFormFactor ? 60 : 250,
                   right: 100,
                   top: 0,
                   bottom: 0,
@@ -179,8 +181,9 @@ class _SchedulePageState extends State<SchedulePage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: TextField(
-                          focusNode: _searchFocusNode,
-                          autofocus: false,
+                          key: ValueKey<bool>(
+                              _isSearchOpen), // ADD THIS - forces rebuild on toggle
+                          autofocus: _isSearchOpen, // ADD THIS
                           onChanged: (value) {
                             scheduleProvider.searchString = value;
                             scheduleProvider.updateMatchCounts();
@@ -220,9 +223,6 @@ class _SchedulePageState extends State<SchedulePage> {
                   if (!_isSearchOpen) {
                     scheduleProvider.searchString = "";
                     scheduleProvider.updateMatchCounts();
-                    _searchFocusNode.unfocus();
-                  } else {
-                    _searchFocusNode.requestFocus();
                   }
                 });
               },
@@ -618,12 +618,6 @@ class _SchedulePageState extends State<SchedulePage> {
         ),
       );
     });
-  }
-
-  @override
-  void dispose() {
-    _searchFocusNode.dispose();
-    super.dispose();
   }
 }
 
