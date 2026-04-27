@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<AppTheme>();
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'LDCC',
