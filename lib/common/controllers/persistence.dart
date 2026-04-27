@@ -1,22 +1,19 @@
-import 'package:schedule/common/common.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Persistence extends ChangeNotifier {
-  final GetStorage _box = GetStorage();
+class Persistence {
   bool _isDark = false;
-
-  init() {
-    _isDark = _box.read("isDark") ?? false;
-    notifyListeners();
-  }
 
   bool get isDark => _isDark;
 
-  set isDark(bool val) {
-    if (val != _isDark) {
-      _isDark = val;
-      // persist the change
-      _box.write("isDark", val);
-      notifyListeners();
-    }
+  set isDark(bool value) {
+    _isDark = value;
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool('isDark', value);
+    });
+  }
+
+  void init() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDark = prefs.getBool('isDark') ?? false;
   }
 }

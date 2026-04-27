@@ -111,24 +111,27 @@ class _SchedulePageState extends State<SchedulePage> {
       return Scaffold(
         // key: globalKey,
         drawer: const NavBar(),
-        appBar: EasySearchBar(
+        appBar: AppBar(
           title: Stack(
             children: [
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // This is here to pad the title to center position
                   const Icon(
                     Icons.dark_mode_sharp,
                     color: AppColor.primary,
                   ),
-                  Center(
-                    child: Text(
-                      "Schedule of Classes",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: themeProvider.fontSizeM,
+                  Semantics(
+                    label: "Page Title: Schedule of Classes",
+                    excludeSemantics: true,
+                    child: Center(
+                      child: Text(
+                        "Schedule of Classes",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeM,
+                        ),
                       ),
                     ),
                   ),
@@ -156,12 +159,24 @@ class _SchedulePageState extends State<SchedulePage> {
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
-          searchCursorColor: themeProvider.text,
-          searchBackIconTheme: IconThemeData(
-            color: themeProvider.text,
-          ),
-          // centerTitle: true,
           actions: [
+            SizedBox(
+              width: 200,
+              child: TextField(
+                onChanged: (value) {
+                  scheduleProvider.searchString = value;
+                  scheduleProvider.updateMatchCounts();
+                },
+                style: const TextStyle(color: AppColor.white),
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle:
+                      TextStyle(color: AppColor.white.withValues(alpha: 0.7)),
+                  border: InputBorder.none,
+                  prefixIcon: const Icon(Icons.search, color: AppColor.white),
+                ),
+              ),
+            ),
             Semantics(
               button: true,
               value: "toggle brightness mode",
@@ -181,10 +196,6 @@ class _SchedulePageState extends State<SchedulePage> {
               ),
             ),
           ],
-          onSearch: (value) {
-            scheduleProvider.searchString = value;
-            scheduleProvider.updateMatchCounts();
-          },
         ),
         body: Center(
           child: Column(
@@ -199,16 +210,16 @@ class _SchedulePageState extends State<SchedulePage> {
                     right: 10,
                   ),
                   child: scheduleCampusMenuProvider.isLoading
-                      ? SkeletonLine(
-                          style: SkeletonLineStyle(
-                            alignment: Alignment.center,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5)),
-                            padding: EdgeInsets.only(
-                              left: viewPortWidth(context) * .2,
-                              right: viewPortWidth(context) * .2,
+                      ? Skeletonizer(
+                          child: Container(
+                            height: 20,
+                            margin: EdgeInsets.symmetric(
+                              horizontal: viewPortWidth(context) * .2,
                             ),
-                            // randomLength: true,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
                         )
                       : scheduleCampusMenuProvider.hasError
@@ -351,17 +362,15 @@ class _SchedulePageState extends State<SchedulePage> {
                     right: 20,
                   ),
                   child: scheduleTermsMenuProvider.isLoading
-                      ? const SkeletonLine(
-                          style: SkeletonLineStyle(
-                              alignment: Alignment.center,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              padding: EdgeInsets.only(
-                                left: 200,
-                                right: 200,
-                              )
-                              // randomLength: true,
-                              ),
+                      ? Skeletonizer(
+                          child: Container(
+                            height: 20,
+                            margin: const EdgeInsets.symmetric(horizontal: 200),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
                         )
                       : scheduleTermsMenuProvider.hasError
                           ? Center(

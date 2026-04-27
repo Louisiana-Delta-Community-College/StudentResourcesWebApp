@@ -1,9 +1,7 @@
 import 'package:schedule/common/common.dart';
-// import 'package:flutter/rendering.dart';
 
 void main() async {
   initLog();
-  await GetStorage.init();
   runApp(
     ModularApp(
       module: ModularConfig(),
@@ -11,26 +9,18 @@ void main() async {
         child: MyApp(),
       ),
     ),
-    // scaleFactor: (deviceSize) {
-    //   const double widthOfDesign = 375;
-    //   return deviceSize.width / widthOfDesign;
-    // },
   );
-  // RendererBinding.instance.setSemanticsEnabled(true);
 }
 
 class ModularConfig extends Module {
   @override
   List<Bind> get binds => [
-        // APP-WIDE BINDS
         Bind.singleton((i) => AppTitle()),
         Bind.singleton((i) => AppTheme()),
         Bind.singleton((i) => Persistence()),
-        // SCHEDULE BINDS
         Bind.singleton((i) => Schedule()),
         Bind.singleton((i) => ScheduleTermsMenu()),
         Bind.singleton((i) => ScheduleCampusMenu()),
-        // DIRECTORY BINDS
         Bind.singleton((i) => Directory()),
       ];
 
@@ -79,9 +69,6 @@ class ModularConfig extends Module {
           ),
           transition: TransitionType.fadeIn,
         ),
-        // ChildRoute('/other',
-        //     child: (context, args) => const Other(),
-        //     transition: TransitionType.fadeIn),
         WildcardRoute(
           child: (context, args) => const NotFoundPage(),
           transition: TransitionType.fadeIn,
@@ -106,28 +93,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      globalContext = context;
-    });
-    final themeProvider = context.watch<AppTheme>();
-    final titleProvider = context.watch<AppTitle>();
     return MaterialApp.router(
-      title: titleProvider.title,
       debugShowCheckedModeBanner: false,
-      themeMode: themeProvider.themeMode,
-      theme: themeProvider.light,
-      darkTheme: themeProvider.dark,
-      routeInformationParser: Modular.routeInformationParser,
+      title: 'LDCC',
       routerDelegate: Modular.routerDelegate,
-      builder: (context, child) {
-        final MediaQueryData data = MediaQuery.of(context);
-        return MediaQuery(
-          data: data.copyWith(
-            textScaler: const TextScaler.linear(1.0),
-          ),
-          child: child!,
-        );
-      },
+      routeInformationParser: Modular.routeInformationParser,
+      theme: Modular.get<AppTheme>().light,
+      darkTheme: Modular.get<AppTheme>().dark,
+      themeMode: Modular.get<AppTheme>().themeMode,
     );
   }
 }

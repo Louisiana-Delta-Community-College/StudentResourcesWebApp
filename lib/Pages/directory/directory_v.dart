@@ -49,14 +49,13 @@ class _DirectoryPageState extends State<DirectoryPage> {
             value: "navigation menu",
             sortKey: const OrdinalSortKey(1),
             child: const NavBar()),
-        appBar: EasySearchBar(
+        appBar: AppBar(
           title: Stack(
             children: [
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // This is here to pad the title to center position
                   const Icon(
                     Icons.dark_mode_sharp,
                     color: AppColor.primary,
@@ -100,12 +99,23 @@ class _DirectoryPageState extends State<DirectoryPage> {
           ),
           backgroundColor: AppColor.primary,
           foregroundColor: AppColor.white,
-          searchCursorColor: themeProvider.text,
-          searchBackIconTheme: IconThemeData(
-            color: themeProvider.text,
-          ),
-          // centerTitle: true,
           actions: [
+            SizedBox(
+              width: 200,
+              child: TextField(
+                onChanged: (value) {
+                  directoryProvider.searchString = value;
+                },
+                style: const TextStyle(color: AppColor.white),
+                decoration: InputDecoration(
+                  hintText: 'Search...',
+                  hintStyle:
+                      TextStyle(color: AppColor.white.withValues(alpha: 0.7)),
+                  border: InputBorder.none,
+                  prefixIcon: const Icon(Icons.search, color: AppColor.white),
+                ),
+              ),
+            ),
             Semantics(
               button: true,
               value: "toggle brightness mode",
@@ -125,9 +135,6 @@ class _DirectoryPageState extends State<DirectoryPage> {
               ),
             ),
           ],
-          onSearch: (value) {
-            directoryProvider.searchString = value;
-          },
         ),
         body: Center(
           child: Column(

@@ -73,33 +73,14 @@ class Schedule extends ChangeNotifier {
     notifyListeners();
   }
 
-  // List<dynamic> get filteredData => _data
-  //     .where((course) => course["C"] == _campus)
-  //     .where((course) => course
-  //         .toString()
-  //         .toLowerCase()
-  //         // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-  //         .contains(RegExp(_searchString, caseSensitive: false)))
-  //     .toList();
-
   List<dynamic> get filteredData {
     return _data
-        .where((course) =>
-            (course as Map)
-                .values
-                .toList()
-                .toString()
-                .toLowerCase()
-                // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-                .contains(RegExp(_searchString, caseSensitive: false)) ||
-            course.values
-                .toList()
-                .reversed
-                .toList()
-                .toString()
-                .toLowerCase()
-                // .contains(RegExp("\\b$_searchString\\b", caseSensitive: false)))
-                .contains(RegExp(_searchString, caseSensitive: false)))
+        .where((course) => (course as Map)
+            .values
+            .toList()
+            .toString()
+            .toLowerCase()
+            .contains(RegExp(_searchString, caseSensitive: false)))
         .toList();
   }
 
@@ -131,6 +112,7 @@ class Schedule extends ChangeNotifier {
   }
 
   Future getScheduleData() async {
+    cachedCampusData = [];
     Map<String, dynamic> queryParameters = {};
 
     if (_term.isNotEmpty) {
