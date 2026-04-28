@@ -384,7 +384,7 @@ class _DirectoryDaviState extends State<DirectoryDavi> {
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
-    final rows = directoryProvider.data;
+    final rows = directoryProvider.filteredData;
     final cellFontSize = themeProvider.fontSizeXS;
 
     final nextCacheKey = _buildCacheKey(rows, themeProvider);
