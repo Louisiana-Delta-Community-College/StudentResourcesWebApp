@@ -23,7 +23,6 @@ class AppTheme extends ChangeNotifier {
   Color get daviText => isDark ? AppColor.white : Colors.black;
 
   Color get menuColor => AppColor.primary;
-  // Color get menuColorSelected => AppColor.darkSilver90;
   Color get menuColorSelected => AppColor.secondary;
   Color get menuColorBorder => isDark ? AppColor.secondary : AppColor.primary;
 
@@ -38,100 +37,81 @@ class AppTheme extends ChangeNotifier {
   Color get floatingActionButtonForegroundColor =>
       isDark ? AppColor.primary : Colors.white;
 
+  double _logicalWidth = 1024;
   double _scale = 1.0;
+  String _formFactor = "L";
+  String _viewportBucket = "desktop";
 
-  double get scale {
-    final double width = WidgetsBinding
-        .instance.platformDispatcher.views.first.physicalSize.width;
+  double get logicalWidth => _logicalWidth;
+  double get scale => _scale;
+  String get formFactor => _formFactor;
+  String get viewportBucket => _viewportBucket;
 
+  void updateLayoutMetrics(double width) {
+    final normalizedWidth = width <= 0 ? 1024.0 : width;
+    final nextBucket = _bucketForWidth(normalizedWidth);
+    final nextScale = _scaleForWidth(normalizedWidth);
+    final nextFormFactor = _formFactorForScale(nextScale);
+
+    if (_logicalWidth == normalizedWidth &&
+        _viewportBucket == nextBucket &&
+        _scale == nextScale &&
+        _formFactor == nextFormFactor) {
+      return;
+    }
+
+    _logicalWidth = normalizedWidth;
+    _viewportBucket = nextBucket;
+    _scale = nextScale;
+    _formFactor = nextFormFactor;
+    notifyListeners();
+  }
+
+  String _bucketForWidth(double width) {
+    if (width < 600) return "mobile";
+    if (width < 900) return "tablet";
+    if (width < 1440) return "desktop";
+    return "wide";
+  }
+
+  double _scaleForWidth(double width) {
     if (width < 600) {
-      return 0.85; // phones
+      return 0.85;
     } else if (width < 1024) {
-      // 600→0.85, 1024→1.0
       return 0.85 + (width - 600) * (0.15 / 424);
     } else if (width < 1440) {
-      // 1024→1.0, 1440→1.05  (desktop sweet spot)
       return 1.0 + (width - 1024) * (0.05 / 416);
     } else {
-      // 1440→1.05, 1920→1.1  (ultrawide)
-      return 1.05 + (width - 1440) * (0.05 / 480);
+      return (1.05 + (width - 1440) * (0.05 / 480)).clamp(1.05, 1.1);
     }
   }
 
-  String get formFactor {
-    if (scale < 0.9) return "S"; // phones / small windows
-    if (scale < 1.0) return "M"; // tablets / small laptops
-    if (scale < 1.05) return "L"; // normal desktop
-    return "XL"; // very wide desktop
+  String _formFactorForScale(double currentScale) {
+    if (currentScale < 0.9) return "S";
+    if (currentScale < 1.0) return "M";
+    if (currentScale < 1.05) return "L";
+    return "XL";
+  }
+
+  double _clampFont(double size, double min) {
+    return size < min ? min : size;
   }
 
   double get _fontSizeDelta {
-    // Base: 10–18px → * scale
-    final baseDelta = (scale - 1.0) * 20;
-
-    // Optional extra bump for XL only
+    final baseDelta = (scale - 1.0) * 18;
     if (formFactor == "XL") return baseDelta + 1.0;
     return baseDelta;
   }
 
   double get daviRowHeight {
-    final base = 25.0 * scale; // 34px at scale=1
-    if (formFactor == "S") return base - 4; // compress on phones
+    final base = 25.0 * scale;
+    if (formFactor == "S") return base - 4;
     if (formFactor == "XL") return base + 2;
     return base;
   }
 
-  // String get formFactor {
-  //   final double physicalWidth = WidgetsBinding
-  //       .instance.platformDispatcher.views.first.physicalSize.width;
-  //   final double devicePixelRatio =
-  //       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
-  //   final double width = physicalWidth / devicePixelRatio;
-  //   // log.i(width.toString());
-  //   if (width < 600) {
-  //     return "S";
-  //   } else if (width > 600 && width < 800) {
-  //     return "M";
-  //   } else if (width > 800 && width < 1200) {
-  //     return "L";
-  //   } else if (width > 1200) {
-  //     return 'XL';
-  //   } else {
-  //     return "";
-  //   }
-  // }
-
-  // double get _fontSizeDelta {
-  //   if (formFactor == "S") {
-  //     return -2.0;
-  //   } else if (formFactor == "M") {
-  //     return -1.0;
-  //   } else if (formFactor == "L") {
-  //     return 2.0;
-  //   } else if (formFactor == "XL") {
-  //     return 4.0;
-  //   } else {
-  //     return 0.0;
-  //   }
-  // }
-
-  // double get daviRowHeight {
-  //   if (formFactor == "S") {
-  //     return 20;
-  //   } else if (formFactor == "M") {
-  //     return 25;
-  //   } else if (formFactor == "L") {
-  //     return 30;
-  //   } else if (formFactor == "XL") {
-  //     return 35;
-  //   } else {
-  //     return 40;
-  //   }
-  // }
-
-  double _clampFont(double size, double min) {
-    return size < min ? min : size;
-  }
+  double get daviFontSize => fontSizeXS < 12 ? 12 : fontSizeXS;
+  double get daviHeaderFontSize => fontSizeS < 13 ? 13 : fontSizeS;
 
   double get fontSizeXXS => _clampFont(13 + _fontSizeDelta, 10);
   double get fontSizeXS => _clampFont(13 + _fontSizeDelta, 11);
@@ -142,78 +122,57 @@ class AppTheme extends ChangeNotifier {
   double get fontSizeXXL => _clampFont(80 + _fontSizeDelta, 56);
 
   init() {
-    Modular.get<Persistence>().isDark
-        ? _themeMode = ThemeMode.dark
-        : ThemeMode.light;
+    final brightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    _themeMode =
+        brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+  }
+
+  setThemeMode(ThemeMode mode) {
+    _themeMode = mode;
     notifyListeners();
   }
 
   toggle() {
     isDark ? _themeMode = ThemeMode.light : _themeMode = ThemeMode.dark;
-    Modular.get<Persistence>().isDark = isDark ? true : false;
     notifyListeners();
   }
 
   ThemeData light = ThemeData(
     useMaterial3: false,
     brightness: Brightness.light,
-    fontFamily: "OpenSans",
+    primaryColor: AppColor.primary,
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: AppColor.primary,
       onPrimary: AppColor.white,
       secondary: AppColor.secondary,
-      onSecondary: AppColor.primary,
+      onSecondary: AppColor.white,
       error: Colors.red,
-      onError: Colors.black,
+      onError: Colors.white,
       surface: AppColor.white,
-      onSurface: AppColor.primary,
-      tertiary: AppColor.primary,
-      onTertiary: AppColor.white,
+      onSurface: Colors.black,
     ),
     scaffoldBackgroundColor: AppColor.white,
-    primaryTextTheme: Typography().black,
-    scrollbarTheme: ScrollbarThemeData(
-      thumbVisibility: WidgetStateProperty.all(true),
-      thickness: WidgetStateProperty.all(7),
-      thumbColor: WidgetStateProperty.all(primary70),
-      radius: const Radius.circular(10),
-      crossAxisMargin: 0,
-      minThumbLength: 50,
-    ),
   );
 
   ThemeData dark = ThemeData(
     useMaterial3: false,
     brightness: Brightness.dark,
-    fontFamily: "OpenSans",
+    primaryColor: AppColor.primary,
     colorScheme: const ColorScheme(
       brightness: Brightness.dark,
-      primary: AppColor.secondary,
-      onPrimary: AppColor.primary,
+      primary: AppColor.primary,
+      onPrimary: AppColor.white,
       secondary: AppColor.secondary,
-      onSecondary: AppColor.primary,
+      onSecondary: AppColor.white,
       error: Colors.red,
-      onError: Colors.black,
+      onError: Colors.white,
       surface: AppColor.darkGray,
-      onSurface: Colors.white,
-      tertiary: AppColor.white,
-      onTertiary: AppColor.primary,
+      onSurface: AppColor.white,
     ),
     scaffoldBackgroundColor: AppColor.darkGray,
-    primaryColor: AppColor.secondary,
-    textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: AppColor.secondary,
-    ),
-    primaryTextTheme: Typography().white,
-    scrollbarTheme: ScrollbarThemeData(
-      thumbVisibility: WidgetStateProperty.all(true),
-      thickness: WidgetStateProperty.all(7),
-      thumbColor: WidgetStateProperty.all(tertiary50),
-      radius: const Radius.circular(10),
-      crossAxisMargin: 0,
-      minThumbLength: 50,
-    ),
   );
 
   static const primary = AppColor.primary;

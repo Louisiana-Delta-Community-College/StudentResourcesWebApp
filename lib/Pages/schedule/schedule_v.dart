@@ -19,35 +19,28 @@ class _SchedulePageState extends State<SchedulePage> {
   bool _isSearchOpen = false;
 
   @override
-  initState() {
-    // Pull in schedule data on page initialization.
-    // If one were to try to issue this command in the Widget build method,
-    // errors would ensue due to trying to rebuild while build is being executed.
-    // This is due to Modular's notifyListeners() method which is used to update
-    // isLoading status at the beginning of Schedule.getScheduleData()
-    // Modular.get<Schedule>().init();
+  @override
+  void initState() {
+    super.initState();
 
-    // If parameters `season` and `year` are populated check their values and
-    // set ScheduleTermsMenu.termDesc if necessary
     final season = widget.season.toString().toLowerCase();
     final year = widget.year.toString();
 
-    ScheduleTermsMenu scheduleTermsMenu = Modular.get<ScheduleTermsMenu>();
+    final scheduleTermsMenu = Modular.get<ScheduleTermsMenu>();
 
-    bool fetchCurrent =
+    final fetchCurrent =
         (widget.current.isNotEmpty && widget.current == "current");
     Modular.get<Schedule>().fetchCurrent = fetchCurrent;
 
     String termCode = "";
     String termTy = "";
     Map<String, dynamic> passedInTerm = {};
+
     if (season.isNotEmpty && year.isNotEmpty && year.length == 4) {
-      // is year 4 characters long and is it a number?
       int? intYear = int.tryParse(widget.year);
       if (intYear != null) {
         if (["spring", "summer", "fall", "winter"]
             .any((element) => element.contains(season))) {
-          // Build term code
           if (season == "spring") {
             termCode = "${intYear}20";
             termTy = "";
@@ -84,12 +77,11 @@ class _SchedulePageState extends State<SchedulePage> {
 
     Modular.get<Schedule>().getScheduleData();
     scheduleTermsMenu.getMenuData();
-    // Schedule app title to run in the future to allow `MyApp.build()`
-    // to finish before updating.
-    Future.delayed(const Duration(seconds: 1)).then((r) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       Modular.get<AppTitle>().title = "Schedule of Classes";
     });
-    super.initState();
   }
 
   @override
@@ -109,6 +101,8 @@ class _SchedulePageState extends State<SchedulePage> {
     final matchCounts = scheduleProvider.matchCounts;
 
     return LayoutBuilder(builder: (context, constraints) {
+      final themeProvider = context.read<AppTheme>();
+      themeProvider.updateLayoutMetrics(constraints.maxWidth);
       var isSmallFormFactor = constraints.maxWidth < 800;
 
       return Scaffold(
@@ -661,8 +655,162 @@ class MatchCountChip extends StatelessWidget {
   }
 }
 
-class ScheduleDavi extends StatelessWidget {
+class ScheduleDavi extends StatefulWidget {
   const ScheduleDavi({Key? key}) : super(key: key);
+
+  @override
+  State<ScheduleDavi> createState() => _ScheduleDaviState();
+}
+
+class _ScheduleDaviState extends State<ScheduleDavi> {
+  Map<String, double> _cachedWidths = {};
+  String _cacheKey = "";
+
+  String _buildCacheKey(
+    List rows,
+    AppTheme themeProvider,
+  ) {
+    final length = rows.length;
+    final firstHash = length > 0 ? rows.first.hashCode : 0;
+    final lastHash = length > 0 ? rows.last.hashCode : 0;
+
+    return [
+      length,
+      firstHash,
+      lastHash,
+      themeProvider.daviFontSize.toStringAsFixed(2),
+      themeProvider.viewportBucket,
+    ].join("|");
+  }
+
+  Map<String, double> _computeWidths(
+    List rows,
+    AppTheme themeProvider,
+  ) {
+    final cellFontSize = themeProvider.daviFontSize;
+
+    return {
+      "CRN": computeColumnWidth(
+        header: "CRN",
+        values: rows.map((r) => r['CRN'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 70,
+        maxWidth: 140,
+      ),
+      "SC": computeColumnWidth(
+        header: "Subject",
+        values: rows.map((r) => r['SC'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 85,
+        maxWidth: 140,
+      ),
+      "CN": computeColumnWidth(
+        header: "Course",
+        values: rows.map((r) => r['CN'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 80,
+        maxWidth: 140,
+      ),
+      "CT": computeColumnWidth(
+        header: "Description",
+        values: rows.map((r) => r['CT'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 180,
+        maxWidth: 320,
+      ),
+      "PTRM": computeColumnWidth(
+        header: "Course Duration",
+        values: rows.map((r) => r['PTRM'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 140,
+        maxWidth: 220,
+      ),
+      "CH": computeColumnWidth(
+        header: "Hours",
+        values: rows.map((r) => r['CH'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 70,
+        maxWidth: 100,
+      ),
+      "D": computeColumnWidth(
+        header: "Days",
+        values: rows.map((r) => r['D'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 80,
+        maxWidth: 130,
+      ),
+      "TB": computeColumnWidth(
+        header: "Start",
+        values: rows.map((r) => r['TB'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 90,
+        maxWidth: 130,
+      ),
+      "TE": computeColumnWidth(
+        header: "End",
+        values: rows.map((r) => r['TE'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 90,
+        maxWidth: 130,
+      ),
+      "B": computeColumnWidth(
+        header: "Building",
+        values: rows.map((r) => r['B'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 180,
+        maxWidth: 280,
+      ),
+      "R": computeColumnWidth(
+        header: "Room",
+        values: rows.map((r) => r['R'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 80,
+        maxWidth: 120,
+      ),
+      "TN": computeColumnWidth(
+        header: "Teacher(s)",
+        values: rows.map((r) => r['TN'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 160,
+        maxWidth: 320,
+      ),
+      "E": computeColumnWidth(
+        header: "Enrolled",
+        values: rows.map((r) => r['E'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 90,
+        maxWidth: 120,
+      ),
+      "PTRMDS": computeColumnWidth(
+        header: "Date Start",
+        values: rows.map((r) => r['PTRMDS'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 110,
+        maxWidth: 150,
+      ),
+      "PTRMDE": computeColumnWidth(
+        header: "Date End",
+        values: rows.map((r) => r['PTRMDE'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 110,
+        maxWidth: 150,
+      ),
+      "INSMC": computeColumnWidth(
+        header: "Method",
+        values: rows.map((r) => r['INSMC'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 100,
+        maxWidth: 180,
+      ),
+      "AF": computeColumnWidth(
+        header: "Added Fees",
+        values: rows.map((r) => r['AF'].toString()),
+        fontSize: cellFontSize,
+        minWidth: 100,
+        maxWidth: 160,
+      ),
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -670,131 +818,30 @@ class ScheduleDavi extends StatelessWidget {
     final themeProvider = context.watch<AppTheme>();
     final rows = scheduleProvider.currentlySelectedCampusFilteredData;
     final cellFontSize = themeProvider.fontSizeXS;
-    final widthCRN = computeColumnWidth(
-      header: "CRN",
-      values: rows.map((r) => r['CRN'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthSC = computeColumnWidth(
-      header: "Subject",
-      values: rows.map((r) => r['SC'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthCN = computeColumnWidth(
-      header: "Course",
-      values: rows.map((r) => r['CN'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthCT = computeColumnWidth(
-      header: "Description",
-      values: rows.map((r) => r['CT'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthPTRM = computeColumnWidth(
-      header: "Course Duration",
-      values: rows.map((r) => r['PTRM'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthCH = computeColumnWidth(
-      header: "Hours",
-      values: rows.map((r) => r['CH'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 70,
-      maxWidth: 280,
-    );
-    final widthD = computeColumnWidth(
-      header: "Days",
-      values: rows.map((r) => r['D'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthTB = computeColumnWidth(
-      header: "Start",
-      values: rows.map((r) => r['TB'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthTE = computeColumnWidth(
-      header: "End",
-      values: rows.map((r) => r['TE'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthB = computeColumnWidth(
-      header: "Building",
-      values: rows.map((r) => r['B'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthR = computeColumnWidth(
-      header: "Room",
-      values: rows.map((r) => r['R'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthTN = computeColumnWidth(
-      header: "Teacher(s)",
-      values: rows.map((r) => r['TN'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    // final widthMS = computeColumnWidth(
-    //   rows.map((r) => r['MS'].toString()),
-    //   fontSize: cellFontSize,
-    //   minWidth: 0,
-    //   maxWidth: 280,
-    // );
-    final widthE = computeColumnWidth(
-      header: "Enrolled",
-      values: rows.map((r) => r['E'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthPTRMDS = computeColumnWidth(
-      header: "Date Start",
-      values: rows.map((r) => r['PTRMDS'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthPTRMDE = computeColumnWidth(
-      header: "Date End",
-      values: rows.map((r) => r['PTRMDE'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthINSMC = computeColumnWidth(
-      header: "Method",
-      values: rows.map((r) => r['INSMC'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthAF = computeColumnWidth(
-      header: "Added Fees",
-      values: rows.map((r) => r['AF'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
+
+    final nextCacheKey = _buildCacheKey(rows, themeProvider);
+    if (_cacheKey != nextCacheKey) {
+      _cachedWidths = _computeWidths(rows, themeProvider);
+      _cacheKey = nextCacheKey;
+    }
+
+    final widthCRN = _cachedWidths["CRN"]!;
+    final widthSC = _cachedWidths["SC"]!;
+    final widthCN = _cachedWidths["CN"]!;
+    final widthCT = _cachedWidths["CT"]!;
+    final widthPTRM = _cachedWidths["PTRM"]!;
+    final widthCH = _cachedWidths["CH"]!;
+    final widthD = _cachedWidths["D"]!;
+    final widthTB = _cachedWidths["TB"]!;
+    final widthTE = _cachedWidths["TE"]!;
+    final widthB = _cachedWidths["B"]!;
+    final widthR = _cachedWidths["R"]!;
+    final widthTN = _cachedWidths["TN"]!;
+    final widthE = _cachedWidths["E"]!;
+    final widthPTRMDS = _cachedWidths["PTRMDS"]!;
+    final widthPTRMDE = _cachedWidths["PTRMDE"]!;
+    final widthINSMC = _cachedWidths["INSMC"]!;
+    final widthAF = _cachedWidths["AF"]!;
 
     return Center(
       child: DaviTheme(
