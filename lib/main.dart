@@ -1,10 +1,21 @@
 import 'package:schedule/common/common.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   initLog();
+
+  final persistence = Persistence();
+  await persistence.init();
+
+  final appTheme = AppTheme();
+  appTheme.init(persistence);
+
   runApp(
     ModularApp(
-      module: ModularConfig(),
+      module: ModularConfig(
+        persistence: persistence,
+        appTheme: appTheme,
+      ),
       child: const StyledToast(
         child: MyApp(),
       ),
@@ -13,11 +24,19 @@ void main() async {
 }
 
 class ModularConfig extends Module {
+  final Persistence persistence;
+  final AppTheme appTheme;
+
+  ModularConfig({
+    required this.persistence,
+    required this.appTheme,
+  });
+
   @override
   List<Bind> get binds => [
         Bind.singleton((i) => AppTitle()),
-        Bind.singleton((i) => AppTheme()),
-        Bind.singleton((i) => Persistence()),
+        Bind.singleton((i) => appTheme),
+        Bind.singleton((i) => persistence),
         Bind.singleton((i) => Schedule()),
         Bind.singleton((i) => ScheduleTermsMenu()),
         Bind.singleton((i) => ScheduleCampusMenu()),

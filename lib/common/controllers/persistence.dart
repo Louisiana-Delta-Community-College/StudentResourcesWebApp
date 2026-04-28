@@ -12,7 +12,7 @@ class Persistence {
     });
   }
 
-  void init() async {
+  Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
     _isDark = prefs.getBool('isDark') ?? false;
   }

@@ -2,6 +2,7 @@ import 'package:schedule/common/common.dart';
 
 class AppTheme extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
+  Persistence? _persistence;
 
   ThemeMode get themeMode => _themeMode;
 
@@ -121,21 +122,30 @@ class AppTheme extends ChangeNotifier {
   double get fontSizeXL => _clampFont(48 + _fontSizeDelta, 34);
   double get fontSizeXXL => _clampFont(80 + _fontSizeDelta, 56);
 
-  init() {
-    final brightness =
-        WidgetsBinding.instance.platformDispatcher.platformBrightness;
-    _themeMode =
-        brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
+  void init([Persistence? persistence]) {
+    _persistence = persistence ?? _persistence;
+
+    if (_persistence != null) {
+      _themeMode = _persistence!.isDark ? ThemeMode.dark : ThemeMode.light;
+    } else {
+      final brightness =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness;
+      _themeMode =
+          brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
+    }
+
     notifyListeners();
   }
 
-  setThemeMode(ThemeMode mode) {
+  void setThemeMode(ThemeMode mode) {
     _themeMode = mode;
+    _persistence?.isDark = mode == ThemeMode.dark;
     notifyListeners();
   }
 
-  toggle() {
-    isDark ? _themeMode = ThemeMode.light : _themeMode = ThemeMode.dark;
+  void toggle() {
+    _themeMode = isDark ? ThemeMode.light : ThemeMode.dark;
+    _persistence?.isDark = _themeMode == ThemeMode.dark;
     notifyListeners();
   }
 
