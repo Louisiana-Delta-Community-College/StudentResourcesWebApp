@@ -438,16 +438,13 @@ class ContactsDavi extends StatelessWidget {
                     );
                   },
                   dataComparator: (a, b, column) {
-                    final aLast =
-                        "${(a as Map)["LastName"]}".trim().toLowerCase();
-                    final bLast =
-                        "${(b as Map)["LastName"]}".trim().toLowerCase();
-                    final lastCompare = aLast.compareTo(bLast);
-                    if (lastCompare != 0) return lastCompare;
-
-                    final aFirst = "${a["FirstName"]}".trim().toLowerCase();
-                    final bFirst = "${b["FirstName"]}".trim().toLowerCase();
-                    return aFirst.compareTo(bFirst);
+                    final v1 = "${(a as Map)["LastName"]}, ${a["FirstName"]}"
+                        .trim()
+                        .toLowerCase();
+                    final v2 = "${(b as Map)["LastName"]}, ${b["FirstName"]}"
+                        .trim()
+                        .toLowerCase();
+                    return v1.compareTo(v2);
                   },
                 ),
                 DaviColumn(
