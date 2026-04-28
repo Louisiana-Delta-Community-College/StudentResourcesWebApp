@@ -16,33 +16,31 @@ class _DirectoryPageState extends State<DirectoryPage> {
   bool _isSearchOpen = false;
 
   @override
-  initState() {
-    // Pull in schedule data on page initialization.
-    // If one were to try to issue this command in the Widget build method,
-    // errors would ensue due to trying to rebuild while build is being executed.
-    // This is due to Modular's notifyListeners() method which is used to update
-    // isLoading status at the beginning of Schedule.getScheduleData()
+  void initState() {
+    super.initState();
+
     Modular.get<Directory>().getDirectoryData();
-    // Schedule app title to run in the future to allow `MyApp.build()`
-    // to finish before updating.
+
     if (widget.selectedCampus.isNotEmpty) {
       titleAppendedCampus =
           " - ${widget.selectedCampus.toString().replaceAll("%20", " ").titleCase}";
     }
-    Future.delayed(const Duration(seconds: 1)).then((r) {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       Modular.get<Directory>().selectedCampus =
           Uri.decodeComponent(widget.selectedCampus);
       Modular.get<AppTitle>().title = "Directory$titleAppendedCampus";
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
-    final themeProvider = context.watch<AppTheme>();
 
     return LayoutBuilder(builder: (context, constraints) {
+      final themeProvider = context.read<AppTheme>();
+      themeProvider.updateLayoutMetrics(constraints.maxWidth);
       var isSmallFormFactor = constraints.maxWidth < 800;
 
       return Scaffold(
@@ -238,7 +236,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                                       ),
                                     )
                                   // SHOW REGULAR TABLE
-                                  : const ContactsDavi()
+                                  : const DirectoryDavi()
                               : Center(
                                   child: Text(
                                     directoryProvider.searchString.isNotEmpty
@@ -292,64 +290,107 @@ class _DirectoryPageState extends State<DirectoryPage> {
   }
 }
 
-class ContactsDavi extends StatelessWidget {
-  const ContactsDavi({Key? key}) : super(key: key);
+class DirectoryDavi extends StatefulWidget {
+  const DirectoryDavi({Key? key}) : super(key: key);
+
+  @override
+  State<DirectoryDavi> createState() => _DirectoryDaviState();
+}
+
+class _DirectoryDaviState extends State<DirectoryDavi> {
+  Map<String, double> _cachedWidths = {};
+  String _cacheKey = "";
+
+  String _buildCacheKey(List rows, AppTheme themeProvider) {
+    final length = rows.length;
+    final firstHash = length > 0 ? rows.first.hashCode : 0;
+    final lastHash = length > 0 ? rows.last.hashCode : 0;
+
+    return [
+      length,
+      firstHash,
+      lastHash,
+      themeProvider.daviFontSize.toStringAsFixed(2),
+      themeProvider.viewportBucket,
+    ].join("|");
+  }
+
+  Map<String, double> _computeWidths(List rows, AppTheme themeProvider) {
+    final cellFontSize = themeProvider.daviFontSize;
+
+    return {
+      "Name": computeColumnWidth(
+        header: "Name",
+        values: rows.map((r) => "${(r as Map)["LastName"]}, ${r["FirstName"]}"),
+        fontSize: cellFontSize,
+        minWidth: 180,
+        maxWidth: 300,
+      ),
+      "PhoneNumber": computeColumnWidth(
+        header: "Phone Number",
+        values: rows.map((r) => r["PhoneNumber"].toString()),
+        fontSize: cellFontSize,
+        minWidth: 140,
+        maxWidth: 190,
+      ),
+      "JobTitle": computeColumnWidth(
+        header: "Title",
+        values: rows.map((r) => r["JobTitle"].toString()),
+        fontSize: cellFontSize,
+        minWidth: 180,
+        maxWidth: 340,
+      ),
+      "Department": computeColumnWidth(
+        header: "Department",
+        values: rows.map((r) => r["Department"].toString()),
+        fontSize: cellFontSize,
+        minWidth: 220,
+        maxWidth: 420,
+      ),
+      "EmailAddress": computeColumnWidth(
+        header: "Email",
+        values: rows.map((r) => r["EmailAddress"].toString()),
+        fontSize: cellFontSize,
+        minWidth: 220,
+        maxWidth: 360,
+      ),
+      "Campus": computeColumnWidth(
+        header: "Campus",
+        values: rows.map((r) => r["Campus"].toString()),
+        fontSize: cellFontSize,
+        minWidth: 120,
+        maxWidth: 180,
+      ),
+      "Office": computeColumnWidth(
+        header: "Office",
+        values: rows.map((r) => r["Office"].toString()),
+        fontSize: cellFontSize,
+        minWidth: 120,
+        maxWidth: 220,
+      ),
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
-    final rows = directoryProvider.filteredData;
+    final rows = directoryProvider.data;
     final cellFontSize = themeProvider.fontSizeXS;
-    final widthName = computeColumnWidth(
-      header: "Name",
-      values: rows.map((r) => "${(r as Map)["LastName"]}, ${r["FirstName"]}"),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthPhoneNumber = computeColumnWidth(
-      header: "Phone Number",
-      values: rows.map((r) => r['PhoneNumber'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthJobTitle = computeColumnWidth(
-      header: "Title",
-      values: rows.map((r) => r['JobTitle'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthDepartment = computeColumnWidth(
-      header: "Department",
-      values: rows.map((r) => r['Department'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 350,
-    );
-    final widthEmail = computeColumnWidth(
-      header: "Email",
-      values: rows.map((r) => r['EmailAddress'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthCampus = computeColumnWidth(
-      header: "Campus",
-      values: rows.map((r) => r['Campus'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
-    final widthOffice = computeColumnWidth(
-      header: "Office",
-      values: rows.map((r) => r['Office'].toString()),
-      fontSize: cellFontSize,
-      minWidth: 0,
-      maxWidth: 280,
-    );
+
+    final nextCacheKey = _buildCacheKey(rows, themeProvider);
+    if (_cacheKey != nextCacheKey) {
+      _cachedWidths = _computeWidths(rows, themeProvider);
+      _cacheKey = nextCacheKey;
+    }
+
+    final widthName = _cachedWidths["Name"]!;
+    final widthPhoneNumber = _cachedWidths["PhoneNumber"]!;
+    final widthJobTitle = _cachedWidths["JobTitle"]!;
+    final widthDepartment = _cachedWidths["Department"]!;
+    final widthEmail = _cachedWidths["EmailAddress"]!;
+    final widthCampus = _cachedWidths["Campus"]!;
+    final widthOffice = _cachedWidths["Office"]!;
 
     return Center(
       child: DaviTheme(
