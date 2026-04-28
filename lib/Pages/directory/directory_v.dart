@@ -302,15 +302,24 @@ class _DirectoryDaviState extends State<DirectoryDavi> {
   String _cacheKey = "";
 
   String _buildCacheKey(List rows, AppTheme themeProvider) {
-    final length = rows.length;
-    final firstHash = length > 0 ? rows.first.hashCode : 0;
-    final lastHash = length > 0 ? rows.last.hashCode : 0;
+    final sampleFingerprint = rows.take(25).map((row) {
+      final r = row as Map;
+      return [
+        r['LastName'],
+        r['FirstName'],
+        r['PhoneNumber'],
+        r['JobTitle'],
+        r['Department'],
+        r['EmailAddress'],
+        r['Campus'],
+        r['Office'],
+      ].join('~');
+    }).join('||');
 
     return [
-      length,
-      firstHash,
-      lastHash,
-      themeProvider.daviFontSize.toStringAsFixed(2),
+      rows.length,
+      sampleFingerprint.hashCode,
+      themeProvider.fontSizeXS.toStringAsFixed(2),
       themeProvider.viewportBucket,
     ].join("|");
   }

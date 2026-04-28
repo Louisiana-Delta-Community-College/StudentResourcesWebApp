@@ -19,7 +19,6 @@ class _SchedulePageState extends State<SchedulePage> {
   bool _isSearchOpen = false;
 
   @override
-  @override
   void initState() {
     super.initState();
 
@@ -89,8 +88,6 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleProvider = context.watch<Schedule>();
     final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
     final scheduleCampusMenuProvider = context.watch<ScheduleCampusMenu>();
-    final themeProvider = context.watch<AppTheme>();
-    final cellFontSize = themeProvider.fontSizeXS;
 
     final groupButtonCampusMenuController =
         scheduleCampusMenuProvider.groupButtonCampusMenuController;
@@ -101,9 +98,12 @@ class _SchedulePageState extends State<SchedulePage> {
     final matchCounts = scheduleProvider.matchCounts;
 
     return LayoutBuilder(builder: (context, constraints) {
-      final themeProvider = context.read<AppTheme>();
-      themeProvider.updateLayoutMetrics(constraints.maxWidth);
-      var isSmallFormFactor = constraints.maxWidth < 800;
+      final themeController = context.read<AppTheme>();
+      themeController.updateLayoutMetrics(constraints.maxWidth);
+
+      final themeProvider = context.watch<AppTheme>();
+      final cellFontSize = themeProvider.fontSizeXS;
+      final isSmallFormFactor = constraints.maxWidth < 800;
 
       return Scaffold(
         // key: globalKey,
@@ -670,14 +670,32 @@ class _ScheduleDaviState extends State<ScheduleDavi> {
     List rows,
     AppTheme themeProvider,
   ) {
-    final length = rows.length;
-    final firstHash = length > 0 ? rows.first.hashCode : 0;
-    final lastHash = length > 0 ? rows.last.hashCode : 0;
+    final sampleFingerprint = rows.take(25).map((row) {
+      final r = row as Map;
+      return [
+        r['CRN'],
+        r['SC'],
+        r['CN'],
+        r['CT'],
+        r['PTRM'],
+        r['CH'],
+        r['D'],
+        r['TB'],
+        r['TE'],
+        r['B'],
+        r['R'],
+        r['TN'],
+        r['E'],
+        r['PTRMDS'],
+        r['PTRMDE'],
+        r['INSMC'],
+        r['AF'],
+      ].join('~');
+    }).join('||');
 
     return [
-      length,
-      firstHash,
-      lastHash,
+      rows.length,
+      sampleFingerprint.hashCode,
       themeProvider.daviFontSize.toStringAsFixed(2),
       themeProvider.viewportBucket,
     ].join("|");
