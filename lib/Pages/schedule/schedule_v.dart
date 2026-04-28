@@ -99,7 +99,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
     return LayoutBuilder(builder: (context, constraints) {
       final themeController = context.read<AppTheme>();
-      themeController.updateLayoutMetrics(constraints.maxWidth);
+      themeController.updateLayoutMetricsDeferred(constraints.maxWidth);
 
       final themeProvider = context.watch<AppTheme>();
       final cellFontSize = themeProvider.fontSizeXS;

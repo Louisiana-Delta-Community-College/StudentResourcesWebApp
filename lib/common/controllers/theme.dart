@@ -48,7 +48,7 @@ class AppTheme extends ChangeNotifier {
   String get formFactor => _formFactor;
   String get viewportBucket => _viewportBucket;
 
-  void updateLayoutMetrics(double width) {
+  bool updateLayoutMetrics(double width) {
     final normalizedWidth = width <= 0 ? 1024.0 : width;
     final nextBucket = _bucketForWidth(normalizedWidth);
     final nextScale = _scaleForWidth(normalizedWidth);
@@ -58,14 +58,14 @@ class AppTheme extends ChangeNotifier {
         _viewportBucket == nextBucket &&
         _scale == nextScale &&
         _formFactor == nextFormFactor) {
-      return;
+      return false;
     }
 
     _logicalWidth = normalizedWidth;
     _viewportBucket = nextBucket;
     _scale = nextScale;
     _formFactor = nextFormFactor;
-    notifyListeners();
+    return true;
   }
 
   String _bucketForWidth(double width) {
@@ -96,6 +96,15 @@ class AppTheme extends ChangeNotifier {
 
   double _clampFont(double size, double min) {
     return size < min ? min : size;
+  }
+
+  void updateLayoutMetricsDeferred(double width) {
+    final didChange = updateLayoutMetrics(width);
+    if (!didChange) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 
   double get _fontSizeDelta {

@@ -40,7 +40,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
 
     return LayoutBuilder(builder: (context, constraints) {
       final themeProvider = context.read<AppTheme>();
-      themeProvider.updateLayoutMetrics(constraints.maxWidth);
+      themeProvider.updateLayoutMetricsDeferred(constraints.maxWidth);
       var isSmallFormFactor = constraints.maxWidth < 800;
 
       return Scaffold(
