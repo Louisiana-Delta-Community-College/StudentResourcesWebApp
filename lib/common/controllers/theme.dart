@@ -41,12 +41,21 @@ class AppTheme extends ChangeNotifier {
   double _scale = 1.0;
 
   double get scale {
-    // 320 → 0.8, 1920 → 1.1, clamped
     final double width = WidgetsBinding
         .instance.platformDispatcher.views.first.physicalSize.width;
-    final s = 0.8 + (width - 320) * (0.3 / (1920 - 320));
-    _scale = s.clamp(0.8, 1.1);
-    return _scale;
+
+    if (width < 600) {
+      return 0.85; // phones
+    } else if (width < 1024) {
+      // 600→0.85, 1024→1.0
+      return 0.85 + (width - 600) * (0.15 / 424);
+    } else if (width < 1440) {
+      // 1024→1.0, 1440→1.05  (desktop sweet spot)
+      return 1.0 + (width - 1024) * (0.05 / 416);
+    } else {
+      // 1440→1.05, 1920→1.1  (ultrawide)
+      return 1.05 + (width - 1440) * (0.05 / 480);
+    }
   }
 
   String get formFactor {
@@ -58,7 +67,7 @@ class AppTheme extends ChangeNotifier {
 
   double get _fontSizeDelta {
     // Base: 10–18px → * scale
-    final baseDelta = (scale - 1.0) * 25;
+    final baseDelta = (scale - 1.0) * 20;
 
     // Optional extra bump for XL only
     if (formFactor == "XL") return baseDelta + 1.0;
@@ -120,19 +129,17 @@ class AppTheme extends ChangeNotifier {
   //   }
   // }
 
-  double get fontSizeXXS => 10 + _fontSizeDelta;
-  double get fontSizeXS => 13 + _fontSizeDelta;
-  double get fontSizeS => 14 + _fontSizeDelta;
-  double get fontSizeM => 20 + _fontSizeDelta;
-  double get fontSizeL => 40 + _fontSizeDelta;
-  double get fontSizeXL => 48 + _fontSizeDelta;
-  double get fontSizeXXL => 80 + _fontSizeDelta;
-  // double get fontSizeXS => 13;
-  // double get fontSizeS => 14;
-  // double get fontSizeM => 20;
-  // double get fontSizeL => 40;
-  // double get fontSizeXL => 48;
-  // double get fontSizeXXL => 80;
+  double _clampFont(double size, double min) {
+    return size < min ? min : size;
+  }
+
+  double get fontSizeXXS => _clampFont(13 + _fontSizeDelta, 10);
+  double get fontSizeXS => _clampFont(13 + _fontSizeDelta, 11);
+  double get fontSizeS => _clampFont(14 + _fontSizeDelta, 12);
+  double get fontSizeM => _clampFont(20 + _fontSizeDelta, 16);
+  double get fontSizeL => _clampFont(40 + _fontSizeDelta, 28);
+  double get fontSizeXL => _clampFont(48 + _fontSizeDelta, 34);
+  double get fontSizeXXL => _clampFont(80 + _fontSizeDelta, 56);
 
   init() {
     Modular.get<Persistence>().isDark

@@ -182,6 +182,7 @@ class _SchedulePageState extends State<SchedulePage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: TextField(
+                          cursorColor: AppColor.white,
                           key: ValueKey<bool>(
                               _isSearchOpen), // ADD THIS - forces rebuild on toggle
                           autofocus: _isSearchOpen, // ADD THIS
@@ -669,110 +670,127 @@ class ScheduleDavi extends StatelessWidget {
     final themeProvider = context.watch<AppTheme>();
     final rows = scheduleProvider.currentlySelectedCampusFilteredData;
     final cellFontSize = themeProvider.fontSizeXS;
-    final widthCRN = maxTextWidth(
-      rows.map((r) => r['CRN'].toString()),
+    final widthCRN = computeColumnWidth(
+      header: "CRN",
+      values: rows.map((r) => r['CRN'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthSC = maxTextWidth(
-      rows.map((r) => r['SC'].toString()),
+    final widthSC = computeColumnWidth(
+      header: "Subject",
+      values: rows.map((r) => r['SC'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthCN = maxTextWidth(
-      rows.map((r) => r['CN'].toString()),
+    final widthCN = computeColumnWidth(
+      header: "Course",
+      values: rows.map((r) => r['CN'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthCT = maxTextWidth(
-      rows.map((r) => r['CT'].toString()),
+    final widthCT = computeColumnWidth(
+      header: "Description",
+      values: rows.map((r) => r['CT'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthPTRM = maxTextWidth(
-      rows.map((r) => r['PTRM'].toString()),
+    final widthPTRM = computeColumnWidth(
+      header: "Course Duration",
+      values: rows.map((r) => r['PTRM'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthCH = maxTextWidth(
-      rows.map((r) => r['CH'].toString()),
+    final widthCH = computeColumnWidth(
+      header: "Hours",
+      values: rows.map((r) => r['CH'].toString()),
       fontSize: cellFontSize,
       minWidth: 70,
       maxWidth: 280,
     );
-    final widthD = maxTextWidth(
-      rows.map((r) => r['D'].toString()),
+    final widthD = computeColumnWidth(
+      header: "Days",
+      values: rows.map((r) => r['D'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthTB = maxTextWidth(
-      rows.map((r) => r['TB'].toString()),
+    final widthTB = computeColumnWidth(
+      header: "Start",
+      values: rows.map((r) => r['TB'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthTE = maxTextWidth(
-      rows.map((r) => r['TE'].toString()),
+    final widthTE = computeColumnWidth(
+      header: "End",
+      values: rows.map((r) => r['TE'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthB = maxTextWidth(
-      rows.map((r) => r['B'].toString()),
+    final widthB = computeColumnWidth(
+      header: "Building",
+      values: rows.map((r) => r['B'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthR = maxTextWidth(
-      rows.map((r) => r['R'].toString()),
+    final widthR = computeColumnWidth(
+      header: "Room",
+      values: rows.map((r) => r['R'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthTN = maxTextWidth(
-      rows.map((r) => r['TN'].toString()),
+    final widthTN = computeColumnWidth(
+      header: "Teacher(s)",
+      values: rows.map((r) => r['TN'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    // final widthMS = maxTextWidth(
+    // final widthMS = computeColumnWidth(
     //   rows.map((r) => r['MS'].toString()),
     //   fontSize: cellFontSize,
     //   minWidth: 0,
     //   maxWidth: 280,
     // );
-    final widthE = maxTextWidth(
-      rows.map((r) => r['E'].toString()),
+    final widthE = computeColumnWidth(
+      header: "Enrolled",
+      values: rows.map((r) => r['E'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthPTRMDS = maxTextWidth(
-      rows.map((r) => r['PTRMDS'].toString()),
+    final widthPTRMDS = computeColumnWidth(
+      header: "Date Start",
+      values: rows.map((r) => r['PTRMDS'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthPTRMDE = maxTextWidth(
-      rows.map((r) => r['PTRMDE'].toString()),
+    final widthPTRMDE = computeColumnWidth(
+      header: "Date End",
+      values: rows.map((r) => r['PTRMDE'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthINSMC = maxTextWidth(
-      rows.map((r) => r['INSMC'].toString()),
+    final widthINSMC = computeColumnWidth(
+      header: "Method",
+      values: rows.map((r) => r['INSMC'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
     );
-    final widthAF = maxTextWidth(
-      rows.map((r) => r['AF'].toString()),
+    final widthAF = computeColumnWidth(
+      header: "Added Fees",
+      values: rows.map((r) => r['AF'].toString()),
       fontSize: cellFontSize,
       minWidth: 0,
       maxWidth: 280,
@@ -887,6 +905,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -921,6 +941,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -955,6 +977,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -989,6 +1013,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1049,6 +1075,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         friendlyType,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1082,6 +1110,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1115,6 +1145,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1148,6 +1180,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1181,6 +1215,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1214,6 +1250,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1247,6 +1285,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1280,6 +1320,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1304,7 +1346,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Enrolled",
-                width: widthE * 2,
+                width: widthE,
                 cellBuilder: (context, row) {
                   final val =
                       "${(row.data as Map)["E"]} / ${(row.data as Map)["MS"]}";
@@ -1314,6 +1356,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1347,6 +1391,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1380,6 +1426,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1413,6 +1461,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1446,6 +1496,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),

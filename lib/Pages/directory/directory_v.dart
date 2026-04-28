@@ -118,6 +118,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: TextField(
+                          cursorColor: AppColor.white,
                           key: ValueKey<bool>(_isSearchOpen),
                           autofocus: _isSearchOpen,
                           onChanged: (value) {
@@ -299,6 +300,56 @@ class ContactsDavi extends StatelessWidget {
     final directoryProvider = context.watch<Directory>();
     final themeProvider = context.watch<AppTheme>();
     final rows = directoryProvider.filteredData;
+    final cellFontSize = themeProvider.fontSizeXS;
+    final widthName = computeColumnWidth(
+      header: "Name",
+      values: rows.map((r) => "${(r as Map)["LastName"]}, ${r["FirstName"]}"),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthPhoneNumber = computeColumnWidth(
+      header: "Phone Number",
+      values: rows.map((r) => r['PhoneNumber'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthJobTitle = computeColumnWidth(
+      header: "Title",
+      values: rows.map((r) => r['JobTitle'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthDepartment = computeColumnWidth(
+      header: "Department",
+      values: rows.map((r) => r['Department'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 350,
+    );
+    final widthEmail = computeColumnWidth(
+      header: "Email",
+      values: rows.map((r) => r['EmailAddress'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthCampus = computeColumnWidth(
+      header: "Campus",
+      values: rows.map((r) => r['Campus'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthOffice = computeColumnWidth(
+      header: "Office",
+      values: rows.map((r) => r['Office'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
 
     return Center(
       child: DaviTheme(
@@ -306,7 +357,7 @@ class ContactsDavi extends StatelessWidget {
           headerCell: HeaderCellThemeData(
             textStyle: TextStyle(
               color: themeProvider.text,
-              fontSize: themeProvider.fontSizeXS,
+              fontSize: cellFontSize,
             ),
             height: themeProvider.daviRowHeight,
             sortPriorityColor: themeProvider.text,
@@ -328,7 +379,7 @@ class ContactsDavi extends StatelessWidget {
             contentHeight: themeProvider.daviRowHeight,
             textStyle: TextStyle(
               color: themeProvider.daviText,
-              fontSize: themeProvider.fontSizeXS,
+              fontSize: cellFontSize,
             ),
           ),
         ),
@@ -342,6 +393,7 @@ class ContactsDavi extends StatelessWidget {
               columns: [
                 DaviColumn(
                   name: "Name",
+                  width: widthName + 30,
                   cellBuilder: (context, row) {
                     final name =
                         "${(row.data as Map)["LastName"]}, ${(row.data as Map)["FirstName"]}";
@@ -374,6 +426,8 @@ class ContactsDavi extends StatelessWidget {
                             ),
                             Text(
                               name,
+                              softWrap: false,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: themeProvider.fontSizeXXS,
                               ),
@@ -383,10 +437,10 @@ class ContactsDavi extends StatelessWidget {
                       ),
                     );
                   },
-                  width: 300,
                 ),
                 DaviColumn(
                   name: "Phone Number",
+                  width: widthPhoneNumber,
                   cellBuilder: (context, row) {
                     final phoneNumber = "${(row.data as Map)["PhoneNumber"]}";
                     return Focus(
@@ -399,6 +453,8 @@ class ContactsDavi extends StatelessWidget {
                         child: InkWell(
                           child: Text(
                             phoneNumber,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               decoration: TextDecoration.underline,
                               decorationColor: themeProvider.text,
@@ -415,10 +471,10 @@ class ContactsDavi extends StatelessWidget {
                   dataComparator: (a, b, column) {
                     return compare(a, b, "PhoneNumber");
                   },
-                  width: 150 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Title",
+                  width: widthJobTitle,
                   cellBuilder: (context, row) {
                     final jobTitle = "${(row.data as Map)["JobTitle"]}";
                     return Focus(
@@ -427,6 +483,8 @@ class ContactsDavi extends StatelessWidget {
                         excludeSemantics: true,
                         child: Text(
                           jobTitle,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: themeProvider.fontSizeXXS,
                           ),
@@ -437,15 +495,17 @@ class ContactsDavi extends StatelessWidget {
                   dataComparator: (a, b, column) {
                     return compare(a, b, "JobTitle");
                   },
-                  width: 450 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Department",
+                  width: widthDepartment,
                   cellBuilder: (context, row) {
                     final department = "${(row.data as Map)["Department"]}";
                     return Focus(
                       child: Text(
                         department,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -456,10 +516,10 @@ class ContactsDavi extends StatelessWidget {
                   dataComparator: (a, b, column) {
                     return compare(a, b, "Department");
                   },
-                  width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Email",
+                  width: widthEmail,
                   cellBuilder: (context, row) {
                     final emailAddress = "${(row.data as Map)["EmailAddress"]}";
                     return Focus(
@@ -472,6 +532,8 @@ class ContactsDavi extends StatelessWidget {
                         child: InkWell(
                           child: Text(
                             emailAddress,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: themeProvider.fontSizeXXS,
                               decoration: TextDecoration.underline,
@@ -488,10 +550,10 @@ class ContactsDavi extends StatelessWidget {
                   dataComparator: (a, b, column) {
                     return compare(a, b, "EmailAddress");
                   },
-                  width: 300 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Campus",
+                  width: widthCampus,
                   cellBuilder: (context, row) {
                     final campus = "${(row.data as Map)["Campus"]}";
                     return Focus(
@@ -500,6 +562,8 @@ class ContactsDavi extends StatelessWidget {
                         excludeSemantics: true,
                         child: Text(
                           campus,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: themeProvider.fontSizeXXS,
                           ),
@@ -510,10 +574,10 @@ class ContactsDavi extends StatelessWidget {
                   dataComparator: (a, b, column) {
                     return compare(a, b, "Campus");
                   },
-                  width: 130 + themeProvider.fontSizeXXS * 2,
                 ),
                 DaviColumn(
                   name: "Office",
+                  width: widthOffice,
                   cellBuilder: (context, row) {
                     final office = "${(row.data as Map)["Office"]}";
                     return Focus(
@@ -522,6 +586,8 @@ class ContactsDavi extends StatelessWidget {
                         excludeSemantics: true,
                         child: Text(
                           office,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: themeProvider.fontSizeXXS,
                           ),
@@ -532,7 +598,6 @@ class ContactsDavi extends StatelessWidget {
                   dataComparator: (a, b, column) {
                     return compare(a, b, "Office");
                   },
-                  width: 170 + themeProvider.fontSizeXXS * 2,
                 ),
               ],
               multiSortEnabled: true,
