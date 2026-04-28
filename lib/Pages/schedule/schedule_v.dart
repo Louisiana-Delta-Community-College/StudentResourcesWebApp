@@ -98,6 +98,7 @@ class _SchedulePageState extends State<SchedulePage> {
     final scheduleTermsMenuProvider = context.watch<ScheduleTermsMenu>();
     final scheduleCampusMenuProvider = context.watch<ScheduleCampusMenu>();
     final themeProvider = context.watch<AppTheme>();
+    final cellFontSize = themeProvider.fontSizeXS;
 
     final groupButtonCampusMenuController =
         scheduleCampusMenuProvider.groupButtonCampusMenuController;
@@ -181,6 +182,7 @@ class _SchedulePageState extends State<SchedulePage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: TextField(
+                          cursorColor: AppColor.white,
                           key: ValueKey<bool>(
                               _isSearchOpen), // ADD THIS - forces rebuild on toggle
                           autofocus: _isSearchOpen, // ADD THIS
@@ -361,7 +363,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           color: isSelected
                                               ? AppColor.primary
                                               : AppColor.white,
-                                          fontSize: themeProvider.fontSizeXS,
+                                          fontSize: cellFontSize,
                                         ),
                                       ),
                                       matchCount > 0
@@ -371,7 +373,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           //     child: Chip(side: ,
                                           //       labelStyle: TextStyle(
                                           //         color: Colors.white,
-                                          //         fontSize: themeProvider.fontSizeXS,
+                                          //         fontSize: cellFontSize,
                                           //       ),
                                           //       backgroundColor:
                                           //           AppTheme.quaternary,
@@ -391,7 +393,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                           //         matchCountString,
                                           //         style: TextStyle(
                                           //           color: Colors.white,
-                                          //           fontSize: themeProvider.fontSizeXS,
+                                          //           fontSize: cellFontSize,
                                           //         ),
                                           //       ),
                                           //     ),
@@ -504,7 +506,7 @@ class _SchedulePageState extends State<SchedulePage> {
                                       color: isSelected
                                           ? AppColor.primary
                                           : AppColor.white,
-                                      fontSize: themeProvider.fontSizeXS,
+                                      fontSize: cellFontSize,
                                     ),
                                   ),
                                 );
@@ -631,6 +633,7 @@ class MatchCountChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = context.watch<AppTheme>();
+    final cellFontSize = themeProvider.fontSizeXS;
 
     return Padding(
       padding: const EdgeInsets.only(left: 4.0),
@@ -650,7 +653,7 @@ class MatchCountChip extends StatelessWidget {
           countString,
           style: TextStyle(
             color: Colors.white,
-            fontSize: themeProvider.fontSizeXS,
+            fontSize: cellFontSize,
           ),
         ),
       ),
@@ -666,6 +669,132 @@ class ScheduleDavi extends StatelessWidget {
     final scheduleProvider = context.watch<Schedule>();
     final themeProvider = context.watch<AppTheme>();
     final rows = scheduleProvider.currentlySelectedCampusFilteredData;
+    final cellFontSize = themeProvider.fontSizeXS;
+    final widthCRN = computeColumnWidth(
+      header: "CRN",
+      values: rows.map((r) => r['CRN'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthSC = computeColumnWidth(
+      header: "Subject",
+      values: rows.map((r) => r['SC'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthCN = computeColumnWidth(
+      header: "Course",
+      values: rows.map((r) => r['CN'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthCT = computeColumnWidth(
+      header: "Description",
+      values: rows.map((r) => r['CT'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthPTRM = computeColumnWidth(
+      header: "Course Duration",
+      values: rows.map((r) => r['PTRM'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthCH = computeColumnWidth(
+      header: "Hours",
+      values: rows.map((r) => r['CH'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 70,
+      maxWidth: 280,
+    );
+    final widthD = computeColumnWidth(
+      header: "Days",
+      values: rows.map((r) => r['D'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthTB = computeColumnWidth(
+      header: "Start",
+      values: rows.map((r) => r['TB'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthTE = computeColumnWidth(
+      header: "End",
+      values: rows.map((r) => r['TE'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthB = computeColumnWidth(
+      header: "Building",
+      values: rows.map((r) => r['B'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthR = computeColumnWidth(
+      header: "Room",
+      values: rows.map((r) => r['R'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthTN = computeColumnWidth(
+      header: "Teacher(s)",
+      values: rows.map((r) => r['TN'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    // final widthMS = computeColumnWidth(
+    //   rows.map((r) => r['MS'].toString()),
+    //   fontSize: cellFontSize,
+    //   minWidth: 0,
+    //   maxWidth: 280,
+    // );
+    final widthE = computeColumnWidth(
+      header: "Enrolled",
+      values: rows.map((r) => r['E'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthPTRMDS = computeColumnWidth(
+      header: "Date Start",
+      values: rows.map((r) => r['PTRMDS'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthPTRMDE = computeColumnWidth(
+      header: "Date End",
+      values: rows.map((r) => r['PTRMDE'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthINSMC = computeColumnWidth(
+      header: "Method",
+      values: rows.map((r) => r['INSMC'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
+    final widthAF = computeColumnWidth(
+      header: "Added Fees",
+      values: rows.map((r) => r['AF'].toString()),
+      fontSize: cellFontSize,
+      minWidth: 0,
+      maxWidth: 280,
+    );
 
     return Center(
       child: DaviTheme(
@@ -673,7 +802,7 @@ class ScheduleDavi extends StatelessWidget {
           headerCell: HeaderCellThemeData(
             textStyle: TextStyle(
               color: themeProvider.text,
-              fontSize: themeProvider.fontSizeXS,
+              fontSize: cellFontSize,
             ),
             height: themeProvider.daviRowHeight,
             sortPriorityColor: themeProvider.text,
@@ -695,7 +824,7 @@ class ScheduleDavi extends StatelessWidget {
             contentHeight: themeProvider.daviRowHeight,
             textStyle: TextStyle(
               color: themeProvider.daviText,
-              fontSize: themeProvider.fontSizeXS,
+              fontSize: cellFontSize,
             ),
           ),
         ),
@@ -767,6 +896,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "CRN",
+                width: widthCRN,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["CRN"]}";
                   return Focus(
@@ -775,6 +905,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -800,6 +932,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Subject",
+                width: widthSC,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["SC"]}";
                   return Focus(
@@ -808,6 +941,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -833,6 +968,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Course",
+                width: widthCN,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["CN"]}";
                   return Focus(
@@ -841,6 +977,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -866,6 +1004,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Description",
+                width: widthCT,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["CT"]}";
                   return Focus(
@@ -874,6 +1013,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -895,12 +1036,12 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 330 + themeProvider.fontSizeXXS * 2,
+                // width: 330 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 sortable: true,
                 name: "Course Duration",
-                width: 160 + themeProvider.fontSizeXXS * 2,
+                width: widthPTRM,
                 cellBuilder: (ctx, row) {
                   final ptrm = (row.data as Map)["PTRM"].toString();
                   final termDesc = (row.data as Map)["TD"];
@@ -934,6 +1075,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         friendlyType,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -958,6 +1101,7 @@ class ScheduleDavi extends StatelessWidget {
               ),
               DaviColumn(
                 name: "Hours",
+                width: widthCH,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["CH"]}";
                   return Focus(
@@ -966,6 +1110,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -987,10 +1133,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 60 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Days",
+                width: widthD,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["D"]}";
                   return Focus(
@@ -999,6 +1145,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1020,10 +1168,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Start",
+                width: widthTB,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["TB"]}";
                   return Focus(
@@ -1032,6 +1180,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1053,10 +1203,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "End",
+                width: widthTE,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["TE"]}";
                   return Focus(
@@ -1065,6 +1215,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1086,10 +1238,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Building",
+                width: widthB,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["B"]}";
                   return Focus(
@@ -1098,6 +1250,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1119,10 +1273,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 300 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Room",
+                width: widthR,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["R"]}";
                   return Focus(
@@ -1131,6 +1285,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1152,10 +1308,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Teacher(s)",
+                width: widthTN,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["TN"]}";
                   return Focus(
@@ -1164,6 +1320,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1185,10 +1343,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 240 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Enrolled",
+                width: widthE,
                 cellBuilder: (context, row) {
                   final val =
                       "${(row.data as Map)["E"]} / ${(row.data as Map)["MS"]}";
@@ -1198,6 +1356,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1219,10 +1379,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Date Start",
+                width: widthPTRMDS,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["PTRMDS"]}";
                   return Focus(
@@ -1231,6 +1391,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1252,10 +1414,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 100 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Date End",
+                width: widthPTRMDE,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["PTRMDE"]}";
                   return Focus(
@@ -1264,6 +1426,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1285,10 +1449,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 100 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Method",
+                width: widthINSMC,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["INSMC"]}";
                   return Focus(
@@ -1297,6 +1461,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1318,10 +1484,10 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 80 + themeProvider.fontSizeXXS * 2,
               ),
               DaviColumn(
                 name: "Added Fees",
+                width: widthAF,
                 cellBuilder: (context, row) {
                   final val = "${(row.data as Map)["AF"]}";
                   return Focus(
@@ -1330,6 +1496,8 @@ class ScheduleDavi extends StatelessWidget {
                       excludeSemantics: true,
                       child: Text(
                         val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: themeProvider.fontSizeXXS,
                         ),
@@ -1351,7 +1519,6 @@ class ScheduleDavi extends StatelessWidget {
                   }
                   return v1.compareTo(v2);
                 },
-                width: 100 + themeProvider.fontSizeXXS * 2,
               ),
             ],
             multiSortEnabled: true,

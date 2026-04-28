@@ -38,67 +38,108 @@ class AppTheme extends ChangeNotifier {
   Color get floatingActionButtonForegroundColor =>
       isDark ? AppColor.primary : Colors.white;
 
-  String get formFactor {
-    final double physicalWidth = WidgetsBinding
+  double _scale = 1.0;
+
+  double get scale {
+    final double width = WidgetsBinding
         .instance.platformDispatcher.views.first.physicalSize.width;
-    final double devicePixelRatio =
-        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
-    final double width = physicalWidth / devicePixelRatio;
-    // log.i(width.toString());
+
     if (width < 600) {
-      return "S";
-    } else if (width > 600 && width < 800) {
-      return "M";
-    } else if (width > 800 && width < 1200) {
-      return "L";
-    } else if (width > 1200) {
-      return 'XL';
+      return 0.85; // phones
+    } else if (width < 1024) {
+      // 600→0.85, 1024→1.0
+      return 0.85 + (width - 600) * (0.15 / 424);
+    } else if (width < 1440) {
+      // 1024→1.0, 1440→1.05  (desktop sweet spot)
+      return 1.0 + (width - 1024) * (0.05 / 416);
     } else {
-      return "";
+      // 1440→1.05, 1920→1.1  (ultrawide)
+      return 1.05 + (width - 1440) * (0.05 / 480);
     }
+  }
+
+  String get formFactor {
+    if (scale < 0.9) return "S"; // phones / small windows
+    if (scale < 1.0) return "M"; // tablets / small laptops
+    if (scale < 1.05) return "L"; // normal desktop
+    return "XL"; // very wide desktop
   }
 
   double get _fontSizeDelta {
-    if (formFactor == "S") {
-      return -2.0;
-    } else if (formFactor == "M") {
-      return -1.0;
-    } else if (formFactor == "L") {
-      return 8.0;
-    } else if (formFactor == "XL") {
-      return 8.0;
-    } else {
-      return 0.0;
-    }
+    // Base: 10–18px → * scale
+    final baseDelta = (scale - 1.0) * 20;
+
+    // Optional extra bump for XL only
+    if (formFactor == "XL") return baseDelta + 1.0;
+    return baseDelta;
   }
 
   double get daviRowHeight {
-    if (formFactor == "S") {
-      return 30;
-    } else if (formFactor == "M") {
-      return 35;
-    } else if (formFactor == "L") {
-      return 40;
-    } else if (formFactor == "XL") {
-      return 40;
-    } else {
-      return 40;
-    }
+    final base = 25.0 * scale; // 34px at scale=1
+    if (formFactor == "S") return base - 4; // compress on phones
+    if (formFactor == "XL") return base + 2;
+    return base;
   }
 
-  double get fontSizeXXS => 10 + _fontSizeDelta;
-  double get fontSizeXS => 13 + _fontSizeDelta;
-  double get fontSizeS => 14 + _fontSizeDelta;
-  double get fontSizeM => 20 + _fontSizeDelta;
-  double get fontSizeL => 40 + _fontSizeDelta;
-  double get fontSizeXL => 48 + _fontSizeDelta;
-  double get fontSizeXXL => 80 + _fontSizeDelta;
-  // double get fontSizeXS => 13;
-  // double get fontSizeS => 14;
-  // double get fontSizeM => 20;
-  // double get fontSizeL => 40;
-  // double get fontSizeXL => 48;
-  // double get fontSizeXXL => 80;
+  // String get formFactor {
+  //   final double physicalWidth = WidgetsBinding
+  //       .instance.platformDispatcher.views.first.physicalSize.width;
+  //   final double devicePixelRatio =
+  //       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+  //   final double width = physicalWidth / devicePixelRatio;
+  //   // log.i(width.toString());
+  //   if (width < 600) {
+  //     return "S";
+  //   } else if (width > 600 && width < 800) {
+  //     return "M";
+  //   } else if (width > 800 && width < 1200) {
+  //     return "L";
+  //   } else if (width > 1200) {
+  //     return 'XL';
+  //   } else {
+  //     return "";
+  //   }
+  // }
+
+  // double get _fontSizeDelta {
+  //   if (formFactor == "S") {
+  //     return -2.0;
+  //   } else if (formFactor == "M") {
+  //     return -1.0;
+  //   } else if (formFactor == "L") {
+  //     return 2.0;
+  //   } else if (formFactor == "XL") {
+  //     return 4.0;
+  //   } else {
+  //     return 0.0;
+  //   }
+  // }
+
+  // double get daviRowHeight {
+  //   if (formFactor == "S") {
+  //     return 20;
+  //   } else if (formFactor == "M") {
+  //     return 25;
+  //   } else if (formFactor == "L") {
+  //     return 30;
+  //   } else if (formFactor == "XL") {
+  //     return 35;
+  //   } else {
+  //     return 40;
+  //   }
+  // }
+
+  double _clampFont(double size, double min) {
+    return size < min ? min : size;
+  }
+
+  double get fontSizeXXS => _clampFont(13 + _fontSizeDelta, 10);
+  double get fontSizeXS => _clampFont(13 + _fontSizeDelta, 11);
+  double get fontSizeS => _clampFont(14 + _fontSizeDelta, 12);
+  double get fontSizeM => _clampFont(20 + _fontSizeDelta, 16);
+  double get fontSizeL => _clampFont(40 + _fontSizeDelta, 28);
+  double get fontSizeXL => _clampFont(48 + _fontSizeDelta, 34);
+  double get fontSizeXXL => _clampFont(80 + _fontSizeDelta, 56);
 
   init() {
     Modular.get<Persistence>().isDark

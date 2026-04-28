@@ -195,3 +195,37 @@ String formatDate(String date) {
 
   return formattedDate;
 }
+
+double textWidth(String text, {required double fontSize}) {
+  if (text.isEmpty) return 0;
+  return TextPainter.computeWidth(
+    text: TextSpan(
+      text: text,
+      style: TextStyle(
+        fontFamily: 'OpenSans',
+        fontSize: fontSize,
+      ),
+    ),
+    textDirection: TextDirection.ltr,
+  );
+}
+
+double computeColumnWidth({
+  required String header,
+  required Iterable<String> values,
+  required double fontSize,
+  double minWidth = 60,
+  double maxWidth = 400,
+  double padding = 32,
+}) {
+  final headerW = textWidth(header, fontSize: fontSize);
+
+  double maxCell = 0;
+  for (final v in values) {
+    final w = textWidth(v, fontSize: fontSize);
+    if (w > maxCell) maxCell = w;
+  }
+
+  return ([headerW, maxCell].reduce((a, b) => a > b ? a : b) + padding)
+      .clamp(minWidth, maxWidth);
+}
