@@ -126,8 +126,8 @@ If the base href is wrong, static assets and route loads can fail with 404 error
 
 ## IIS notes
 
-- Enable HTTPS in IIS for production. Many modern browser features work best, or only work fully, on secure origins. [web:70]
-- If deep links fail on refresh, check the URL Rewrite module and confirm `web.config` is present in the deployed site root. [web:76][web:79]
+- Enable HTTPS in IIS for production. Many modern browser features work best, or only work fully, on secure origins.
+- If deep links fail on refresh, check the URL Rewrite module and confirm `web.config` is present in the deployed site root.
 - If assets fail to load from a subfolder deployment, verify the `--base-href` value used during build. 
 - If you test a Wasm build, ensure IIS serves `.wasm` with `application/wasm`.
 - The app currently includes an older custom/service-worker-related web bootstrap path in `web/index.html`; Flutter’s default service worker approach is deprecated and being phased out in newer Flutter versions.
