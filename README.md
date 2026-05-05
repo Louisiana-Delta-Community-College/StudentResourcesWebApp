@@ -162,9 +162,9 @@ git tag
 ```
 
 ## Notable Libraries Used:
-[Flutter Modular](https://modular.flutterando.com.br)
+[Flutter Modular](https://pub.dev/packages/flutter_modular)
 
-[![Flutter_Modular Logo](https://modular.flutterando.com.br/img/logo.png "Flutter Modular Logo")](https://modular.flutterando.com.br)
+<a href="https://pub.dev/packages/flutter_modular"><img src="https://external-images.pub.dev/6IlIDWjwYn4rocO5eS2izvhRY2K3u2xnc7hWWkyujk0%3D/1777939200000/https%3A%2F%2Fraw.githubusercontent.com%2FFlutterando%2Fmodular%2Fmaster%2Fflutter_modular.png" width="265" ></a>
 
 [Responsive Framework](https://github.com/Codelessly/ResponsiveFramework)
 
