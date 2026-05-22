@@ -83,21 +83,25 @@ class _DirectoryPageState extends State<DirectoryPage> {
                 ),
                 // LOGO
                 Positioned(
-                  left: isSmallFormFactor ? 0 : 10,
+                  left: 0,
                   top: 0,
                   bottom: 0,
-                  child: SizedBox(
-                    width: isSmallFormFactor ? 60 : null,
-                    child: Focus(
-                      child: Semantics(
-                        image: true,
-                        label: "LDCC Logo",
-                        excludeSemantics: true,
-                        child: Image.asset(
-                          isSmallFormFactor
-                              ? "assets/images/mark.png"
-                              : "assets/images/logo.png",
-                          fit: BoxFit.fitHeight,
+                  child: Visibility(
+                    visible: !isSmallFormFactor || !_isSearchOpen,
+                    maintainSize: false,
+                    child: SizedBox(
+                      width: isSmallFormFactor ? 60 : null,
+                      child: Focus(
+                        child: Semantics(
+                          image: true,
+                          label: "LDCC Logo",
+                          excludeSemantics: true,
+                          child: Image.asset(
+                            isSmallFormFactor
+                                ? "assets/images/mark.png"
+                                : "assets/images/logo.png",
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
                     ),
@@ -105,8 +109,8 @@ class _DirectoryPageState extends State<DirectoryPage> {
                 ),
                 // SEARCH FIELD (fades in when search open)
                 Positioned(
-                  left: isSmallFormFactor ? 65 : 250,
-                  right: 100,
+                  left: isSmallFormFactor ? (_isSearchOpen ? 0 : 65) : 250,
+                  right: isSmallFormFactor ? 25 : 200,
                   top: 0,
                   bottom: 0,
                   child: Opacity(
@@ -129,8 +133,9 @@ class _DirectoryPageState extends State<DirectoryPage> {
                               color: AppColor.white.withValues(alpha: 0.7),
                             ),
                             border: InputBorder.none,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 12),
+                            // contentPadding:
+                            //     const EdgeInsets.symmetric(vertical: 12),
+                            isDense: true,
                             prefixIcon: const Icon(
                               Icons.search,
                               color: AppColor.white,

@@ -146,18 +146,22 @@ class _SchedulePageState extends State<SchedulePage> {
                   left: 0,
                   top: 0,
                   bottom: 0,
-                  child: SizedBox(
-                    width: isSmallFormFactor ? 60 : 250,
-                    child: Focus(
-                      child: Semantics(
-                        image: true,
-                        label: "LDCC Logo",
-                        excludeSemantics: true,
-                        child: Image.asset(
-                          isSmallFormFactor
-                              ? "assets/images/mark.png"
-                              : "assets/images/logo.png",
-                          fit: BoxFit.fitHeight,
+                  child: Visibility(
+                    visible: !isSmallFormFactor || !_isSearchOpen,
+                    maintainSize: false,
+                    child: SizedBox(
+                      width: isSmallFormFactor ? 60 : 250,
+                      child: Focus(
+                        child: Semantics(
+                          image: true,
+                          label: "LDCC Logo",
+                          excludeSemantics: true,
+                          child: Image.asset(
+                            isSmallFormFactor
+                                ? "assets/images/mark.png"
+                                : "assets/images/logo.png",
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
                     ),
@@ -165,8 +169,8 @@ class _SchedulePageState extends State<SchedulePage> {
                 ),
                 // SEARCH FIELD (fades in when search open)
                 Positioned(
-                  left: isSmallFormFactor ? 60 : 250,
-                  right: 100,
+                  left: isSmallFormFactor ? (_isSearchOpen ? 0 : 60) : 250,
+                  right: isSmallFormFactor ? 25 : 200,
                   top: 0,
                   bottom: 0,
                   child: Opacity(
@@ -191,8 +195,10 @@ class _SchedulePageState extends State<SchedulePage> {
                               color: AppColor.white.withValues(alpha: 0.7),
                             ),
                             border: InputBorder.none,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 12),
+                            isDense: true,
+                            // contentPadding: EdgeInsets.symmetric(
+                            //   vertical: isSmallFormFactor ? 5 : 12,
+                            // ),
                             prefixIcon: const Icon(
                               Icons.search,
                               color: AppColor.white,
