@@ -204,7 +204,7 @@ else:
   # Bcur.execute("begin g$_vpdi_security.g$_vpdi_set_multiuse_context('OVERRIDEALL'); end;")
 
 async def get_fresh_data():
-  strSQL = '''SELECT * FROM (SELECT STVTERM.STVTERM_DESC,
+  strSQL = f'''SELECT * FROM (SELECT STVTERM.STVTERM_DESC,
           SSBSECT.SSBSECT_CRN,
           SSBSECT.SSBSECT_SUBJ_CODE,
           SSBSECT.SSBSECT_CRSE_NUMB,
@@ -330,7 +330,10 @@ async def get_fresh_data():
           ELSE SSBSECT.SSBSECT_PTRM_CODE
           END SSBSECT_PTRM_CODE,
           stvbldg.stvbldg_desc building,
-          SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats
+          SSBSECT.SSBSECT_ENRL + SSBSECT.SSBSECT_SEATS_AVAIL as max_seats,
+          SSBSECT.SSBSECT_WAIT_COUNT,
+          SSBSECT.SSBSECT_WAIT_CAPACITY,
+          SSBSECT.SSBSECT_WAIT_AVAIL
 
         FROM SCBCRSE
         INNER JOIN SSBSECT
@@ -471,7 +474,7 @@ async def get_fresh_data():
           END,
           SSBSECT_SUBJ_CODE,
           SSBSECT_CRSE_NUMB,
-          ssbsect_ptrm_code'''.format(**globals())
+          ssbsect_ptrm_code'''
 
   RS = Bcur.execute(strSQL)
 
@@ -546,6 +549,12 @@ async def get_fresh_data():
       Building = Building.replace("Louisiana Purchase Bldg-Monroe", "Main Building - Monroe").replace("VOID", "").strip()
       MaxSeats = i[27]
       if MaxSeats == None: MaxSeats = ""
+      WaitCount = i[28]
+      if WaitCount == None: WaitCount = ""
+      WaitCapacity = i[29]
+      if WaitCapacity == None: WaitCapacity = ""
+      WaitAvailable = i[30]
+      if WaitAvailable == None: WaitAvailable = ""
 
       scheduleList.append(
         {
@@ -576,7 +585,10 @@ async def get_fresh_data():
         "N": Narrative,
         "PTRM": PTRM,
         "B": str(Building),
-        "MS": str(MaxSeats)
+        "MS": str(MaxSeats),
+        "WC": str(WaitCount),
+        "WCap": str(WaitCapacity),
+        "WA": str(WaitAvailable)
         }
       )
 
