@@ -696,6 +696,9 @@ class _ScheduleDaviState extends State<ScheduleDavi> {
         r['PTRMDE'],
         r['INSMC'],
         r['AF'],
+        r['WC'],
+        r['WCap'],
+        r['Waitlist'],
       ].join('~');
     }).join('||');
 
@@ -805,6 +808,14 @@ class _ScheduleDaviState extends State<ScheduleDavi> {
         minWidth: 90,
         maxWidth: 120,
       ),
+      "Waitlist": computeColumnWidth(
+        header: "Waitlist",
+        values:
+            rows.map((r) => "${r['WC'].toString()} / ${r['WA'].toString()}"),
+        fontSize: cellFontSize,
+        minWidth: 90,
+        maxWidth: 120,
+      ),
       "PTRMDS": computeColumnWidth(
         header: "Date Start",
         values: rows.map((r) => r['PTRMDS'].toString()),
@@ -862,6 +873,7 @@ class _ScheduleDaviState extends State<ScheduleDavi> {
     final widthR = _cachedWidths["R"]!;
     final widthTN = _cachedWidths["TN"]!;
     final widthE = _cachedWidths["E"]!;
+    final widthWaitlist = _cachedWidths["Waitlist"]!;
     final widthPTRMDS = _cachedWidths["PTRMDS"]!;
     final widthPTRMDE = _cachedWidths["PTRMDE"]!;
     final widthINSMC = _cachedWidths["INSMC"]!;
@@ -1439,6 +1451,42 @@ class _ScheduleDaviState extends State<ScheduleDavi> {
                 dataComparator: (a, b, column) {
                   String v1 = "${(a as Map)["E"]}, ${a["E"]}";
                   String v2 = "${(b as Map)["E"]}, ${b["E"]}";
+                  if (v1.isEmpty || v2.isEmpty) {
+                    return 0;
+                  }
+                  if (v1.isEmpty) {
+                    return 0;
+                  }
+                  if (v2.isEmpty) {
+                    return 1;
+                  }
+                  return v1.compareTo(v2);
+                },
+              ),
+              DaviColumn(
+                name: "Waitlist",
+                width: widthWaitlist,
+                cellBuilder: (context, row) {
+                  final val =
+                      "${(row.data as Map)["WC"]} / ${(row.data as Map)["WA"]}";
+                  return Focus(
+                    child: Semantics(
+                      label: val,
+                      excludeSemantics: true,
+                      child: Text(
+                        val,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: themeProvider.fontSizeXXS,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                dataComparator: (a, b, column) {
+                  String v1 = "${(a as Map)["WC"]}, ${a["WC"]}";
+                  String v2 = "${(b as Map)["WC"]}, ${b["WC"]}";
                   if (v1.isEmpty || v2.isEmpty) {
                     return 0;
                   }

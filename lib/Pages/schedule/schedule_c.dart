@@ -389,6 +389,7 @@ class Schedule extends ChangeNotifier {
                           .trim()),
                   InfoRow("Teacher(s):", rowData["TN"].toString()),
                   InfoRow("Enrolled:", "${rowData["E"]} / ${rowData["MS"]}"),
+                  InfoRow("Waitlist:", "${rowData["WC"]} / ${rowData["WA"]}"),
                   InfoRow("Building:", rowData["B"].toString()),
                   InfoRow("Room:", rowData["R"].toString()),
                   themeProvider.formFactor == "S"
