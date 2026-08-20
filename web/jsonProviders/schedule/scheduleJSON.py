@@ -433,8 +433,6 @@ async def get_fresh_data():
           AND DSCBCRSE.SCBCRSE_CRSE_NUMB   = SCBCRSE.SCBCRSE_CRSE_NUMB
           AND DSCBCRSE.SCBCRSE_VPDI_CODE   = SCBCRSE.SCBCRSE_VPDI_CODE
           )
-        and not REGEXP_LIKE (stvcamp.stvcamp_desc, 'correction', 'i')
-        and not REGEXP_LIKE (stvcamp.stvcamp_desc, 'detention', 'i')
         )
         ORDER BY
           CASE UPPER(STVCAMP_DESC)

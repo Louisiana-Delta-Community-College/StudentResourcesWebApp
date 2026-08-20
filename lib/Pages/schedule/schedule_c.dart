@@ -29,6 +29,16 @@ class Schedule extends ChangeNotifier {
     notifyListeners();
   }
 
+  static final _hiddenLocation = RegExp(
+    r'correction|detention',
+    caseSensitive: false,
+  );
+
+  bool _isHiddenFromPublicSchedule(dynamic course) {
+    if (course is! Map) return false;
+    return _hiddenLocation.hasMatch(course['C']?.toString() ?? '');
+  }
+
   String get term => _term;
   String get termType => _termType;
 
@@ -143,7 +153,10 @@ class Schedule extends ChangeNotifier {
         } else {
           // response.body is already a JSON formatted string
           // because of how the Python CGI page is coded.
-          _data = jsonDecode(response.body) as List<dynamic>;
+          // _data = jsonDecode(response.body) as List<dynamic>;
+          _data = (jsonDecode(response.body) as List<dynamic>)
+              .where((course) => !_isHiddenFromPublicSchedule(course))
+              .toList();
           if (_data.isEmpty) {
             _error("No data.");
           } else {
