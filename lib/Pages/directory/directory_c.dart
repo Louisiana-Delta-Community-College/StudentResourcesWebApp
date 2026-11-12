@@ -104,7 +104,10 @@ class Directory extends ChangeNotifier {
           } else {
             // CLEAN UP THE STRINGS
             for (var element in _data) {
-              cleanTitleString(element, "JobTitle");
+              final m = element as Map;
+              if (m["JobTitle"] != null) {
+                m["JobTitle"] = formatJobTitle(m["JobTitle"].toString());
+              }
               cleanTitleString(element, "Department");
             }
             _isLoading = false;
@@ -186,4 +189,75 @@ Room $office
 """
         .trim());
   }
+}
+
+const _acronyms = {
+  'IT',
+  'HR',
+  'AWS',
+  'CTE',
+  'CDL',
+  'EMT',
+  'ABE',
+  'SGA',
+  'PN',
+  'RN',
+  'ASN',
+  'IWTP',
+  'WRU',
+  'JAG',
+  'SNAP',
+  'CNA',
+  'HVAC',
+  'II',
+  'III',
+  'IV',
+  'VC',
+  'VP',
+  'LPN',
+  'STEAM',
+};
+const _small = {
+  'of',
+  'and',
+  'for',
+  'the',
+  'in',
+  'to',
+  'a',
+  'an',
+  'at',
+  'on',
+  'or',
+  'by',
+  'with',
+};
+final _splitter = RegExp(r'(\s+|/|-|&|,|\(|\))');
+
+String formatJobTitle(String input) {
+  var t = input.replaceAll(RegExp(r'\s+'), ' ').trim();
+  t = t.replaceAll(RegExp(r'\.$'), '');
+  final buf = StringBuffer();
+  var first = true;
+  var last = 0;
+
+  void word(String w) {
+    final up = w.toUpperCase();
+    if (_acronyms.contains(up)) {
+      buf.write(up);
+    } else if (!first && _small.contains(w.toLowerCase())) {
+      buf.write(w.toLowerCase());
+    } else {
+      buf.write(w[0].toUpperCase() + w.substring(1).toLowerCase());
+    }
+    first = false;
+  }
+
+  for (final m in _splitter.allMatches(t)) {
+    if (m.start > last) word(t.substring(last, m.start));
+    buf.write(m.group(0));
+    last = m.end;
+  }
+  if (last < t.length) word(t.substring(last));
+  return buf.toString();
 }
